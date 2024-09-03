@@ -10,13 +10,13 @@ describe('AppComponent', () => {
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
+    const { componentInstance: app } = fixture;
     expect(app).toBeTruthy();
   });
 
   it(`should have the 'lingua-puzzle' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
+    const { componentInstance: app } = fixture;
     expect(app.title).toEqual('lingua-puzzle');
   });
 

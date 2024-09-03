@@ -2,7 +2,7 @@
 import eslint from '@eslint/js';
 import tsEslint from 'typescript-eslint';
 import angular from 'angular-eslint';
-import { personalRules } from './eslint-rules/eslint.personal-rules.js';
+import { eslintRules } from './eslint-rules/eslint.rules.js';
 
 export default tsEslint.config(
   {
@@ -21,9 +21,7 @@ export default tsEslint.config(
       },
     },
     rules: {
-      ...personalRules,
-      '@typescript-eslint/member-ordering': 'off',
-      'new-cap': 'off',
+      ...eslintRules,
       '@angular-eslint/prefer-standalone': ['error'],
       // '@angular-eslint/prefer-on-push-component-change-detection': ['error'],
       '@angular-eslint/directive-selector': [
