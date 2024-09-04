@@ -22,8 +22,9 @@ export default tsEslint.config(
     },
     rules: {
       ...eslintRules,
+      '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
       '@angular-eslint/prefer-standalone': ['error'],
-      // '@angular-eslint/prefer-on-push-component-change-detection': ['error'],
+      '@angular-eslint/prefer-on-push-component-change-detection': ['error'],
       '@angular-eslint/directive-selector': [
         'error',
         {

@@ -1,0 +1,13 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>First Name</mat-label>
+    <input matInput formControlName="firstName" placeholder="Ex: John">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Surname</mat-label>
+    <input matInput formControlName="surname" placeholder="Ex: Doe">
+  </mat-form-field>
+
+  <button mat-flat-button type="submit" color="primary" [disabled]="loginForm.invalid" disabledInteractive>Login
+  </button>
+</form>
