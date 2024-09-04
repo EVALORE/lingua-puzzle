@@ -1,11 +1,49 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <mat-form-field appearance="outline">
     <mat-label>First Name</mat-label>
-    <input matInput formControlName="firstName" placeholder="Ex: John">
+    <input matInput [formControl]="firstName" placeholder="Ex: John">
+    @if (firstName.hasError('required')) {
+      <mat-error>
+        <mat-icon fontIcon="error" aria-hidden="false" />
+        <strong>Required</strong>
+      </mat-error>
+    }
+    @if (firstName.hasError('minlength')) {
+      <mat-error>
+        <mat-icon fontIcon="error" aria-hidden="false" />
+        Expected <strong>minimum</strong> 3 character
+      </mat-error>
+    }
+    @if (firstName.hasError('pattern')) {
+      <mat-error>
+        <mat-icon fontIcon="error" aria-hidden="false" />
+        First letter uppercase, only English alphabet and hyphen ('-') are allowed
+      </mat-error>
+    }
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Surname</mat-label>
-    <input matInput formControlName="surname" placeholder="Ex: Doe">
+    <input matInput [formControl]="surname" placeholder="Ex: Deer">
+    @if (surname.hasError('required')) {
+      <mat-error>
+        <mat-icon fontIcon="error" aria-hidden="false" />
+        <strong>Required</strong>
+      </mat-error>
+    }
+
+    @if (surname.hasError('minlength') && !surname.hasError('required')) {
+      <mat-error>
+        <mat-icon fontIcon="error" aria-hidden="false" />
+        Expected <strong>minimum</strong> 4 character
+      </mat-error>
+    }
+    @if (surname.hasError('pattern') && !surname.hasError('required')) {
+      <mat-error>
+        <mat-icon fontIcon="error" aria-hidden="false" />
+        First letter uppercase, only English alphabet and hyphen ('-') are allowed
+      </mat-error>
+    }
+
   </mat-form-field>
 
   <button mat-flat-button type="submit" color="primary" [disabled]="loginForm.invalid" disabledInteractive>Login
