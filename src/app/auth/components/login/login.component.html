@@ -8,5 +8,6 @@
     <input matInput formControlName="surname" placeholder="Ex: Doe">
   </mat-form-field>
 
-  <button mat-flat-button type="submit">Login</button>
+  <button mat-flat-button type="submit" color="primary" [disabled]="loginForm.invalid" disabledInteractive>Login
+  </button>
 </form>
