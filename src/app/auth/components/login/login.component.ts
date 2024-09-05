@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,7 @@ import { MatIcon } from '@angular/material/icon';
   imports: [MatInput, MatFormField, MatLabel, ReactiveFormsModule, MatButton, MatError, MatIcon],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
@@ -17,6 +19,8 @@ export class LoginComponent implements OnInit {
     firstName: FormControl<string | null>;
     surname: FormControl<string | null>;
   }>;
+
+  private readonly authService = inject(AuthService);
 
   protected get firstName(): FormControl<string | null> {
     return this.loginForm.controls.firstName;
@@ -42,6 +46,11 @@ export class LoginComponent implements OnInit {
   }
 
   protected onSubmit(): void {
-    // TODO implement logic
+    const formData = this.loginForm.value;
+    const user = {
+      firstName: formData.firstName ?? '',
+      surname: formData.surname ?? '',
+    };
+    this.authService.login(user);
   }
 }
