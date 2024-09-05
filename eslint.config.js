@@ -23,6 +23,19 @@ export default tsEslint.config(
     rules: {
       ...eslintRules,
       '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
+      'prefer-destructuring': [
+        'error',
+        {
+          VariableDeclarator: {
+            array: true,
+            object: true,
+          },
+          AssignmentExpression: {
+            array: true,
+            object: true,
+          },
+        },
+      ],
       '@angular-eslint/prefer-standalone': ['error'],
       '@angular-eslint/prefer-on-push-component-change-detection': ['error'],
       '@angular-eslint/directive-selector': [
