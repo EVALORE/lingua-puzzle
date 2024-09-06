@@ -9,7 +9,9 @@ describe('UserComponent', () => {
   let authService: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
+    authService = jasmine.createSpyObj('AuthService', ['logout']);
     await TestBed.configureTestingModule({
+      providers: [{ provide: AuthService, useValue: authService }],
       imports: [UserComponent],
     }).compileComponents();
 
@@ -23,9 +25,8 @@ describe('UserComponent', () => {
   });
 
   it('should call authService.logout on logout', () => {
-    const spy = spyOn(authService, 'logout');
     // eslint-disable-next-line dot-notation
     component['onLogout']();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(authService.logout).toHaveBeenCalledTimes(1);
   });
 });
