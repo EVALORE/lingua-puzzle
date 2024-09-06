@@ -35,6 +35,7 @@ describe('UserComponent', () => {
     router.navigate.and.returnValue(Promise.resolve(true));
     // eslint-disable-next-line dot-notation
     component['onLogout']();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(authService.logout).toHaveBeenCalledTimes(1);
   });
 

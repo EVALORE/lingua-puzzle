@@ -16,8 +16,6 @@ export class UserComponent {
 
   protected onLogout(): void {
     this.authService.logout();
-    this.router.navigate(['auth'], { replaceUrl: true }).catch((error) => {
-      console.error(error);
-    });
+    this.router.navigate(['auth'], { replaceUrl: true }).catch();
   }
 }
