@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../../auth/services/auth.service';
 import { MatButton } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -11,8 +12,12 @@ import { MatButton } from '@angular/material/button';
 })
 export class UserComponent {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   protected onLogout(): void {
     this.authService.logout();
+    this.router.navigate(['auth'], { replaceUrl: true }).catch((error) => {
+      console.error(error);
+    });
   }
 }
