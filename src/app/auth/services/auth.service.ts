@@ -13,7 +13,9 @@ export class AuthService {
 
   public login(user: { firstName: string; surname: string }): void {
     this.localStorage.setItem(this.authKey, user);
-    this.router.navigate([''], { replaceUrl: true }).catch();
+    this.router.navigate([''], { replaceUrl: true }).catch(() => {
+      // TODO implement Logger
+    });
   }
 
   public logout(): void {

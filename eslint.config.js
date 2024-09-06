@@ -7,12 +7,14 @@ import { eslintRules } from './eslint-rules/eslint.rules.js';
 export default tsEslint.config(
   {
     files: ['**/*.ts'],
+
     extends: [
       eslint.configs.recommended,
       ...tsEslint.configs.strictTypeChecked,
       ...tsEslint.configs.stylistic,
       ...angular.configs.tsRecommended,
     ],
+
     processor: angular.processInlineTemplates,
     languageOptions: {
       parserOptions: {
@@ -22,7 +24,9 @@ export default tsEslint.config(
     },
     rules: {
       ...eslintRules,
+      // enable 'ignoreStatic' option to validate use of Validator api
       '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
+      '@typescript-eslint/no-extraneous-class': ['error', { allowWithDecorator: true }],
       'prefer-destructuring': [
         'error',
         {
@@ -54,6 +58,17 @@ export default tsEslint.config(
           style: 'kebab-case',
         },
       ],
+    },
+  },
+  {
+    files: ['**/*.spec.ts'],
+    rules: {
+      // disabled for usage in tests
+      '@typescript-eslint/unbound-method': 'off',
+      // disabled for testing of private | protected methods
+      'dot-notation': 'off',
+      // disabled because one describe may contain a lot of test cases
+      'max-lines-per-function': 'off',
     },
   },
   {

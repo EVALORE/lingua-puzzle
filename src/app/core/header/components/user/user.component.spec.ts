@@ -11,8 +11,8 @@ describe('UserComponent', () => {
   let router: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    authService = jasmine.createSpyObj('AuthService', ['logout']);
-    router = jasmine.createSpyObj('Router', ['navigate']);
+    authService = jasmine.createSpyObj<AuthService>('AuthService', ['logout']);
+    router = jasmine.createSpyObj<Router>('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       providers: [
@@ -32,16 +32,13 @@ describe('UserComponent', () => {
   });
 
   it('should call authService.logout on logout', () => {
-    router.navigate.and.returnValue(Promise.resolve(true));
-    // eslint-disable-next-line dot-notation
+    router.navigate.and.resolveTo(true);
     component['onLogout']();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(authService.logout).toHaveBeenCalledTimes(1);
   });
 
   it('should call navigate to auth page on logout', waitForAsync(() => {
-    router.navigate.and.returnValue(Promise.resolve(true));
-    // eslint-disable-next-line dot-notation
+    router.navigate.and.resolveTo(true);
     component['onLogout']();
     expect(router.navigate).toHaveBeenCalledWith(['auth'], { replaceUrl: true });
   }));

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthService } from '../../../../auth/services/auth.service';
 import { MatButton } from '@angular/material/button';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   imports: [MatButton],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserComponent {
   private readonly authService = inject(AuthService);
@@ -16,6 +17,8 @@ export class UserComponent {
 
   protected onLogout(): void {
     this.authService.logout();
-    this.router.navigate(['auth'], { replaceUrl: true }).catch();
+    this.router.navigate(['auth'], { replaceUrl: true }).catch(() => {
+      // TODO implement Logger
+    });
   }
 }

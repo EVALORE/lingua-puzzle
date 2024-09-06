@@ -11,12 +11,12 @@ describe('AuthService', () => {
   const user = { firstName: 'pablo', surname: 'perez' };
 
   beforeEach(() => {
-    localStorage = jasmine.createSpyObj('LocalStorageService', [
+    localStorage = jasmine.createSpyObj<LocalStorageService>('LocalStorageService', [
       'setItem',
       'getItem',
       'removeItem',
     ]);
-    router = jasmine.createSpyObj('Router', ['navigate']);
+    router = jasmine.createSpyObj<Router>('Router', ['navigate']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -35,7 +35,6 @@ describe('AuthService', () => {
   });
 
   it('should login the user', () => {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(localStorage.setItem).toHaveBeenCalledOnceWith('auth', user);
   });
 
@@ -45,7 +44,6 @@ describe('AuthService', () => {
 
   it('should logout the user', () => {
     service.logout();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(localStorage.removeItem).toHaveBeenCalledOnceWith('auth');
   });
 });
