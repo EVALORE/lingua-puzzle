@@ -24,6 +24,10 @@ export default tsEslint.config(
     },
     rules: {
       ...eslintRules,
+      '@typescript-eslint/member-ordering': [
+        'error',
+        { default: ['field', 'constructor', 'method'] },
+      ],
       // enable 'ignoreStatic' option to validate use of Validator api
       '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
       '@typescript-eslint/no-extraneous-class': ['error', { allowWithDecorator: true }],

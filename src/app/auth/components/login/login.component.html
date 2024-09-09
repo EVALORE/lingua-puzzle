@@ -1,7 +1,7 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <mat-form-field appearance="outline">
     <mat-label>First Name</mat-label>
-    <input matInput [formControl]="firstName" placeholder="Ex: John">
+    <input matInput [formControl]="firstName" placeholder="Ex: John" required>
     @if (firstName.hasError('required')) {
       <mat-error>
         <mat-icon fontIcon="error" aria-hidden="false" />
@@ -24,7 +24,7 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Surname</mat-label>
-    <input matInput [formControl]="surname" placeholder="Ex: Deer">
+    <input matInput [formControl]="surname" placeholder="Ex: Deer" required>
     @if (surname.hasError('required')) {
       <mat-error>
         <mat-icon fontIcon="error" aria-hidden="false" />
@@ -45,6 +45,6 @@
     }
   </mat-form-field>
 
-  <button mat-flat-button type="submit" color="primary" [disabled]="loginForm.invalid" disabledInteractive>Login
+  <button mat-flat-button type="submit" color="primary" disabledInteractive [disabled]="loginForm.invalid">Login
   </button>
 </form>

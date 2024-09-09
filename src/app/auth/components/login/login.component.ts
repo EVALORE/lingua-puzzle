@@ -46,6 +46,9 @@ export class LoginComponent implements OnInit {
   }
 
   protected onSubmit(): void {
+    if (this.loginForm.invalid) {
+      return;
+    }
     const formData = this.loginForm.value;
     const user = {
       firstName: formData.firstName ?? '',
