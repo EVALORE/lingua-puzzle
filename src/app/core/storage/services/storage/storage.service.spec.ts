@@ -12,7 +12,6 @@ class mockStorage extends StorageService {
   }
 }
 
-// eslint-disable-next-line max-lines-per-function
 describe('StorageService', () => {
   let service: StorageService;
   const itemValue = { sanction: 'port' };

@@ -1,0 +1,7 @@
+<mat-toolbar style="background-color: lightskyblue">
+  <span class="header-spacer"></span>
+  @if (isUser$ | async; as user) {
+    <app-user [user]="user.firstName + ' ' + user.surname" />
+  }
+</mat-toolbar>
+

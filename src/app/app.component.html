@@ -1,1 +1,6 @@
-<app-login /> 
+@defer (on timer(700ms)) {
+  <app-header />
+  <router-outlet />
+} @placeholder {
+  <mat-progress-bar mode="indeterminate" />
+}

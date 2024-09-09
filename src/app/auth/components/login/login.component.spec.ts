@@ -28,9 +28,7 @@ describe('LoginComponent', () => {
   });
 
   it('should register the user on submit', () => {
-    // eslint-disable-next-line dot-notation
     component['onSubmit']();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(authService.login).toHaveBeenCalledTimes(1);
   });
 });
