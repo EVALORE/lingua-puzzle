@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core
 import { AuthService } from '../../../../auth/services/auth.service';
 import { MatButton } from '@angular/material/button';
 import { Router } from '@angular/router';
-import { DialogConfirmationComponent } from '../../../dialog/components/dialog-confirmation/dialog-confirmation.component';
+import { LogoutConfirmationComponent } from '../../../dialog/components/logout-confirmation/logout-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
 import { JsonPipe } from '@angular/common';
 
@@ -22,13 +22,13 @@ export class UserComponent {
   private readonly dialog = inject(MatDialog);
 
   protected onLogout(): void {
-    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+    const dialogRef = this.dialog.open(LogoutConfirmationComponent, {
       // eslint-disable-next-line id-denylist
-      data: { onConfirm: this.onLogoutConfirm.bind(this) },
+      data: { confirm: this.onLogoutConfirm.bind(this) },
     });
 
-    dialogRef.afterClosed().subscribe((value: boolean) => {
-      if (value) {
+    dialogRef.afterClosed().subscribe((isLogoutConfirmed: boolean) => {
+      if (isLogoutConfirmed) {
         this.onLogoutConfirm();
       }
     });
