@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../../../auth/services/auth.service';
 import { MatButton } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { LogoutConfirmationComponent } from '../../../dialog/components/logout-confirmation/logout-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
 import { JsonPipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user',
@@ -14,12 +15,13 @@ import { JsonPipe } from '@angular/common';
   styleUrl: './user.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserComponent {
+export class UserComponent implements OnInit {
   @Input() public user!: string;
 
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
+  private readonly snackBar = inject(MatSnackBar);
 
   protected onLogout(): void {
     const dialogRef = this.dialog.open(LogoutConfirmationComponent, {
@@ -39,5 +41,9 @@ export class UserComponent {
     this.router.navigate(['auth'], { replaceUrl: true }).catch(() => {
       // TODO implement Logger
     });
+  }
+
+  public ngOnInit(): void {
+    this.snackBar.open(`Welcome, ${this.user}`, 'close', { duration: 1500 });
   }
 }
