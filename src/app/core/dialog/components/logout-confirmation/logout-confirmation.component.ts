@@ -11,11 +11,11 @@ import {
 import { MatButton } from '@angular/material/button';
 
 interface DialogData {
-  onConfirm: () => void;
+  confirm: () => void;
 }
 
 @Component({
-  selector: 'app-dialog-confirmation',
+  selector: 'app-logout-confirmation',
   standalone: true,
   imports: [
     MatDialogContent,
@@ -25,12 +25,12 @@ interface DialogData {
     MatDialogActions,
     MatButton,
   ],
-  templateUrl: './dialog-confirmation.component.html',
-  styleUrl: './dialog-confirmation.component.scss',
+  templateUrl: './logout-confirmation.component.html',
+  styleUrl: './logout-confirmation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogConfirmationComponent {
-  public readonly dialogRef = inject(MatDialogRef<DialogConfirmationComponent>);
+export class LogoutConfirmationComponent {
+  public readonly dialogRef = inject(MatDialogRef<LogoutConfirmationComponent>);
   public readonly dialogData = inject<DialogData>(MAT_DIALOG_DATA);
 
   public onCancel(): void {
@@ -39,6 +39,6 @@ export class DialogConfirmationComponent {
 
   public onConfirm(): void {
     this.dialogRef.close();
-    this.dialogData.onConfirm();
+    this.dialogData.confirm();
   }
 }
