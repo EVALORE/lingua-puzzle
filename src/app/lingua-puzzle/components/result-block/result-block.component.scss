@@ -11,4 +11,9 @@
   cursor: pointer;
   padding: 10px;
   user-select: none;
+
+
+  &:hover {
+    background-color: #fafafa
+  }
 }
