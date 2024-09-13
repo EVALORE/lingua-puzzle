@@ -1,0 +1,19 @@
+.result-block {
+  display: flex;
+  max-width: fit-content;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 20px;
+}
+
+
+.word {
+  cursor: pointer;
+  padding: 10px;
+  user-select: none;
+
+
+  &:hover {
+    background-color: #fafafa
+  }
+}

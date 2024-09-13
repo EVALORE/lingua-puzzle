@@ -1,0 +1,5 @@
+<mat-card class="source-block">
+  @for (word of source(); track $index) {
+    <mat-card class="word" (click)="onWordClick($index)" tabindex="0">{{ word }}</mat-card>
+  }
+</mat-card>
