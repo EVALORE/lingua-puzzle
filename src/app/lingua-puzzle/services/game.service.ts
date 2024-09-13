@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { shuffle } from '../../shared/utils/shuffle';
 
 @Injectable({
   providedIn: 'root',
@@ -6,6 +7,16 @@ import { Injectable } from '@angular/core';
 export class GameService {
   private readonly exampleSentence = 'the quick brown fox jumps over the lazy dog';
 
-  public readonly result = [];
-  public source = Array.from(this.exampleSentence);
+  public result = signal<string[]>([]);
+  public source = signal<string[]>(shuffle<string>(this.exampleSentence.split(' ')));
+
+  public moveToResult(wordIndex: number): void {
+    this.result.set([...this.result(), this.source()[wordIndex]]);
+    this.source().splice(wordIndex, 1);
+  }
+
+  public moveToSource(wordIndex: number): void {
+    this.source.set([...this.source(), this.result()[wordIndex]]);
+    this.result().splice(wordIndex, 1);
+  }
 }
