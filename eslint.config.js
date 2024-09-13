@@ -30,6 +30,7 @@ export default tsEslint.config(
       ],
       // enable 'ignoreStatic' option to validate use of Validator api
       '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
+      // enable 'allowsWithDecorator' option to validate empty classes with Angular decorators
       '@typescript-eslint/no-extraneous-class': ['error', { allowWithDecorator: true }],
       // modified to allow void as statement for not awaited promises
       'no-void': ['error', { allowAsStatement: true }],
