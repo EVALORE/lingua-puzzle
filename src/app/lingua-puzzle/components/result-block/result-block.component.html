@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="result-block">
   @for (word of result(); track $index) {
     <mat-card class="word" (click)="onWordClick($index)">{{ word }}</mat-card>
   }
