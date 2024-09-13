@@ -38,9 +38,7 @@ export class UserComponent implements OnInit {
 
   private onLogoutConfirm(): void {
     this.authService.logout();
-    this.router.navigate(['auth'], { replaceUrl: true }).catch(() => {
-      // TODO implement Logger
-    });
+    void this.router.navigate(['auth'], { replaceUrl: true });
   }
 
   public ngOnInit(): void {
