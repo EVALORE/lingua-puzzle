@@ -15,11 +15,11 @@ export class GameService {
 
   public moveToResult(wordIndex: number): void {
     this.result.set([...this.result(), this.source()[wordIndex]]);
-    this.source().splice(wordIndex, 1);
+    this.source.update((source) => source.filter((_, index) => index !== wordIndex));
   }
 
   public moveToSource(wordIndex: number): void {
     this.source.set([...this.source(), this.result()[wordIndex]]);
-    this.result().splice(wordIndex, 1);
+    this.result.update((result) => result.filter((_, index) => index !== wordIndex));
   }
 }

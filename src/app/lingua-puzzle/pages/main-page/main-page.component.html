@@ -1,10 +1,10 @@
 <mat-card class="block">
-  @for (card of result(); track $index) {
-    <app-word-card (onClick)="moveToSource($index)" [card]="card" />
+  @for (card of result(); track card) {
+    <app-word-card (onClick)="moveToSource($index)" [card]="card" @filterAnimation />
   }
 </mat-card>
-<div class="block" #sourceContainer>
-  @for (card of source(); track $index) {
-    <app-word-card (onClick)="moveToResult($index)" [card]="card" />
+<div class="block">
+  @for (card of source(); track card) {
+    <app-word-card (onClick)="moveToResult($index)" [card]="card" @filterAnimation />
   }
 </div>

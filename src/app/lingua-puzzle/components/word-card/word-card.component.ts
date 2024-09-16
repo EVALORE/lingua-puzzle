@@ -46,13 +46,11 @@ export class WordCardComponent implements AfterViewInit {
     const componentElement = this.elementRef.nativeElement;
     const { top, left, width, height } = componentElement.getBoundingClientRect();
     this.card().first = { top, left, width, height };
-    componentElement.classList.add('active');
     this.onClick.emit();
   }
 
   public ngAfterViewInit(): void {
     const componentElement = this.elementRef.nativeElement;
-    componentElement.classList.remove('active');
 
     const card = this.card();
 
@@ -71,8 +69,7 @@ export class WordCardComponent implements AfterViewInit {
             transformOrigin: 'top left',
             transform: `
               translate(${deltaX}px, ${deltaY}px)
-              scale(${deltaW}, ${deltaH})
-  `,
+              scale(${deltaW}, ${deltaH})`,
           },
           {
             transformOrigin: 'top left',
