@@ -1,0 +1,27 @@
+<mat-card class="result">
+  @for (card of result(); track card) {
+    @let wordLength = (620 * (card.word.length)) / sentenceLength;
+    <mat-card
+      appWordCard
+      class="word"
+      [style]="{ width: wordLength + 'px' }"
+      (click)="moveToSource($index)"
+      @filterAnimation
+      >{{ card.word }}</mat-card
+    >
+  }
+</mat-card>
+
+<div class="source">
+  @for (card of source(); track card) {
+    @let wordLength = (620 * (card.word.length)) / sentenceLength;
+    <mat-card
+      appWordCard
+      class="word"
+      [style]="{ width: wordLength + 'px' }"
+      (click)="moveToResult($index)"
+      @filterAnimation
+      >{{ card.word }}</mat-card
+    >
+  }
+</div>

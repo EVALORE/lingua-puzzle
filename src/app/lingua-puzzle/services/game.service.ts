@@ -1,6 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { shuffle } from '../../shared/utils/shuffle';
-import { Card } from '../components/word-card/word-card.component';
+
+interface Card {
+  word: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +15,10 @@ export class GameService {
     shuffle<string>(this.exampleSentence.split(' ')).map((word) => ({ word, replace: false })),
   );
   public result = signal<Card[]>([]);
+
+  public get charInSentence(): number {
+    return this.exampleSentence.replace(/\s/g, '').length;
+  }
 
   public moveToResult(wordIndex: number): void {
     this.result.set([...this.result(), this.source()[wordIndex]]);
