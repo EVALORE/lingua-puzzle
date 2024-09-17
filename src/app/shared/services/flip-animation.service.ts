@@ -24,7 +24,7 @@ export class FlipAnimationService {
 
   public get initialPosition(): string {
     if (!this.first || !this.last) {
-      return 'none';
+      return '0, 0';
     }
     const { top, left } = this.first;
     const { top: lastTop, left: lastLeft } = this.last;
@@ -44,6 +44,13 @@ export class FlipAnimationService {
     return `${deltaW}, ${deltaH}`;
   }
 
+  private get animationDuration(): number {
+    if (!this.first || !this.last) {
+      return 0;
+    }
+    return Math.abs(this.first.top - this.last.top) * 2.5;
+  }
+
   public proceedAnimation(element: HTMLElement): void {
     element.animate(
       [
@@ -59,8 +66,8 @@ export class FlipAnimationService {
         },
       ],
       {
-        duration: 400,
-        easing: 'ease-in-out',
+        duration: this.animationDuration,
+        easing: 'ease-out',
         fill: 'both',
       },
     );
