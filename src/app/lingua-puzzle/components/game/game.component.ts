@@ -26,6 +26,8 @@ export class GameComponent {
   protected source = this.gameService.source;
   protected result = this.gameService.result;
 
+  protected isWin = this.gameService.isWin;
+
   public moveToSource(wordIndex: number): void {
     this.gameService.moveToSource(wordIndex);
   }
