@@ -23,6 +23,7 @@ import { WordCardDirective } from '../../directives/word-card.directive';
 export class GameComponent {
   private readonly gameService = inject(GameService);
   protected sentenceLength = this.gameService.charInSentence;
+
   protected source = this.gameService.source;
   protected result = this.gameService.result;
 
