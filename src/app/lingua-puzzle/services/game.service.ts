@@ -27,9 +27,13 @@ export class GameService {
   constructor() {
     this.httpData.getRound().subscribe((round) => {
       this.sentences = round.words;
-      this.sentence = this.sentences[this.sentenceId].textExample;
-      this.source.set(this.createCardsFromSentence(this.sentence));
+      this.setSentence(this.sentences);
     });
+  }
+
+  public setSentence(sentences: Word[]): void {
+    this.sentence = sentences[this.sentenceId].textExample;
+    this.source.set(this.createCardsFromSentence(this.sentence));
   }
 
   private createCardsFromSentence(sentence: string): Card[] {
@@ -37,7 +41,7 @@ export class GameService {
   }
 
   public get charInSentence(): number {
-    return this.exampleSentence.replace(/\s/g, '').length;
+    return this.sentence.replace(/\s/g, '').length;
   }
 
   public moveToResult(wordIndex: number): void {
