@@ -22,12 +22,15 @@ import { WordCardDirective } from '../../directives/word-card.directive';
 })
 export class GameComponent {
   private readonly gameService = inject(GameService);
-  protected sentenceLength = this.gameService.charInSentence;
 
   protected source = this.gameService.source;
   protected result = this.gameService.result;
 
   protected isWin = this.gameService.isWin;
+
+  public cardWidth(numberOfChars: number): number {
+    return (numberOfChars * 700) / this.gameService.charInSentence;
+  }
 
   public moveToSource(wordIndex: number): void {
     this.gameService.moveToSource(wordIndex);
