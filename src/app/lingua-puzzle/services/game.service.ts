@@ -3,6 +3,7 @@ import { shuffle } from '../../shared/utils/shuffle';
 
 interface Card {
   word: string;
+  order: number;
 }
 
 @Injectable({
@@ -12,7 +13,7 @@ export class GameService {
   private readonly exampleSentence = 'the quick brown fox jumps over the lazy dog';
 
   public source = signal<Card[]>(
-    shuffle<string>(this.exampleSentence.split(' ')).map((word) => ({ word, replace: false })),
+    shuffle<string>(this.exampleSentence.split(' ')).map((word, index) => ({ word, order: index })),
   );
   public result = signal<Card[]>([]);
 
