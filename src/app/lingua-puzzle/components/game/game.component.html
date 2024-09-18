@@ -1,6 +1,6 @@
 <mat-card class="result">
   @for (card of result(); track card) {
-    @let wordLength = (620 * (card.word.length)) / sentenceLength;
+    @let wordLength = (620 * card.word.length) / sentenceLength;
     <mat-card
       appWordCard
       class="word"
@@ -14,7 +14,7 @@
 
 <div class="source">
   @for (card of source(); track card) {
-    @let wordLength = (620 * (card.word.length)) / sentenceLength;
+    @let wordLength = (620 * card.word.length) / sentenceLength;
     <mat-card
       appWordCard
       class="word"
