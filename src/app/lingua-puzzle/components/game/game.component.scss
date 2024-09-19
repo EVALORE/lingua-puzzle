@@ -6,10 +6,6 @@
   margin: 70px auto 0;
 }
 
-.result {
-  height: 400px;
-}
-
 .source,
 .result {
   display: flex;
@@ -17,6 +13,7 @@
 }
 
 .word {
+  box-sizing: border-box;
   display: block;
   height: 35px;
   padding: 10px 0;

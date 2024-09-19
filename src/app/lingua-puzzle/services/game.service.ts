@@ -1,9 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { Word } from '../../core/services/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
-import { Word } from '../../core/services/http-data.interface';
 
-interface Card {
+export interface Card {
   word: string;
   order: number;
 }
@@ -18,8 +18,8 @@ export class GameService {
   private readonly exampleSentence = 'the quick brown fox jumps over the lazy dog';
 
   public sentences: Word[] = [];
-  private sentenceId = 0;
-  private sentence = '';
+  private sentenceId = 2;
+  public sentence = '';
 
   public source = signal<Card[]>([]);
   public result = signal<Card[]>([]);
@@ -32,8 +32,14 @@ export class GameService {
   }
 
   public setSentence(sentences: Word[]): void {
+    this.result.set([]);
     this.sentence = sentences[this.sentenceId].textExample;
     this.source.set(this.createCardsFromSentence(this.sentence));
+  }
+
+  public nextSentence(): void {
+    this.sentenceId = (this.sentenceId + 1) % this.sentences.length;
+    this.setSentence(this.sentences);
   }
 
   private createCardsFromSentence(sentence: string): Card[] {
@@ -60,7 +66,7 @@ export class GameService {
       .map((card) => card.word)
       .join(' ');
 
-    if (wordsInResult === this.exampleSentence) {
+    if (wordsInResult === this.sentence) {
       this.isWin.set(true);
     }
   }

@@ -1,14 +1,25 @@
-<mat-card class="result">
-  @for (card of result(); track card) {
-    <mat-card
-      appWordCard
-      class="word"
-      [style]="{ width: cardWidth(card.word.length) + 'px' }"
-      (click)="moveToSource($index)"
-      @filterAnimation
-      >{{ card.word }}</mat-card
-    >
+<mat-card style="height: 400px">
+  @for (sentence of completedSentences; track sentence) {
+    <div class="result">
+      @for (word of sentence; track word) {
+        <div class="word" [style]="{ width: cardWidth(word.word.length) + 'px' }">
+          {{ word.word }}
+        </div>
+      }
+    </div>
   }
+  <div class="result">
+    @for (card of result(); track card) {
+      <mat-card
+        appWordCard
+        class="word"
+        [style]="{ width: cardWidth(card.word.length) + 'px' }"
+        (click)="moveToSource($index)"
+        @filterAnimation
+        >{{ card.word }}</mat-card
+      >
+    }
+  </div>
 </mat-card>
 
 <div class="source">
@@ -25,5 +36,5 @@
 </div>
 
 @if (isWin()) {
-  <button>Continue</button>
+  <button (click)="nextSentence()">Continue</button>
 }
