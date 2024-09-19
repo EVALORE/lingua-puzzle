@@ -3,11 +3,12 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { Card, GameService } from '../../services/game.service';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [MatCard, WordCardDirective],
+  imports: [MatCard, WordCardDirective, MatButton],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
