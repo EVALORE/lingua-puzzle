@@ -29,8 +29,8 @@ export class GameComponent {
 
   protected isWin = this.gameService.isWin;
 
-  protected cardWidth(numberOfChars: number): number {
-    return (numberOfChars * 700) / this.gameService.charInSentence;
+  protected cardWidth(numberOfChars: number): string {
+    return `${String((numberOfChars * 100) / this.gameService.charInSentence)}%`;
   }
 
   protected moveToSource(wordIndex: number): void {
