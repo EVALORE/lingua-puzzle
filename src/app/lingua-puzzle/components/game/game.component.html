@@ -1,4 +1,7 @@
-<mat-card style="height: 400px">
+@let cardHeight = 35;
+@let numberOfSentences = 10;
+@let resultHeight = cardHeight * numberOfSentences + 'px';
+<mat-card [style]="{ height: resultHeight }">
   @for (sentence of completedSentences; track sentence) {
     <div class="result">
       @for (card of sentence; track card) {

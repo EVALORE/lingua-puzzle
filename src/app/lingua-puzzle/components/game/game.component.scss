@@ -12,10 +12,13 @@
   flex-direction: row;
 }
 
+.source,
+.word {
+  height: 35px;
+}
+
 .word {
   box-sizing: border-box;
-  display: block;
-  height: 35px;
   padding: 10px 0;
   font-size: 0.8rem;
   text-align: center;
