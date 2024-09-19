@@ -18,14 +18,15 @@ export class GameService {
   private readonly exampleSentence = 'the quick brown fox jumps over the lazy dog';
 
   public sentences: Word[] = [];
-  private sentenceId = 2;
+  private sentenceId = 9;
+  private currentRound = 0;
   public sentence = '';
 
   public source = signal<Card[]>([]);
   public result = signal<Card[]>([]);
 
   constructor() {
-    this.httpData.getRound().subscribe((round) => {
+    this.httpData.getRound(this.currentRound).subscribe((round) => {
       this.sentences = round.words;
       this.setSentence(this.sentences);
     });
@@ -39,8 +40,20 @@ export class GameService {
   }
 
   public nextSentence(): void {
+    if (this.isLastSentence()) {
+      this.currentRound += 1;
+      this.httpData.getRound(this.currentRound).subscribe((round) => {
+        this.sentences = round.words;
+        this.setSentence(this.sentences);
+      });
+      return;
+    }
     this.sentenceId = (this.sentenceId + 1) % this.sentences.length;
     this.setSentence(this.sentences);
+  }
+
+  private isLastSentence(): boolean {
+    return this.sentenceId === this.sentences.length - 1;
   }
 
   private createCardsFromSentence(sentence: string): Card[] {
