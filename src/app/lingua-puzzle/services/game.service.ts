@@ -33,6 +33,7 @@ export class GameService {
 
   public setSentence(sentences: Word[]): void {
     this.result.set([]);
+    this.isWin.set(false);
     this.sentence = sentences[this.sentenceId].textExample;
     this.source.set(this.createCardsFromSentence(this.sentence));
   }
