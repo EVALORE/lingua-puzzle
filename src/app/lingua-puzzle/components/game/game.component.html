@@ -1,9 +1,9 @@
 <mat-card style="height: 400px">
   @for (sentence of completedSentences; track sentence) {
     <div class="result">
-      @for (word of sentence; track word) {
-        <div class="word" [style]="{ width: cardWidth(word.word.length) }">
-          {{ word.word }}
+      @for (card of sentence; track card) {
+        <div class="word" [style]="{ width: card.width }">
+          {{ card.word }}
         </div>
       }
     </div>
@@ -13,7 +13,7 @@
       <mat-card
         appWordCard
         class="word"
-        [style]="{ width: cardWidth(card.word.length) }"
+        [style]="{ width: card.width }"
         (click)="moveToSource($index)"
         @filterAnimation
         >{{ card.word }}</mat-card
@@ -27,7 +27,7 @@
     <mat-card
       appWordCard
       class="word"
-      [style]="{ width: cardWidth(card.word.length) }"
+      [style]="{ width: card.width }"
       (click)="moveToResult($index)"
       @filterAnimation
       >{{ card.word }}</mat-card

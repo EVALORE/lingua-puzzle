@@ -5,7 +5,7 @@ import { HttpDataService } from '../../core/services/http-data.service';
 
 export interface Card {
   word: string;
-  order: number;
+  width: string;
 }
 
 @Injectable({
@@ -44,7 +44,18 @@ export class GameService {
   }
 
   private createCardsFromSentence(sentence: string): Card[] {
-    return shuffle<string>(sentence.split(' ')).map((word, index) => ({ word, order: index }));
+    return shuffle<string>(sentence.split(' ')).map(this.createCard.bind(this));
+  }
+
+  private createCard(word: string): Card {
+    return {
+      word,
+      width: this.calculateCardWidth(word.length),
+    };
+  }
+
+  private calculateCardWidth(numberOfChars: number): string {
+    return `${String((numberOfChars * 100) / this.charInSentence)}%`;
   }
 
   public get charInSentence(): number {
