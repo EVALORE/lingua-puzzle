@@ -1,27 +1,43 @@
-<mat-card class="result">
-  @for (card of result(); track card) {
-    @let wordLength = (620 * card.word.length) / sentenceLength;
-    <mat-card
-      appWordCard
-      class="word"
-      [style]="{ width: wordLength + 'px' }"
-      (click)="moveToSource($index)"
-      @filterAnimation
-      >{{ card.word }}</mat-card
-    >
+@let cardHeight = 35;
+@let numberOfSentences = 10;
+@let resultHeight = cardHeight * numberOfSentences + 'px';
+<mat-card [style]="{ height: resultHeight }">
+  @for (sentence of completedSentences; track sentence) {
+    <div class="result completed">
+      @for (card of sentence; track card) {
+        <div class="word" [style]="{ width: card.width }">
+          {{ card.word }}
+        </div>
+      }
+    </div>
   }
+  <div class="result">
+    @for (card of result(); track card) {
+      <mat-card
+        appWordCard
+        class="word"
+        [style]="{ width: card.width }"
+        (click)="moveToSource($index)"
+        @filterAnimation
+        >{{ card.word }}</mat-card
+      >
+    }
+  </div>
 </mat-card>
 
 <div class="source">
   @for (card of source(); track card) {
-    @let wordLength = (620 * card.word.length) / sentenceLength;
     <mat-card
       appWordCard
       class="word"
-      [style]="{ width: wordLength + 'px' }"
+      [style]="{ width: card.width }"
       (click)="moveToResult($index)"
       @filterAnimation
       >{{ card.word }}</mat-card
     >
   }
 </div>
+
+@if (isWin()) {
+  <button mat-raised-button color="primary" (click)="nextSentence()">Continue</button>
+}

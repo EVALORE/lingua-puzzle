@@ -6,21 +6,23 @@
   margin: 70px auto 0;
 }
 
-.result {
-  height: 400px;
-  padding: 20px;
-}
-
 .source,
 .result {
   display: flex;
   flex-direction: row;
-  gap: 5px;
+}
+
+.result.completed {
+  justify-content: space-between;
+}
+
+.source,
+.word {
+  height: 35px;
 }
 
 .word {
-  display: block;
-  height: 35px;
+  box-sizing: border-box;
   padding: 10px 0;
   font-size: 0.8rem;
   text-align: center;

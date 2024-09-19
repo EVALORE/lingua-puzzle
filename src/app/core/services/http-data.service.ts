@@ -11,8 +11,6 @@ export class HttpDataService {
 
   private readonly currentDifficultyLevel = 1;
   private readonly url = `http://localhost:4200/project-data/data/wordCollectionLevel${this.currentDifficultyLevel.toString()}.json`;
-  private readonly currentRound = 1;
-  private readonly numberOfSentence = 10;
 
   public round!: LevelData;
   public words!: Word[];
@@ -21,7 +19,7 @@ export class HttpDataService {
     return this.httpClient.get<WordCollection>(this.url);
   }
 
-  public getRound(): Observable<Round> {
-    return this.getData().pipe(map((collection) => collection.rounds[this.currentRound - 1]));
+  public getRound(roundIndex: number): Observable<Round> {
+    return this.getData().pipe(map((collection) => collection.rounds[roundIndex]));
   }
 }
