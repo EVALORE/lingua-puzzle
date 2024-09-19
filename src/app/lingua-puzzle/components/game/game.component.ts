@@ -26,9 +26,8 @@ export class GameComponent {
 
   protected source = this.gameService.source;
   protected result = this.gameService.result;
-  protected completedSentences: Card[][] = [];
-
   protected isWin = this.gameService.isWin;
+  protected completedSentences: Card[][] = [];
 
   protected moveToSource(wordIndex: number): void {
     this.gameService.moveToSource(wordIndex);
@@ -43,7 +42,7 @@ export class GameComponent {
     this.gameService.nextSentence();
   }
 
-  protected pushSentenceToCompleted(): void {
+  private pushSentenceToCompleted(): void {
     this.completedSentences.push(this.result());
   }
 }
