@@ -71,6 +71,7 @@ export class GameService {
   public moveToSource(wordIndex: number): void {
     this.source.set([...this.source(), this.result()[wordIndex]]);
     this.result.update((result) => result.filter((_, index) => index !== wordIndex));
+    this.isWin.set(false);
   }
 
   private checkSentence(): void {
