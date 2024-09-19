@@ -3,7 +3,7 @@
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 <mat-card [style]="{ height: resultHeight }">
   @for (sentence of completedSentences; track sentence) {
-    <div class="result">
+    <div class="result completed">
       @for (card of sentence; track card) {
         <div class="word" [style]="{ width: card.width }">
           {{ card.word }}

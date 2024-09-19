@@ -12,6 +12,10 @@
   flex-direction: row;
 }
 
+.result.completed {
+  justify-content: space-between;
+}
+
 .source,
 .word {
   height: 35px;
