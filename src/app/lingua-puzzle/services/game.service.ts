@@ -54,14 +54,15 @@ export class GameService {
   }
 
   private createCardsFromSentence(sentence: string): Card[] {
-    return shuffle<string>(sentence.split(' ')).map(this.createCard.bind(this));
+    return shuffle<Card>(sentence.split(' ').map(this.createCard.bind(this)));
   }
 
-  private createCard(word: string): Card {
+  private createCard(word: string, index: number): Card {
     return {
       word,
       width: this.calculateCardWidth(word.length),
       positionStatus: PositionStatus.PENDING,
+      originalIndex: index,
     };
   }
 

@@ -3,4 +3,5 @@ export interface Card {
   word: string;
   width: string;
   positionStatus: PositionStatus;
+  originalIndex: number;
 }
