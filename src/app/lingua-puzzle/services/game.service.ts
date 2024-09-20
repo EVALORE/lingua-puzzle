@@ -1,9 +1,9 @@
+import { PositionStatus } from './../../shared/enums/position-status';
 import { inject, Injectable, signal } from '@angular/core';
 import { Word } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
 import { Card } from '../../shared/types/card.interface';
-import { PositionStatus } from '../../shared/enums/position-status';
 
 @Injectable({
   providedIn: 'root',
@@ -76,7 +76,8 @@ export class GameService {
   public moveToResult(wordIndex: number): void {
     this.result.set([...this.result(), this.source()[wordIndex]]);
     this.source.update((source) => source.filter((_, index) => index !== wordIndex));
-    this.checkSentence();
+    this.updateCardsPositionStatus(this.result());
+    this.updateIsWin();
   }
 
   public moveToSource(wordIndex: number): void {
@@ -85,13 +86,19 @@ export class GameService {
     this.isWin.set(false);
   }
 
-  private checkSentence(): void {
-    const wordsInResult = this.result()
-      .map((card) => card.word)
-      .join(' ');
+  private checkResultCorrectness(): boolean {
+    return this.result().every((card) => card.positionStatus === PositionStatus.CORRECT);
+  }
 
-    if (wordsInResult === this.sentence) {
-      this.isWin.set(true);
-    }
+  private updateIsWin(): void {
+    this.isWin.set(this.checkResultCorrectness());
+  }
+
+  private updateCardsPositionStatus(cards: Card[]): void {
+    const sentenceWords = this.sentence.split(' ');
+    cards.forEach((card, index) => {
+      card.positionStatus =
+        card.word === sentenceWords[index] ? PositionStatus.CORRECT : PositionStatus.WRONG;
+    });
   }
 }
