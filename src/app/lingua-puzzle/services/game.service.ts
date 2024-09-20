@@ -3,6 +3,7 @@ import { Word } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
 import { Card } from '../../shared/types/card.interface';
+import { PositionStatus } from '../../shared/enums/position-status';
 
 @Injectable({
   providedIn: 'root',
@@ -60,6 +61,7 @@ export class GameService {
     return {
       word,
       width: this.calculateCardWidth(word.length),
+      positionStatus: PositionStatus.PENDING,
     };
   }
 
