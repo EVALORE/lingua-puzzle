@@ -40,10 +40,12 @@
   }
 </div>
 
-@if (isWin()) {
-  <button mat-raised-button color="primary" (click)="nextSentence()">Continue</button>
-}
-
 @if (source().length === 0) {
-  <button mat-raised-button color="primary" (click)="startCardsChecking()">Check</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="isWin() ? nextSentence() : startCardsChecking()"
+  >
+    {{ isWin() ? 'Continue' : 'Check' }}
+  </button>
 }
