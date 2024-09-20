@@ -1,4 +1,4 @@
-import { LevelData, Round, Word, WordCollection } from './http-data.interface';
+import { LevelData, Round, Word, WordCollection } from '../../shared/types/http-data.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';

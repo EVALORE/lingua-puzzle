@@ -1,12 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Word } from '../../core/services/http-data.interface';
+import { Word } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
-
-export interface Card {
-  word: string;
-  width: string;
-}
+import { Card } from '../../shared/types/card.interface';
 
 @Injectable({
   providedIn: 'root',

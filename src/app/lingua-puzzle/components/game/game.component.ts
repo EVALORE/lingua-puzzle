@@ -8,8 +8,9 @@ import {
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
-import { Card, GameService } from '../../services/game.service';
+import { GameService } from '../../services/game.service';
 import { MatButton } from '@angular/material/button';
+import { Card } from '../../../shared/types/card.interface';
 
 function gapCollapseAnimation(): AnimationTransitionMetadata {
   return transition(':leave', [
