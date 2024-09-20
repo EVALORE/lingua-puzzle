@@ -1,9 +1,23 @@
-import { animate, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  AnimationTransitionMetadata,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
-import { Card, GameService } from '../../services/game.service';
+import { GameService } from '../../services/game.service';
 import { MatButton } from '@angular/material/button';
+import { Card } from '../../../shared/types/card.interface';
+
+function gapCollapseAnimation(): AnimationTransitionMetadata {
+  return transition(':leave', [
+    style({ opacity: 0 }),
+    animate('600ms ease-in', style({ width: 0, padding: 0 })),
+  ]);
+}
 
 @Component({
   selector: 'app-game',
@@ -12,23 +26,15 @@ import { MatButton } from '@angular/material/button';
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('filterAnimation', [
-      transition(':leave', [
-        style({ opacity: 0 }),
-        animate('600ms ease-in', style({ width: 0, padding: 0 })),
-      ]),
-    ]),
-  ],
+  animations: [trigger('filterAnimation', [gapCollapseAnimation()])],
 })
 export class GameComponent {
   private readonly gameService = inject(GameService);
 
   protected source = this.gameService.source;
   protected result = this.gameService.result;
-  protected completedSentences: Card[][] = [];
-
   protected isWin = this.gameService.isWin;
+  protected completedSentences: Card[][] = [];
 
   protected moveToSource(wordIndex: number): void {
     this.gameService.moveToSource(wordIndex);
@@ -43,7 +49,11 @@ export class GameComponent {
     this.gameService.nextSentence();
   }
 
-  protected pushSentenceToCompleted(): void {
+  protected startCardsChecking(): void {
+    this.gameService.checkCards();
+  }
+
+  private pushSentenceToCompleted(): void {
     this.completedSentences.push(this.result());
   }
 }

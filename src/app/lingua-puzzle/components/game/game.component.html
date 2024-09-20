@@ -16,11 +16,13 @@
       <mat-card
         appWordCard
         class="word"
+        [class.correct]="card.positionStatus === 'CORRECT'"
+        [class.wrong]="card.positionStatus === 'WRONG'"
         [style]="{ width: card.width }"
         (click)="moveToSource($index)"
         @filterAnimation
-        >{{ card.word }}</mat-card
-      >
+        >{{ card.word }}
+      </mat-card>
     }
   </div>
 </mat-card>
@@ -33,11 +35,15 @@
       [style]="{ width: card.width }"
       (click)="moveToResult($index)"
       @filterAnimation
-      >{{ card.word }}</mat-card
-    >
+      >{{ card.word }}
+    </mat-card>
   }
 </div>
 
 @if (isWin()) {
   <button mat-raised-button color="primary" (click)="nextSentence()">Continue</button>
+}
+
+@if (source().length === 0) {
+  <button mat-raised-button color="primary" (click)="startCardsChecking()">Check</button>
 }

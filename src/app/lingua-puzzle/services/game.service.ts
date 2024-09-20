@@ -1,12 +1,9 @@
+import { PositionStatus } from './../../shared/enums/position-status';
 import { inject, Injectable, signal } from '@angular/core';
-import { Word } from '../../core/services/http-data.interface';
+import { Word } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
-
-export interface Card {
-  word: string;
-  width: string;
-}
+import { Card } from '../../shared/types/card.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +15,7 @@ export class GameService {
   private readonly exampleSentence = 'the quick brown fox jumps over the lazy dog';
 
   public sentences: Word[] = [];
-  private sentenceId = 9;
+  private sentenceId = 0;
   private currentRound = 0;
   public sentence = '';
 
@@ -64,6 +61,7 @@ export class GameService {
     return {
       word,
       width: this.calculateCardWidth(word.length),
+      positionStatus: PositionStatus.PENDING,
     };
   }
 
@@ -78,22 +76,39 @@ export class GameService {
   public moveToResult(wordIndex: number): void {
     this.result.set([...this.result(), this.source()[wordIndex]]);
     this.source.update((source) => source.filter((_, index) => index !== wordIndex));
-    this.checkSentence();
   }
 
   public moveToSource(wordIndex: number): void {
+    this.resetCardsStatus();
     this.source.set([...this.source(), this.result()[wordIndex]]);
     this.result.update((result) => result.filter((_, index) => index !== wordIndex));
     this.isWin.set(false);
   }
 
-  private checkSentence(): void {
-    const wordsInResult = this.result()
-      .map((card) => card.word)
-      .join(' ');
+  public checkCards(): void {
+    this.updateCardsPositionStatus(this.result());
+    this.updateIsWin();
+  }
 
-    if (wordsInResult === this.sentence) {
-      this.isWin.set(true);
-    }
+  private checkResultCorrectness(): boolean {
+    return this.result().every((card) => card.positionStatus === PositionStatus.CORRECT);
+  }
+
+  private updateIsWin(): void {
+    this.isWin.set(this.checkResultCorrectness());
+  }
+
+  private resetCardsStatus(): void {
+    this.result().forEach((card) => {
+      card.positionStatus = PositionStatus.PENDING;
+    });
+  }
+
+  private updateCardsPositionStatus(cards: Card[]): void {
+    const sentenceWords = this.sentence.split(' ');
+    cards.forEach((card, index) => {
+      card.positionStatus =
+        card.word === sentenceWords[index] ? PositionStatus.CORRECT : PositionStatus.WRONG;
+    });
   }
 }
