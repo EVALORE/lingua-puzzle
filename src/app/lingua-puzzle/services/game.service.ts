@@ -79,6 +79,7 @@ export class GameService {
   }
 
   public moveToSource(wordIndex: number): void {
+    this.resetCardsStatus();
     this.source.set([...this.source(), this.result()[wordIndex]]);
     this.result.update((result) => result.filter((_, index) => index !== wordIndex));
     this.isWin.set(false);
@@ -95,6 +96,12 @@ export class GameService {
 
   private updateIsWin(): void {
     this.isWin.set(this.checkResultCorrectness());
+  }
+
+  private resetCardsStatus(): void {
+    this.result().forEach((card) => {
+      card.positionStatus = PositionStatus.PENDING;
+    });
   }
 
   private updateCardsPositionStatus(cards: Card[]): void {
