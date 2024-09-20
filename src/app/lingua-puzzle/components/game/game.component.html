@@ -41,3 +41,7 @@
 @if (isWin()) {
   <button mat-raised-button color="primary" (click)="nextSentence()">Continue</button>
 }
+
+@if (source().length === 0) {
+  <button mat-raised-button color="primary" (click)="startCardsChecking()">Check</button>
+}

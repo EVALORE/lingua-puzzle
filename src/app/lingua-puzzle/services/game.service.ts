@@ -15,7 +15,7 @@ export class GameService {
   private readonly exampleSentence = 'the quick brown fox jumps over the lazy dog';
 
   public sentences: Word[] = [];
-  private sentenceId = 9;
+  private sentenceId = 0;
   private currentRound = 0;
   public sentence = '';
 
@@ -76,14 +76,17 @@ export class GameService {
   public moveToResult(wordIndex: number): void {
     this.result.set([...this.result(), this.source()[wordIndex]]);
     this.source.update((source) => source.filter((_, index) => index !== wordIndex));
-    this.updateCardsPositionStatus(this.result());
-    this.updateIsWin();
   }
 
   public moveToSource(wordIndex: number): void {
     this.source.set([...this.source(), this.result()[wordIndex]]);
     this.result.update((result) => result.filter((_, index) => index !== wordIndex));
     this.isWin.set(false);
+  }
+
+  public checkCards(): void {
+    this.updateCardsPositionStatus(this.result());
+    this.updateIsWin();
   }
 
   private checkResultCorrectness(): boolean {

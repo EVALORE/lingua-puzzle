@@ -49,6 +49,10 @@ export class GameComponent {
     this.gameService.nextSentence();
   }
 
+  protected startCardsChecking(): void {
+    this.gameService.checkCards();
+  }
+
   private pushSentenceToCompleted(): void {
     this.completedSentences.push(this.result());
   }
