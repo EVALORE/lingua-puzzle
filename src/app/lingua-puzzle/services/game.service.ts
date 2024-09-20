@@ -86,6 +86,28 @@ export class GameService {
     this.isWin.set(false);
   }
 
+  public sortCardsInCorrectOrder(): void {
+    const cards = this.result();
+    for (let index = 0; index < cards.length; index += 1) {
+      if (cards[index].originalIndex !== index) {
+        if (cards[index].word !== this.sentence.split(' ')[index]) {
+          const indexOfPrecedentWord = cards.findIndex(
+            (card) => card.originalIndex === cards[index].originalIndex,
+          );
+          const card = cards.splice(index, 1);
+          this.result.set(
+            cards
+              .slice(0, indexOfPrecedentWord)
+              .concat(card)
+              .concat(cards.slice(indexOfPrecedentWord + 1)),
+          );
+        }
+      }
+    }
+
+    this.checkCards();
+  }
+
   public checkCards(): void {
     this.updateCardsPositionStatus(this.result());
     this.updateIsWin();
