@@ -36,6 +36,10 @@ export class GameComponent {
   protected isWin = this.gameService.isWin;
   protected completedSentences: Card[][] = [];
 
+  protected startResultAutoComplete(): void {
+    this.gameService.sortCardsInCorrectOrder();
+  }
+
   protected moveToSource(wordIndex: number): void {
     this.gameService.moveToSource(wordIndex);
   }

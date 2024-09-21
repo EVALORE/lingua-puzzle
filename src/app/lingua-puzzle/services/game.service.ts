@@ -33,7 +33,7 @@ export class GameService {
     this.result.set([]);
     this.isWin.set(false);
     this.sentence = sentences[this.sentenceId].textExample;
-    this.source.set(this.createCardsFromSentence(this.sentence));
+    this.result.set(this.createCardsFromSentence(this.sentence));
   }
 
   public nextSentence(): void {
@@ -87,21 +87,15 @@ export class GameService {
   }
 
   public sortCardsInCorrectOrder(): void {
+    const sentenceWords = this.sentence.split(' ');
     const cards = this.result();
+
     for (let index = 0; index < cards.length; index += 1) {
-      if (cards[index].originalIndex !== index) {
-        if (cards[index].word !== this.sentence.split(' ')[index]) {
-          const indexOfPrecedentWord = cards.findIndex(
-            (card) => card.originalIndex === cards[index].originalIndex,
-          );
-          const card = cards.splice(index, 1);
-          this.result.set(
-            cards
-              .slice(0, indexOfPrecedentWord)
-              .concat(card)
-              .concat(cards.slice(indexOfPrecedentWord + 1)),
-          );
-        }
+      const card = cards[index];
+      if (card.originalIndex !== index && card.word !== sentenceWords[index]) {
+        cards.splice(index, 1);
+        cards.splice(card.originalIndex, 0, card);
+        index -= 1;
       }
     }
 
