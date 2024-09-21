@@ -33,7 +33,7 @@ export class GameService {
     this.result.set([]);
     this.isWin.set(false);
     this.sentence = sentences[this.sentenceId].textExample;
-    this.source.set(this.createCardsFromSentence(this.sentence));
+    this.result.set(this.createCardsFromSentence(this.sentence));
   }
 
   public nextSentence(): void {
@@ -54,14 +54,15 @@ export class GameService {
   }
 
   private createCardsFromSentence(sentence: string): Card[] {
-    return shuffle<string>(sentence.split(' ')).map(this.createCard.bind(this));
+    return shuffle<Card>(sentence.split(' ').map(this.createCard.bind(this)));
   }
 
-  private createCard(word: string): Card {
+  private createCard(word: string, index: number): Card {
     return {
       word,
       width: this.calculateCardWidth(word.length),
       positionStatus: PositionStatus.PENDING,
+      originalIndex: index,
     };
   }
 
@@ -83,6 +84,22 @@ export class GameService {
     this.source.set([...this.source(), this.result()[wordIndex]]);
     this.result.update((result) => result.filter((_, index) => index !== wordIndex));
     this.isWin.set(false);
+  }
+
+  public sortCardsInCorrectOrder(): void {
+    const sentenceWords = this.sentence.split(' ');
+    const cards = this.result();
+
+    for (let index = 0; index < cards.length; index += 1) {
+      const card = cards[index];
+      if (card.originalIndex !== index && card.word !== sentenceWords[index]) {
+        cards.splice(index, 1);
+        cards.splice(card.originalIndex, 0, card);
+        index -= 1;
+      }
+    }
+
+    this.checkCards();
   }
 
   public checkCards(): void {
