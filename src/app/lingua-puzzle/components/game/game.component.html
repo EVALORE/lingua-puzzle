@@ -3,7 +3,7 @@
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 
 <div class="translation">
-  <button mat-icon-button>
+  <button mat-icon-button (click)="sentenceAudio.play()">
     <mat-icon>volume_up</mat-icon>
   </button>
   <button mat-icon-button (click)="showTranslation = !showTranslation">

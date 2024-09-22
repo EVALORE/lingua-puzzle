@@ -19,6 +19,7 @@ export class GameService {
   private currentRound = 0;
   public sentenceTranslation = signal('');
   public sentence = '';
+  public sentenceAudio = new Audio();
 
   public source = signal<Card[]>([]);
   public result = signal<Card[]>([]);
@@ -33,8 +34,11 @@ export class GameService {
   public setSentence(sentences: Word[]): void {
     this.result.set([]);
     this.isWin.set(false);
-    this.sentence = sentences[this.sentenceId].textExample;
-    this.sentenceTranslation.set(sentences[this.sentenceId].textExampleTranslate);
+    const sentence = sentences[this.sentenceId];
+
+    this.sentenceAudio.src = `project-data/${sentence.audioExample}`;
+    this.sentence = sentence.textExample;
+    this.sentenceTranslation.set(sentence.textExampleTranslate);
     this.source.set(this.createCardsFromSentence(this.sentence));
   }
 
