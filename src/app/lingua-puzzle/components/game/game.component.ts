@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { GameService } from '../../services/game.service';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { Card } from '../../../shared/types/card.interface';
 import {
   CdkDrag,
@@ -18,6 +18,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { MatIcon } from '@angular/material/icon';
 
 function gapCollapseAnimation(): AnimationTransitionMetadata {
   return transition(':leave', [
@@ -29,7 +30,7 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [MatCard, WordCardDirective, MatButton, CdkDrag, CdkDropList],
+  imports: [MatCard, WordCardDirective, MatButton, CdkDrag, CdkDropList, MatIcon, MatIconButton],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

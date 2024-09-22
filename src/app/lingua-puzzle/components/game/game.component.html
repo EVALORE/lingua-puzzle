@@ -3,7 +3,12 @@
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 
 <div class="translation">
-  {{ translatedSentence() }}
+  <button mat-icon-button>
+    <mat-icon>translate</mat-icon>
+  </button>
+  <span>
+    {{ translatedSentence() }}
+  </span>
 </div>
 
 <mat-card [style]="{ height: resultHeight }">

@@ -7,8 +7,22 @@
 }
 
 .translation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
   text-align: center;
+
+  span {
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: all 0.5s ease-in-out;
+  }
+
+  &:hover span {
+    width: 100%;
+  }
 }
 
 .source,
