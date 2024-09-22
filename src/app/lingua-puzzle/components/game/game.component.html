@@ -1,6 +1,11 @@
 @let cardHeight = 35;
 @let numberOfSentences = 10;
 @let resultHeight = cardHeight * numberOfSentences + 'px';
+
+<div class="translation">
+  {{ translatedSentence() }}
+</div>
+
 <mat-card [style]="{ height: resultHeight }">
   @for (sentence of completedSentences; track sentence) {
     <div class="result completed">
