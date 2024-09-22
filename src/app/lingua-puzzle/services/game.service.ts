@@ -17,6 +17,7 @@ export class GameService {
   public sentences: Word[] = [];
   private sentenceId = 0;
   private currentRound = 0;
+  public sentenceTranslation = signal('');
   public sentence = '';
 
   public source = signal<Card[]>([]);
@@ -33,6 +34,7 @@ export class GameService {
     this.result.set([]);
     this.isWin.set(false);
     this.sentence = sentences[this.sentenceId].textExample;
+    this.sentenceTranslation.set(sentences[this.sentenceId].textExampleTranslate);
     this.source.set(this.createCardsFromSentence(this.sentence));
   }
 
