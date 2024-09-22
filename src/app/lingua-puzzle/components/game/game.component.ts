@@ -39,6 +39,8 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 export class GameComponent {
   private readonly gameService = inject(GameService);
 
+  protected showTranslation = false;
+
   protected source = this.gameService.source;
   protected result = this.gameService.result;
   protected isWin = this.gameService.isWin;

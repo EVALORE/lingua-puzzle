@@ -3,10 +3,10 @@
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 
 <div class="translation">
-  <button mat-icon-button>
+  <button mat-icon-button (click)="showTranslation = !showTranslation">
     <mat-icon>translate</mat-icon>
   </button>
-  <span>
+  <span [class.show]="showTranslation">
     {{ translatedSentence() }}
   </span>
 </div>
