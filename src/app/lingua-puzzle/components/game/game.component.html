@@ -11,7 +11,15 @@
       }
     </div>
   }
-  <div class="result">
+  <div
+    class="result"
+    cdkDropList
+    #resultList="cdkDropList"
+    cdkDropListOrientation="horizontal"
+    [cdkDropListData]="result()"
+    [cdkDropListConnectedTo]="[sourceList]"
+    (cdkDropListDropped)="drop($event)"
+  >
     @for (card of result(); track card) {
       <mat-card
         appWordCard
@@ -21,13 +29,23 @@
         [style]="{ width: card.width }"
         (click)="moveToSource($index)"
         @filterAnimation
+        cdkDrag
         >{{ card.word }}
       </mat-card>
     }
   </div>
 </mat-card>
 
-<div class="source">
+<div
+  class="source"
+  cdkDropList
+  #sourceList="cdkDropList"
+  cdkDropListOrientation="horizontal"
+  cdkDropList
+  [cdkDropListData]="source()"
+  [cdkDropListConnectedTo]="[resultList]"
+  (cdkDropListDropped)="drop($event)"
+>
   @for (card of source(); track card) {
     <mat-card
       appWordCard
@@ -35,7 +53,9 @@
       [style]="{ width: card.width }"
       (click)="moveToResult($index)"
       @filterAnimation
-      >{{ card.word }}
+      cdkDrag
+    >
+      {{ card.word }}
     </mat-card>
   }
 </div>

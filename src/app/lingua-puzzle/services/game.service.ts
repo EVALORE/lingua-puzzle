@@ -33,7 +33,7 @@ export class GameService {
     this.result.set([]);
     this.isWin.set(false);
     this.sentence = sentences[this.sentenceId].textExample;
-    this.result.set(this.createCardsFromSentence(this.sentence));
+    this.source.set(this.createCardsFromSentence(this.sentence));
   }
 
   public nextSentence(): void {

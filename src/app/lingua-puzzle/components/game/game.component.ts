@@ -11,6 +11,13 @@ import { WordCardDirective } from '../../directives/word-card.directive';
 import { GameService } from '../../services/game.service';
 import { MatButton } from '@angular/material/button';
 import { Card } from '../../../shared/types/card.interface';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 
 function gapCollapseAnimation(): AnimationTransitionMetadata {
   return transition(':leave', [
@@ -22,7 +29,7 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [MatCard, WordCardDirective, MatButton],
+  imports: [MatCard, WordCardDirective, MatButton, CdkDrag, CdkDropList],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,5 +66,18 @@ export class GameComponent {
 
   private pushSentenceToCompleted(): void {
     this.completedSentences.push(this.result());
+  }
+
+  protected drop(event: CdkDragDrop<Card[]>): void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 }
