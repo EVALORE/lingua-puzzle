@@ -47,6 +47,8 @@ export class GameComponent {
   protected completedSentences: Card[][] = [];
   protected translatedSentence = this.gameService.sentenceTranslation;
 
+  protected sentenceAudio = this.gameService.sentenceAudio;
+
   protected startResultAutoComplete(): void {
     this.gameService.sortCardsInCorrectOrder();
   }
