@@ -12,8 +12,6 @@ export class GameService {
   public isWin = signal(false);
   private readonly httpData = inject(HttpDataService);
 
-  private readonly exampleSentence = 'the quick brown fox jumps over the lazy dog';
-
   public sentences: Word[] = [];
   private sentenceId = 0;
   private currentRound = 0;
