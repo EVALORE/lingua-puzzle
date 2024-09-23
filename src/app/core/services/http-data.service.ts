@@ -1,4 +1,4 @@
-import { LevelData, Round, Word, WordCollection } from '../../shared/types/http-data.interface';
+import { Round, WordCollection } from '../../shared/types/http-data.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
@@ -11,9 +11,6 @@ export class HttpDataService {
 
   private readonly currentDifficultyLevel = 1;
   private readonly url = `http://localhost:4200/project-data/data/wordCollectionLevel${this.currentDifficultyLevel.toString()}.json`;
-
-  public round!: LevelData;
-  public words!: Word[];
 
   private getData(): Observable<WordCollection> {
     return this.httpClient.get<WordCollection>(this.url);
