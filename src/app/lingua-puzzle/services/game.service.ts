@@ -21,6 +21,7 @@ export class GameService {
   public sentence = '';
   public sentenceAudio = new Audio();
   public imageSrc = signal<string>('');
+  private xOffsetSum = 0;
 
   public source = signal<Card[]>([]);
   public result = signal<Card[]>([]);
@@ -36,6 +37,7 @@ export class GameService {
   public setSentence(sentences: Word[]): void {
     this.result.set([]);
     this.isWin.set(false);
+    this.xOffsetSum = 0;
     const sentence = sentences[this.sentenceId];
 
     this.sentenceAudio.src = `project-data/${sentence.audioExample}`;
@@ -65,17 +67,21 @@ export class GameService {
     return shuffle<Card>(sentence.split(' ').map(this.createCard.bind(this)));
   }
 
-  private createCard(word: string, index: number): Card {
+  private createCard(word: string, index: number, array: string[]): Card {
+    this.xOffsetSum += array[index - 1] ? this.calculateCardWidth(array[index - 1].length) : 0;
+
     return {
       word,
-      width: this.calculateCardWidth(word.length),
+      width: `${String(this.calculateCardWidth(word.length))}px`,
       positionStatus: PositionStatus.PENDING,
       originalIndex: index,
+      xOffset: this.xOffsetSum,
+      yOffset: this.sentenceId * 35,
     };
   }
 
-  private calculateCardWidth(numberOfChars: number): string {
-    return `${String((numberOfChars * 100) / this.charInSentence)}%`;
+  private calculateCardWidth(numberOfChars: number): number {
+    return (numberOfChars * 700) / this.charInSentence;
   }
 
   public get charInSentence(): number {

@@ -16,16 +16,35 @@
 
 <mat-card [style]="{ height: resultHeight }">
   @for (sentence of completedSentences; track sentence) {
+    @let isFirstSentence = $index === 0;
+    @let isLastSentence = $index === numberOfSentences - 1;
     <div class="result completed">
       @for (card of sentence; track card) {
+        @let isFirstCard = $index === 0;
+        @let isLastCard = $index === sentence.length - 1;
         <div
           class="word"
           [style]="{
             width: card.width,
             backgroundImage: 'url(' + image() + ')',
+            backgroundSize: '700px ' + resultHeight,
+            backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
+            backgroundRepeat: 'no-repeat',
+            borderRadius:
+              isFirstSentence && isFirstCard
+                ? '8px 0 0 0'
+                : isFirstSentence && isLastCard
+                  ? '0 8px 0 0'
+                  : isLastSentence && isLastCard
+                    ? '0 0 8px 0 '
+                    : isLastSentence && isFirstCard
+                      ? '0 0 0 8px'
+                      : '0',
           }"
         >
-          {{ card.word }}
+          <span>
+            {{ card.word }}
+          </span>
         </div>
       }
     </div>
@@ -48,11 +67,17 @@
         [style]="{
           width: card.width,
           backgroundImage: 'url(' + image() + ')',
+          backgroundSize: '700px ' + resultHeight,
+          backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
+          backgroundRepeat: 'no-repeat',
         }"
         (click)="moveToSource($index)"
         @filterAnimation
         cdkDrag
-        >{{ card.word }}
+      >
+        <span>
+          {{ card.word }}
+        </span>
       </mat-card>
     }
   </div>
@@ -75,12 +100,17 @@
       [style]="{
         width: card.width,
         backgroundImage: 'url(' + image() + ')',
+        backgroundSize: '700px ' + resultHeight,
+        backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
+        backgroundRepeat: 'no-repeat',
       }"
       (click)="moveToResult($index)"
       @filterAnimation
       cdkDrag
     >
-      {{ card.word }}
+      <span>
+        {{ card.word }}
+      </span>
     </mat-card>
   }
 </div>

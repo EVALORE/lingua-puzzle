@@ -4,4 +4,6 @@ export interface Card {
   width: string;
   positionStatus: PositionStatus;
   originalIndex: number;
+  xOffset: number;
+  yOffset: number;
 }

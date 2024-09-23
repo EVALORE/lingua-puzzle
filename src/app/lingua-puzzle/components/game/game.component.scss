@@ -14,14 +14,14 @@
   margin-bottom: 20px;
   text-align: center;
 
-  span {
+  > span {
     max-width: 100%;
     overflow: hidden;
     white-space: nowrap;
     transition: all 0.5s ease-in-out;
   }
 
-  span:not(.show) {
+  > span:not(.show) {
     max-width: 0;
     transition: all 0.5s ease-in-out;
   }
@@ -58,13 +58,27 @@
 
 .word {
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 0;
   font-size: 0.8rem;
-  text-align: center;
+  color: black;
   user-select: none;
+  filter: opacity(1);
+  transition: filter 0.15s ease-in-out;
+
+  & > span {
+    display: block;
+    width: fit-content;
+    padding-inline: 3px;
+    text-align: center;
+    background-color: white;
+    border-radius: 6px;
+  }
 
   &:hover {
-    background-color: #f0f0f0;
+    filter: opacity(0.8);
   }
 }
 
