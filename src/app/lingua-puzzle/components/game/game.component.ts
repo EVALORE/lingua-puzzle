@@ -47,6 +47,7 @@ export class GameComponent {
   protected completedSentences: Card[][] = [];
   protected translatedSentence = this.gameService.sentenceTranslation;
 
+  protected image = this.gameService.imageSrc;
   protected sentenceAudio = this.gameService.sentenceAudio;
 
   protected startResultAutoComplete(): void {

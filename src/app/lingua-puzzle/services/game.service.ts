@@ -20,6 +20,7 @@ export class GameService {
   public sentenceTranslation = signal('');
   public sentence = '';
   public sentenceAudio = new Audio();
+  public imageSrc = signal<string>('');
 
   public source = signal<Card[]>([]);
   public result = signal<Card[]>([]);
@@ -27,6 +28,7 @@ export class GameService {
   constructor() {
     this.httpData.getRound(this.currentRound).subscribe((round) => {
       this.sentences = round.words;
+      this.imageSrc.set(`project-data/images/${round.levelData.imageSrc}`);
       this.setSentence(this.sentences);
     });
   }

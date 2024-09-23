@@ -18,7 +18,13 @@
   @for (sentence of completedSentences; track sentence) {
     <div class="result completed">
       @for (card of sentence; track card) {
-        <div class="word" [style]="{ width: card.width }">
+        <div
+          class="word"
+          [style]="{
+            width: card.width,
+            backgroundImage: 'url(' + image() + ')',
+          }"
+        >
           {{ card.word }}
         </div>
       }
@@ -39,7 +45,10 @@
         class="word"
         [class.correct]="card.positionStatus === 'CORRECT'"
         [class.wrong]="card.positionStatus === 'WRONG'"
-        [style]="{ width: card.width }"
+        [style]="{
+          width: card.width,
+          backgroundImage: 'url(' + image() + ')',
+        }"
         (click)="moveToSource($index)"
         @filterAnimation
         cdkDrag
@@ -63,7 +72,10 @@
     <mat-card
       appWordCard
       class="word"
-      [style]="{ width: card.width }"
+      [style]="{
+        width: card.width,
+        backgroundImage: 'url(' + image() + ')',
+      }"
       (click)="moveToResult($index)"
       @filterAnimation
       cdkDrag
