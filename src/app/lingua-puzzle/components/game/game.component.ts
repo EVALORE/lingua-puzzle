@@ -45,7 +45,7 @@ export class GameComponent {
   protected result = this.gameService.result;
   protected isWin = this.gameService.isWin;
   protected completedSentences: Card[][] = [];
-  protected translatedSentence = this.gameService.sentenceTranslation;
+  protected translatedSentence = this.gameService.sentence;
 
   protected image = this.gameService.imageSrc;
   protected sentenceAudio = this.gameService.sentenceAudio;

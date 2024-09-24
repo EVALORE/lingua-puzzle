@@ -10,13 +10,12 @@ import { Card } from '../../shared/types/card.interface';
 })
 export class GameService {
   public isWin = signal(false);
+  public dataLoaded = signal(false);
   private readonly httpData = inject(HttpDataService);
 
   public sentences: Sentence[] = [];
   private sentenceId = 0;
   private currentRound = 0;
-  public sentenceTranslation = signal('');
-  public sentence = '';
   public sentenceAudio = new Audio();
   public imageSrc = signal<string>('');
   private xOffsetSum = 0;
@@ -25,6 +24,7 @@ export class GameService {
   public result = signal<Card[]>([]);
 
   public round = signal({} as Round);
+  public sentence = signal({} as Sentence);
 
   constructor() {
     this.httpData.getRounds().subscribe((rounds) => {
@@ -32,6 +32,7 @@ export class GameService {
       this.sentences = this.round().words;
       this.imageSrc.set(`project-data/images/${this.round().levelData.imageSrc}`);
       this.setSentence(this.sentences);
+      this.dataLoaded.set(true);
     });
   }
 
@@ -39,12 +40,11 @@ export class GameService {
     this.result.set([]);
     this.isWin.set(false);
     this.xOffsetSum = 0;
-    const sentence = sentences[this.sentenceId];
 
-    this.sentenceAudio.src = `project-data/${sentence.audioExample}`;
-    this.sentence = sentence.textExample;
-    this.sentenceTranslation.set(sentence.textExampleTranslate);
-    this.source.set(this.createCardsFromSentence(this.sentence));
+    this.sentence.set(sentences[this.sentenceId]);
+
+    this.sentenceAudio.src = `project-data/${this.sentence().audioExample}`;
+    this.source.set(this.createCardsFromSentence(this.sentence().textExample));
   }
 
   public nextSentence(): void {
@@ -86,7 +86,7 @@ export class GameService {
   }
 
   public get charInSentence(): number {
-    return this.sentence.replace(/\s/g, '').length;
+    return this.sentence().textExample.replace(/\s/g, '').length;
   }
 
   public moveToResult(wordIndex: number): void {
@@ -136,7 +136,7 @@ export class GameService {
   }
 
   private updateCardsPositionStatus(cards: Card[]): void {
-    const sentenceWords = this.sentence.split(' ');
+    const sentenceWords = this.sentence().textExample.split(' ');
     cards.forEach((card, index) => {
       card.positionStatus =
         card.word === sentenceWords[index] ? PositionStatus.CORRECT : PositionStatus.WRONG;
