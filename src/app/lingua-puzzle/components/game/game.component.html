@@ -73,8 +73,7 @@
   </div>
 </mat-card>
 
-<div
-  class="source"
+<app-card-list
   cdkDropList
   #sourceList="cdkDropList"
   cdkDropListOrientation="horizontal"
@@ -82,30 +81,10 @@
   [cdkDropListData]="source()"
   [cdkDropListConnectedTo]="[resultList]"
   (cdkDropListDropped)="drop($event)"
->
-  @for (card of source(); track card) {
-    <mat-card
-      appWordCard
-      class="word"
-      [style]="{
-        width: card.width,
-        backgroundImage: 'url(' + picture + ')',
-        backgroundSize: '700px ' + resultHeight,
-        backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
-        backgroundRepeat: 'no-repeat',
-      }"
-      (click)="moveToResult($index)"
-      @filterAnimation
-      cdkDrag
-    >
-      <span>
-        {{ card.word }}
-      </span>
-    </mat-card>
-  }
-</div>
-
-<app-card-list [source]="source()" [picture]="picture" (onCardMove)="moveToResult($event)" />
+  [source]="source()"
+  [picture]="picture"
+  (onCardMove)="moveToResult($event)"
+/>
 
 @if (source().length === 0) {
   <button mat-raised-button (click)="startResultAutoComplete()">Auto Complete</button>
