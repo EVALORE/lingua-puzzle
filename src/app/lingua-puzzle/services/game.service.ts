@@ -1,6 +1,6 @@
 import { PositionStatus } from './../../shared/enums/position-status';
 import { inject, Injectable, signal } from '@angular/core';
-import { Word } from '../../shared/types/http-data.interface';
+import { Round, Sentence } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
 import { Card } from '../../shared/types/card.interface';
@@ -12,7 +12,7 @@ export class GameService {
   public isWin = signal(false);
   private readonly httpData = inject(HttpDataService);
 
-  public sentences: Word[] = [];
+  public sentences: Sentence[] = [];
   private sentenceId = 0;
   private currentRound = 0;
   public sentenceTranslation = signal('');
@@ -24,15 +24,18 @@ export class GameService {
   public source = signal<Card[]>([]);
   public result = signal<Card[]>([]);
 
+  public round = signal({} as Round);
+
   constructor() {
-    this.httpData.getRound(this.currentRound).subscribe((round) => {
-      this.sentences = round.words;
-      this.imageSrc.set(`project-data/images/${round.levelData.imageSrc}`);
+    this.httpData.getRounds().subscribe((rounds) => {
+      this.round.set(rounds[this.currentRound]);
+      this.sentences = this.round().words;
+      this.imageSrc.set(`project-data/images/${this.round().levelData.imageSrc}`);
       this.setSentence(this.sentences);
     });
   }
 
-  public setSentence(sentences: Word[]): void {
+  public setSentence(sentences: Sentence[]): void {
     this.result.set([]);
     this.isWin.set(false);
     this.xOffsetSum = 0;
@@ -47,8 +50,8 @@ export class GameService {
   public nextSentence(): void {
     if (this.isLastSentence()) {
       this.currentRound += 1;
-      this.httpData.getRound(this.currentRound).subscribe((round) => {
-        this.sentences = round.words;
+      this.httpData.getRounds().subscribe((rounds) => {
+        this.sentences = rounds[this.currentRound].words;
         this.setSentence(this.sentences);
       });
       return;
@@ -99,12 +102,11 @@ export class GameService {
   }
 
   public sortCardsInCorrectOrder(): void {
-    const sentenceWords = this.sentence.split(' ');
     const cards = this.result();
 
     for (let index = 0; index < cards.length; index += 1) {
       const card = cards[index];
-      if (card.originalIndex !== index && card.word !== sentenceWords[index]) {
+      if (card.originalIndex !== index) {
         cards.splice(index, 1);
         cards.splice(card.originalIndex, 0, card);
         index -= 1;
