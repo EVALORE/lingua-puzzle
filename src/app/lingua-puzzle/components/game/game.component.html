@@ -16,7 +16,7 @@
           class="word"
           [style]="{
             width: card.width,
-            backgroundImage: 'url(' + image + ')',
+            backgroundImage: 'url(' + picture + ')',
             backgroundSize: '700px ' + resultHeight,
             backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
             backgroundRepeat: 'no-repeat',
@@ -56,7 +56,7 @@
         [class.wrong]="card.positionStatus === 'WRONG'"
         [style]="{
           width: card.width,
-          backgroundImage: 'url(' + image + ')',
+          backgroundImage: 'url(' + picture + ')',
           backgroundSize: '700px ' + resultHeight,
           backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
           backgroundRepeat: 'no-repeat',
@@ -89,7 +89,7 @@
       class="word"
       [style]="{
         width: card.width,
-        backgroundImage: 'url(' + image + ')',
+        backgroundImage: 'url(' + picture + ')',
         backgroundSize: '700px ' + resultHeight,
         backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
         backgroundRepeat: 'no-repeat',
