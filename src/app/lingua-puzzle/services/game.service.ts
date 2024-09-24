@@ -100,17 +100,11 @@ export class GameService {
   }
 
   public sortCardsInCorrectOrder(): void {
-    const cards = this.result();
-
-    for (let index = 0; index < cards.length; index += 1) {
-      const card = cards[index];
-      if (card.originalIndex !== index) {
-        cards.splice(index, 1);
-        cards.splice(card.originalIndex, 0, card);
-        index -= 1;
-      }
-    }
-
+    this.result.update((result) =>
+      result.sort(
+        (currentCard, precedentCard) => currentCard.originalIndex - precedentCard.originalIndex,
+      ),
+    );
     this.checkCards();
   }
 
