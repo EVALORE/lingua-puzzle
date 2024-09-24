@@ -6,27 +6,6 @@
   margin: 20px auto 0;
 }
 
-.translation {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  text-align: center;
-
-  > span {
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    transition: all 0.5s ease-in-out;
-  }
-
-  > span:not(.show) {
-    max-width: 0;
-    transition: all 0.5s ease-in-out;
-  }
-}
-
 .source,
 .result {
   display: flex;

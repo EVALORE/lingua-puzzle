@@ -5,11 +5,11 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { GameService } from '../../services/game.service';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 import { Card } from '../../../shared/types/card.interface';
 import {
   CdkDrag,
@@ -18,7 +18,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { MatIcon } from '@angular/material/icon';
+import { HintsComponent } from "../hints/hints.component";
 
 function gapCollapseAnimation(): AnimationTransitionMetadata {
   return transition(':leave', [
@@ -30,7 +30,7 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [MatCard, WordCardDirective, MatButton, CdkDrag, CdkDropList, MatIcon, MatIconButton],
+  imports: [MatCard, WordCardDirective, MatButton, CdkDrag, CdkDropList, HintsComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,21 +39,11 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 export class GameComponent {
   private readonly gameService = inject(GameService);
 
-  protected showTranslation = false;
-
   protected source = this.gameService.source;
   protected result = this.gameService.result;
   protected isWin = this.gameService.isWin;
   protected completedSentences: Card[][] = [];
   protected image = this.gameService.imageSrc;
-  protected sentence = this.gameService.sentence;
-  protected sentenceAudio = new Audio();
-
-  constructor() {
-    effect(() => {
-      this.sentenceAudio.src = `project-data/${this.sentence().audioExample}`;
-    });
-  }
 
   protected startResultAutoComplete(): void {
     this.gameService.sortCardsInCorrectOrder();

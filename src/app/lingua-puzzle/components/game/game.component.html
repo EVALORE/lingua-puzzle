@@ -2,17 +2,7 @@
 @let numberOfSentences = 10;
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 
-<div class="translation">
-  <button mat-icon-button (click)="sentenceAudio.play()">
-    <mat-icon>volume_up</mat-icon>
-  </button>
-  <button mat-icon-button (click)="showTranslation = !showTranslation">
-    <mat-icon>translate</mat-icon>
-  </button>
-  <span [class.show]="showTranslation">
-    {{ sentence().textExampleTranslate }}
-  </span>
-</div>
+<app-hints/>
 
 <mat-card [style]="{ height: resultHeight }">
   @for (sentence of completedSentences; track sentence) {
