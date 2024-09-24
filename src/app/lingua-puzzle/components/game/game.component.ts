@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { GameService } from '../../services/game.service';
@@ -18,7 +18,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { HintsComponent } from "../hints/hints.component";
+import { HintsComponent } from '../hints/hints.component';
 
 function gapCollapseAnimation(): AnimationTransitionMetadata {
   return transition(':leave', [
@@ -43,7 +43,13 @@ export class GameComponent {
   protected result = this.gameService.result;
   protected isWin = this.gameService.isWin;
   protected completedSentences: Card[][] = [];
-  protected image = this.gameService.imageSrc;
+  protected picture = '';
+
+  constructor() {
+    effect(() => {
+      this.picture = `project-data/images/${this.gameService.picture().imageSrc}`;
+    });
+  }
 
   protected startResultAutoComplete(): void {
     this.gameService.sortCardsInCorrectOrder();

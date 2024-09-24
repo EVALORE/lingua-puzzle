@@ -1,6 +1,6 @@
 import { PositionStatus } from './../../shared/enums/position-status';
 import { inject, Injectable, signal } from '@angular/core';
-import { Round, Sentence } from '../../shared/types/http-data.interface';
+import { Picture, Round, Sentence } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
 import { Card } from '../../shared/types/card.interface';
@@ -16,7 +16,6 @@ export class GameService {
   public sentences: Sentence[] = [];
   private sentenceId = 0;
   private currentRound = 0;
-  public imageSrc = signal<string>('');
   private xOffsetSum = 0;
 
   public source = signal<Card[]>([]);
@@ -24,12 +23,14 @@ export class GameService {
 
   public round = signal({} as Round);
   public sentence = signal({} as Sentence);
+  public picture = signal({} as Picture);
 
   constructor() {
     this.httpData.getRounds().subscribe((rounds) => {
       this.round.set(rounds[this.currentRound]);
       this.sentences = this.round().words;
-      this.imageSrc.set(`project-data/images/${this.round().levelData.imageSrc}`);
+      this.picture.set(this.round().levelData);
+
       this.setSentence(this.sentences);
       this.dataLoaded.set(true);
     });
