@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { GameService } from '../../services/game.service';
@@ -45,10 +45,15 @@ export class GameComponent {
   protected result = this.gameService.result;
   protected isWin = this.gameService.isWin;
   protected completedSentences: Card[][] = [];
-  protected translatedSentence = this.gameService.sentence;
-
   protected image = this.gameService.imageSrc;
-  protected sentenceAudio = this.gameService.sentenceAudio;
+  protected sentence = this.gameService.sentence;
+  protected sentenceAudio = new Audio();
+
+  constructor() {
+    effect(() => {
+      this.sentenceAudio.src = `project-data/${this.sentence().audioExample}`;
+    });
+  }
 
   protected startResultAutoComplete(): void {
     this.gameService.sortCardsInCorrectOrder();

@@ -16,7 +16,6 @@ export class GameService {
   public sentences: Sentence[] = [];
   private sentenceId = 0;
   private currentRound = 0;
-  public sentenceAudio = new Audio();
   public imageSrc = signal<string>('');
   private xOffsetSum = 0;
 
@@ -42,8 +41,6 @@ export class GameService {
     this.xOffsetSum = 0;
 
     this.sentence.set(sentences[this.sentenceId]);
-
-    this.sentenceAudio.src = `project-data/${this.sentence().audioExample}`;
     this.source.set(this.createCardsFromSentence(this.sentence().textExample));
   }
 
