@@ -1,0 +1,24 @@
+@let cardHeight = 35;
+@let numberOfSentences = 10;
+@let resultHeight = cardHeight * numberOfSentences + 'px';
+
+@for (card of source(); track card) {
+  <mat-card
+    appWordCard
+    class="word"
+    [style]="{
+      width: card.width,
+      backgroundImage: 'url(' + picture() + ')',
+      backgroundSize: '700px ' + resultHeight,
+      backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
+      backgroundRepeat: 'no-repeat',
+    }"
+    (click)="onCardMove.emit($index)"
+    @filterAnimation
+    cdkDrag
+  >
+    <span>
+      {{ card.word }}
+    </span>
+  </mat-card>
+}

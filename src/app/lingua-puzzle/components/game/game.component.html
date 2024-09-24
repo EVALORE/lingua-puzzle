@@ -2,7 +2,7 @@
 @let numberOfSentences = 10;
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 
-<app-hints/>
+<app-hints />
 
 <mat-card [style]="{ height: resultHeight }">
   @for (sentence of completedSentences; track sentence) {
@@ -104,6 +104,8 @@
     </mat-card>
   }
 </div>
+
+<app-card-list [source]="source()" [picture]="picture" (onCardMove)="moveToResult($event)" />
 
 @if (source().length === 0) {
   <button mat-raised-button (click)="startResultAutoComplete()">Auto Complete</button>

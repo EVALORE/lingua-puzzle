@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+}
+
+.word {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  padding: 10px 0;
+  font-size: 0.8rem;
+  color: black;
+  user-select: none;
+  filter: opacity(1);
+  transition: filter 0.15s ease-in-out;
+
+  & > span {
+    display: block;
+    width: fit-content;
+    padding-inline: 3px;
+    text-align: center;
+    background-color: white;
+    border-radius: 6px;
+  }
+
+  &:hover {
+    filter: opacity(0.8);
+  }
+}

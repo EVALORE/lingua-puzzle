@@ -19,6 +19,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { HintsComponent } from '../hints/hints.component';
+import { CardListComponent } from "../card-list/card-list.component";
 
 function gapCollapseAnimation(): AnimationTransitionMetadata {
   return transition(':leave', [
@@ -30,7 +31,7 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [MatCard, WordCardDirective, MatButton, CdkDrag, CdkDropList, HintsComponent],
+  imports: [MatCard, WordCardDirective, MatButton, CdkDrag, CdkDropList, HintsComponent, CardListComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

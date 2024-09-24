@@ -1,4 +1,4 @@
-import { PositionStatus } from './../../shared/enums/position-status';
+import { PositionStatus } from '../../shared/enums/position-status';
 import { inject, Injectable, signal } from '@angular/core';
 import { Picture, Round, Sentence } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
