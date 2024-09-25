@@ -5,13 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  effect,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { GameService } from '../../services/game.service';
@@ -53,7 +47,6 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 })
 export class GameComponent {
   private readonly gameService = inject(GameService);
-  private readonly cdr = inject(ChangeDetectorRef);
 
   protected source = this.gameService.source;
   protected result = this.gameService.result;
@@ -68,7 +61,6 @@ export class GameComponent {
   }
 
   protected startResultAutoComplete(): void {
-    this.cdr.markForCheck();
     this.gameService.sortCardsInCorrectOrder();
   }
 
@@ -104,25 +96,5 @@ export class GameComponent {
         event.currentIndex,
       );
     }
-  }
-
-  protected getCardStyles(
-    card: Card,
-    picture: string,
-    resultHeight: string,
-  ): {
-    width: string;
-    backgroundImage: string;
-    backgroundSize: string;
-    backgroundPosition: string;
-    backgroundRepeat: string;
-  } {
-    return {
-      width: card.width,
-      backgroundImage: `url(${picture})`,
-      backgroundSize: `700px ${resultHeight}`,
-      backgroundPosition: `-${String(card.xOffset)}px -${String(card.yOffset)}px`,
-      backgroundRepeat: 'no-repeat',
-    };
   }
 }
