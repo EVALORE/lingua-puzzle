@@ -1,23 +1,11 @@
-import {
-  animate,
-  AnimationTransitionMetadata,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { MatButton } from '@angular/material/button';
 import { HintsComponent } from '../hints/hints.component';
 import { CardListComponent } from '../card-list/card-list.component';
 import { PuzzleComponent } from '../puzzle/puzzle.component';
-
-function gapCollapseAnimation(): AnimationTransitionMetadata {
-  return transition(':leave', [
-    style({ opacity: 0 }),
-    animate('600ms ease-in', style({ width: 0, padding: 0 })),
-  ]);
-}
+import { gapCollapseAnimation } from '../../../core/animations/gap-collapse.animation';
 
 @Component({
   selector: 'app-game',
