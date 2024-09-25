@@ -1,9 +1,15 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, output } from '@angular/core';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { MatCard } from '@angular/material/card';
 import { Card } from '../../../shared/types/card.interface';
-import { AnimationTransitionMetadata, transition, style, animate, trigger } from '@angular/animations';
+import {
+  AnimationTransitionMetadata,
+  transition,
+  style,
+  animate,
+  trigger,
+} from '@angular/animations';
 
 function gapCollapseAnimation(): AnimationTransitionMetadata {
   return transition(':leave', [

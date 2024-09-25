@@ -5,7 +5,13 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  inject,
+} from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { GameService } from '../../services/game.service';
@@ -19,7 +25,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { HintsComponent } from '../hints/hints.component';
-import { CardListComponent } from "../card-list/card-list.component";
+import { CardListComponent } from '../card-list/card-list.component';
 
 function gapCollapseAnimation(): AnimationTransitionMetadata {
   return transition(':leave', [
@@ -31,7 +37,15 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [MatCard, WordCardDirective, MatButton, CdkDrag, CdkDropList, HintsComponent, CardListComponent],
+  imports: [
+    MatCard,
+    WordCardDirective,
+    MatButton,
+    CdkDrag,
+    CdkDropList,
+    HintsComponent,
+    CardListComponent,
+  ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +53,7 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 })
 export class GameComponent {
   private readonly gameService = inject(GameService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   protected source = this.gameService.source;
   protected result = this.gameService.result;
@@ -53,6 +68,7 @@ export class GameComponent {
   }
 
   protected startResultAutoComplete(): void {
+    this.cdr.markForCheck();
     this.gameService.sortCardsInCorrectOrder();
   }
 

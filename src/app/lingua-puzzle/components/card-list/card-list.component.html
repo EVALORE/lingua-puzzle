@@ -6,6 +6,8 @@
   <mat-card
     appWordCard
     class="word"
+    [class.correct]="card.positionStatus === 'CORRECT'"
+    [class.wrong]="card.positionStatus === 'WRONG'"
     [style]="{
       width: card.width,
       backgroundImage: 'url(' + picture() + ')',

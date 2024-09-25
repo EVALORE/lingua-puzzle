@@ -2,6 +2,19 @@
   display: flex;
 }
 
+.wrong,
+.correct {
+  border: 1px solid;
+}
+
+.wrong {
+  border-color: red;
+}
+
+.correct {
+  border-color: green;
+}
+
 .word {
   box-sizing: border-box;
   display: flex;

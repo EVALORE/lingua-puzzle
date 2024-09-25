@@ -39,38 +39,18 @@
       }
     </div>
   }
-  <div
-    class="result"
+
+  <app-card-list
     cdkDropList
     #resultList="cdkDropList"
     cdkDropListOrientation="horizontal"
     [cdkDropListData]="result()"
     [cdkDropListConnectedTo]="[sourceList]"
     (cdkDropListDropped)="drop($event)"
-  >
-    @for (card of result(); track card) {
-      <mat-card
-        appWordCard
-        class="word"
-        [class.correct]="card.positionStatus === 'CORRECT'"
-        [class.wrong]="card.positionStatus === 'WRONG'"
-        [style]="{
-          width: card.width,
-          backgroundImage: 'url(' + picture + ')',
-          backgroundSize: '700px ' + resultHeight,
-          backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
-          backgroundRepeat: 'no-repeat',
-        }"
-        (click)="moveToSource($index)"
-        @filterAnimation
-        cdkDrag
-      >
-        <span>
-          {{ card.word }}
-        </span>
-      </mat-card>
-    }
-  </div>
+    [source]="result()"
+    [picture]="picture"
+    (onCardMove)="moveToSource($event)"
+  />
 </mat-card>
 
 <app-card-list
