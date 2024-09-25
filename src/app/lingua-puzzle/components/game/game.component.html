@@ -6,40 +6,32 @@
 
 <mat-card [style]="{ height: resultHeight }">
   @for (sentence of completedSentences; track sentence) {
-    <div
+    <app-card-list
       class="result completed"
       [class.first-sentence]="$index === 0"
       [class.last-sentence]="$index === numberOfSentences - 1"
-    >
-      @for (card of sentence; track card) {
-        <div
-          class="word"
-          [class.first-word]="$index === 0"
-          [class.last-word]="$index === sentence.length - 1"
-          [style]="getCardStyles(card, picture, resultHeight)"
-        >
-          <span>
-            {{ card.word }}
-          </span>
-        </div>
-      }
-    </div>
+      [listType]="'completed'"
+      [cardList]="sentence"
+      [picture]="picture"
+    />
   }
 
   <app-card-list
+    [listType]="'result'"
     cdkDropList
     #resultList="cdkDropList"
     cdkDropListOrientation="horizontal"
     [cdkDropListData]="result()"
     [cdkDropListConnectedTo]="[sourceList]"
     (cdkDropListDropped)="drop($event)"
-    [source]="result()"
+    [cardList]="result()"
     [picture]="picture"
     (onCardMove)="moveToSource($event)"
   />
 </mat-card>
 
 <app-card-list
+  [listType]="'source'"
   cdkDropList
   #sourceList="cdkDropList"
   cdkDropListOrientation="horizontal"
@@ -47,7 +39,7 @@
   [cdkDropListData]="source()"
   [cdkDropListConnectedTo]="[resultList]"
   (cdkDropListDropped)="drop($event)"
-  [source]="source()"
+  [cardList]="source()"
   [picture]="picture"
   (onCardMove)="moveToResult($event)"
 />

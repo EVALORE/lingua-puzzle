@@ -43,7 +43,7 @@
 }
 
 .completed {
-  .first-sentence {
+  &.first-sentence {
     .first-word {
       border-top-left-radius: 8px;
     }
@@ -53,7 +53,7 @@
     }
   }
 
-  .last-sentence {
+  &.last-sentence {
     .first-word {
       border-bottom-left-radius: 8px;
     }

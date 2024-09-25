@@ -18,6 +18,14 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
   ]);
 }
 
+interface CardStyles {
+  width: string;
+  backgroundImage: string;
+  backgroundSize: string;
+  backgroundPosition: string;
+  backgroundRepeat: string;
+}
+
 @Component({
   selector: 'app-card-list',
   standalone: true,
@@ -28,8 +36,18 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
   animations: [trigger('filterAnimation', [gapCollapseAnimation()])],
 })
 export class CardListComponent {
-
-  public readonly source = input<Card[]>();
-  public readonly picture = input<string>();
+  public readonly listType = input.required<'result' | 'source' | 'completed'>();
+  public readonly cardList = input.required<Card[]>();
+  public readonly picture = input.required<string>();
   public readonly onCardMove = output<number>();
+
+  protected getCardStyles(card: Card, resultHeight: string): CardStyles {
+    return {
+      width: card.width,
+      backgroundImage: `url(${this.picture()})`,
+      backgroundSize: `700px ${resultHeight}`,
+      backgroundPosition: `-${String(card.xOffset)}px -${String(card.yOffset)}px`,
+      backgroundRepeat: 'no-repeat',
+    };
+  }
 }

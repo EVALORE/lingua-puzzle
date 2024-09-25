@@ -2,20 +2,14 @@
 @let numberOfSentences = 10;
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 
-<ng-container>
-  @for (card of source(); track card) {
+@if (listType() === 'result') {
+  @for (card of cardList(); track card) {
     <mat-card
       appWordCard
       class="word"
       [class.correct]="card.positionStatus === 'CORRECT'"
       [class.wrong]="card.positionStatus === 'WRONG'"
-      [style]="{
-        width: card.width,
-        backgroundImage: 'url(' + picture() + ')',
-        backgroundSize: '700px ' + resultHeight,
-        backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
-        backgroundRepeat: 'no-repeat',
-      }"
+      [style]="getCardStyles(card, resultHeight)"
       (click)="onCardMove.emit($index)"
       @filterAnimation
       cdkDrag
@@ -25,4 +19,36 @@
       </span>
     </mat-card>
   }
-</ng-container>
+}
+
+@if (listType() === 'source') {
+  @for (card of cardList(); track card) {
+    <mat-card
+      appWordCard
+      class="word"
+      [style]="getCardStyles(card, resultHeight)"
+      (click)="onCardMove.emit($index)"
+      @filterAnimation
+      cdkDrag
+    >
+      <span>
+        {{ card.word }}
+      </span>
+    </mat-card>
+  }
+}
+
+@if (listType() === 'completed') {
+  @for (card of cardList(); track card) {
+    <div
+      class="word"
+      [class.first-word]="$index === 0"
+      [class.last-word]="$index === cardList().length - 1"
+      [style]="getCardStyles(card, resultHeight)"
+    >
+      <span>
+        {{ card.word }}
+      </span>
+    </div>
+  }
+}
