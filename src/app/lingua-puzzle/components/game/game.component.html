@@ -6,31 +6,17 @@
 
 <mat-card [style]="{ height: resultHeight }">
   @for (sentence of completedSentences; track sentence) {
-    @let isFirstSentence = $index === 0;
-    @let isLastSentence = $index === numberOfSentences - 1;
-    <div class="result completed">
+    <div
+      class="result completed"
+      [class.first-sentence]="$index === 0"
+      [class.last-sentence]="$index === numberOfSentences - 1"
+    >
       @for (card of sentence; track card) {
-        @let isFirstCard = $index === 0;
-        @let isLastCard = $index === sentence.length - 1;
         <div
           class="word"
-          [style]="{
-            width: card.width,
-            backgroundImage: 'url(' + picture + ')',
-            backgroundSize: '700px ' + resultHeight,
-            backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
-            backgroundRepeat: 'no-repeat',
-            borderRadius:
-              isFirstSentence && isFirstCard
-                ? '8px 0 0 0'
-                : isFirstSentence && isLastCard
-                  ? '0 8px 0 0'
-                  : isLastSentence && isLastCard
-                    ? '0 0 8px 0 '
-                    : isLastSentence && isFirstCard
-                      ? '0 0 0 8px'
-                      : '0',
-          }"
+          [class.first-word]="$index === 0"
+          [class.last-word]="$index === sentence.length - 1"
+          [style]="getCardStyles(card, picture, resultHeight)"
         >
           <span>
             {{ card.word }}

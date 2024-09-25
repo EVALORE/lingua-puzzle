@@ -41,3 +41,25 @@
     filter: opacity(0.8);
   }
 }
+
+.completed {
+  .first-sentence {
+    .first-word {
+      border-top-left-radius: 8px;
+    }
+
+    .last-word {
+      border-top-right-radius: 8px;
+    }
+  }
+
+  .last-sentence {
+    .first-word {
+      border-bottom-left-radius: 8px;
+    }
+
+    .last-word {
+      border-bottom-right-radius: 8px;
+    }
+  }
+}

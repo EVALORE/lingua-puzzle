@@ -10,3 +10,4 @@ export class LevelService {
     return `project-data/data/wordCollectionLevel${String(this.currentLevel)}.json`;
   }
 }
+

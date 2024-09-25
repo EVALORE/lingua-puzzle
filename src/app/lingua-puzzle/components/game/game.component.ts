@@ -105,4 +105,24 @@ export class GameComponent {
       );
     }
   }
+
+  protected getCardStyles(
+    card: Card,
+    picture: string,
+    resultHeight: string,
+  ): {
+    width: string;
+    backgroundImage: string;
+    backgroundSize: string;
+    backgroundPosition: string;
+    backgroundRepeat: string;
+  } {
+    return {
+      width: card.width,
+      backgroundImage: `url(${picture})`,
+      backgroundSize: `700px ${resultHeight}`,
+      backgroundPosition: `-${String(card.xOffset)}px -${String(card.yOffset)}px`,
+      backgroundRepeat: 'no-repeat',
+    };
+  }
 }

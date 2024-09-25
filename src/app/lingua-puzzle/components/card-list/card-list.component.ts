@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { MatCard } from '@angular/material/card';
@@ -28,6 +28,7 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
   animations: [trigger('filterAnimation', [gapCollapseAnimation()])],
 })
 export class CardListComponent {
+
   public readonly source = input<Card[]>();
   public readonly picture = input<string>();
   public readonly onCardMove = output<number>();

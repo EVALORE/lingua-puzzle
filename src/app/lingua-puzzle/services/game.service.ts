@@ -1,5 +1,5 @@
 import { PositionStatus } from '../../shared/enums/position-status';
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Picture, Round, Sentence } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
@@ -35,9 +35,6 @@ export class GameService {
       this.dataLoaded.set(true);
     });
   }
-
-  // TODO: REFACTOR
-  //* FIXME: REFACTOR
 
   public setSentence(sentences: Sentence[]): void {
     this.result.set([]);
