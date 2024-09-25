@@ -1,0 +1,54 @@
+@let cardHeight = 35;
+@let numberOfSentences = 10;
+@let resultHeight = cardHeight * numberOfSentences + 'px';
+
+@if (listType() === 'result') {
+  @for (card of cardList(); track card) {
+    <mat-card
+      appWordCard
+      class="word"
+      [class.correct]="card.positionStatus === 'CORRECT'"
+      [class.wrong]="card.positionStatus === 'WRONG'"
+      [style]="getCardStyles(card, resultHeight)"
+      (click)="onCardMove.emit($index)"
+      @filterAnimation
+      cdkDrag
+    >
+      <span>
+        {{ card.word }}
+      </span>
+    </mat-card>
+  }
+}
+
+@if (listType() === 'source') {
+  @for (card of cardList(); track card) {
+    <mat-card
+      appWordCard
+      class="word"
+      [style]="getCardStyles(card, resultHeight)"
+      (click)="onCardMove.emit($index)"
+      @filterAnimation
+      cdkDrag
+    >
+      <span>
+        {{ card.word }}
+      </span>
+    </mat-card>
+  }
+}
+
+@if (listType() === 'completed') {
+  @for (card of cardList(); track card) {
+    <div
+      class="word"
+      [class.first-word]="$index === 0"
+      [class.last-word]="$index === cardList().length - 1"
+      [style]="getCardStyles(card, resultHeight)"
+    >
+      <span>
+        {{ card.word }}
+      </span>
+    </div>
+  }
+}

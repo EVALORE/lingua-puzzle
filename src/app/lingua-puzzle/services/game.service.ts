@@ -1,6 +1,6 @@
-import { PositionStatus } from './../../shared/enums/position-status';
+import { PositionStatus } from '../../shared/enums/position-status';
 import { inject, Injectable, signal } from '@angular/core';
-import { Word } from '../../shared/types/http-data.interface';
+import { Picture, Round, Sentence } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
 import { Card } from '../../shared/types/card.interface';
@@ -10,47 +10,46 @@ import { Card } from '../../shared/types/card.interface';
 })
 export class GameService {
   public isWin = signal(false);
+  public dataLoaded = signal(false);
   private readonly httpData = inject(HttpDataService);
 
-  private readonly exampleSentence = 'the quick brown fox jumps over the lazy dog';
-
-  public sentences: Word[] = [];
+  public sentences: Sentence[] = [];
   private sentenceId = 0;
   private currentRound = 0;
-  public sentenceTranslation = signal('');
-  public sentence = '';
-  public sentenceAudio = new Audio();
-  public imageSrc = signal<string>('');
   private xOffsetSum = 0;
 
   public source = signal<Card[]>([]);
   public result = signal<Card[]>([]);
 
+  public round = signal({} as Round);
+  public sentence = signal({} as Sentence);
+  public picture = signal({} as Picture);
+
   constructor() {
-    this.httpData.getRound(this.currentRound).subscribe((round) => {
-      this.sentences = round.words;
-      this.imageSrc.set(`project-data/images/${round.levelData.imageSrc}`);
+    this.httpData.getRounds().subscribe((rounds) => {
+      this.round.set(rounds[this.currentRound]);
+      this.sentences = this.round().words;
+      this.picture.set(this.round().levelData);
+
       this.setSentence(this.sentences);
+      this.dataLoaded.set(true);
     });
   }
 
-  public setSentence(sentences: Word[]): void {
+  public setSentence(sentences: Sentence[]): void {
     this.result.set([]);
     this.isWin.set(false);
     this.xOffsetSum = 0;
-    const sentence = sentences[this.sentenceId];
 
-    this.sentenceAudio.src = `project-data/${sentence.audioExample}`;
-    this.sentence = sentence.textExample;
-    this.sentenceTranslation.set(sentence.textExampleTranslate);
-    this.source.set(this.createCardsFromSentence(this.sentence));
+    this.sentence.set(sentences[this.sentenceId]);
+    this.source.set(this.createCardsFromSentence(this.sentence().textExample));
   }
 
   public nextSentence(): void {
     if (this.isLastSentence()) {
       this.currentRound += 1;
-      this.httpData.getRound(this.currentRound).subscribe((round) => {
-        this.sentences = round.words;
+      this.httpData.getRounds().subscribe((rounds) => {
+        this.sentences = rounds[this.currentRound].words;
         this.setSentence(this.sentences);
       });
       return;
@@ -85,7 +84,7 @@ export class GameService {
   }
 
   public get charInSentence(): number {
-    return this.sentence.replace(/\s/g, '').length;
+    return this.sentence().textExample.replace(/\s/g, '').length;
   }
 
   public moveToResult(wordIndex: number): void {
@@ -101,18 +100,11 @@ export class GameService {
   }
 
   public sortCardsInCorrectOrder(): void {
-    const sentenceWords = this.sentence.split(' ');
-    const cards = this.result();
-
-    for (let index = 0; index < cards.length; index += 1) {
-      const card = cards[index];
-      if (card.originalIndex !== index && card.word !== sentenceWords[index]) {
-        cards.splice(index, 1);
-        cards.splice(card.originalIndex, 0, card);
-        index -= 1;
-      }
-    }
-
+    this.result.update((result) =>
+      result.sort(
+        (currentCard, precedentCard) => currentCard.originalIndex - precedentCard.originalIndex,
+      ),
+    );
     this.checkCards();
   }
 
@@ -136,10 +128,14 @@ export class GameService {
   }
 
   private updateCardsPositionStatus(cards: Card[]): void {
-    const sentenceWords = this.sentence.split(' ');
-    cards.forEach((card, index) => {
-      card.positionStatus =
-        card.word === sentenceWords[index] ? PositionStatus.CORRECT : PositionStatus.WRONG;
-    });
+    const sentenceWords = this.sentence().textExample.split(' ');
+    this.result.set(
+      cards.map((card, index) => {
+        card.positionStatus =
+          card.word === sentenceWords[index] ? PositionStatus.CORRECT : PositionStatus.WRONG;
+
+        return card;
+      }),
+    );
   }
 }

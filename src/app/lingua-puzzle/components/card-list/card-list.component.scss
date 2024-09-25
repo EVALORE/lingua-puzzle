@@ -1,0 +1,96 @@
+:host {
+  display: flex;
+
+  &.completed {
+    &.first-sentence {
+      .first-word {
+        border-top-left-radius: 8px;
+      }
+
+      .last-word {
+        border-top-right-radius: 8px;
+      }
+    }
+
+    &.last-sentence {
+      .first-word {
+        border-bottom-left-radius: 8px;
+      }
+
+      .last-word {
+        border-bottom-right-radius: 8px;
+      }
+    }
+  }
+
+  &.source,
+  &.result {
+    display: flex;
+    flex-direction: row;
+    height: 35px;
+  }
+}
+
+.wrong,
+.correct {
+  border: 1px solid;
+}
+
+.wrong {
+  border-color: red;
+}
+
+.correct {
+  border-color: green;
+}
+
+.word {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  padding: 10px 0;
+  font-size: 0.8rem;
+  color: black;
+  user-select: none;
+  filter: opacity(1);
+  transition: filter 0.15s ease-in-out;
+
+  & > span {
+    display: block;
+    width: fit-content;
+    padding-inline: 3px;
+    text-align: center;
+    background-color: white;
+    border-radius: 6px;
+  }
+
+  &:hover {
+    filter: opacity(0.8);
+  }
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  box-shadow:
+    0 5px 5px -3px rgba(0 0 0 / 20%),
+    0 8px 10px 1px rgba(0 0 0 / 14%),
+    0 3px 14px 2px rgba(0 0 0 / 12%);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.source.cdk-drop-list-dragging .word:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.result.cdk-drop-list-dragging .word:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

@@ -5,11 +5,17 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  inject,
+} from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
 import { GameService } from '../../services/game.service';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 import { Card } from '../../../shared/types/card.interface';
 import {
   CdkDrag,
@@ -18,7 +24,8 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { MatIcon } from '@angular/material/icon';
+import { HintsComponent } from '../hints/hints.component';
+import { CardListComponent } from '../card-list/card-list.component';
 
 function gapCollapseAnimation(): AnimationTransitionMetadata {
   return transition(':leave', [
@@ -30,7 +37,15 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [MatCard, WordCardDirective, MatButton, CdkDrag, CdkDropList, MatIcon, MatIconButton],
+  imports: [
+    MatCard,
+    WordCardDirective,
+    MatButton,
+    CdkDrag,
+    CdkDropList,
+    HintsComponent,
+    CardListComponent,
+  ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,19 +53,22 @@ function gapCollapseAnimation(): AnimationTransitionMetadata {
 })
 export class GameComponent {
   private readonly gameService = inject(GameService);
-
-  protected showTranslation = false;
+  private readonly cdr = inject(ChangeDetectorRef);
 
   protected source = this.gameService.source;
   protected result = this.gameService.result;
   protected isWin = this.gameService.isWin;
   protected completedSentences: Card[][] = [];
-  protected translatedSentence = this.gameService.sentenceTranslation;
+  protected picture = '';
 
-  protected image = this.gameService.imageSrc;
-  protected sentenceAudio = this.gameService.sentenceAudio;
+  constructor() {
+    effect(() => {
+      this.picture = `project-data/images/${this.gameService.picture().imageSrc}`;
+    });
+  }
 
   protected startResultAutoComplete(): void {
+    this.cdr.markForCheck();
     this.gameService.sortCardsInCorrectOrder();
   }
 
@@ -86,5 +104,25 @@ export class GameComponent {
         event.currentIndex,
       );
     }
+  }
+
+  protected getCardStyles(
+    card: Card,
+    picture: string,
+    resultHeight: string,
+  ): {
+    width: string;
+    backgroundImage: string;
+    backgroundSize: string;
+    backgroundPosition: string;
+    backgroundRepeat: string;
+  } {
+    return {
+      width: card.width,
+      backgroundImage: `url(${picture})`,
+      backgroundSize: `700px ${resultHeight}`,
+      backgroundPosition: `-${String(card.xOffset)}px -${String(card.yOffset)}px`,
+      backgroundRepeat: 'no-repeat',
+    };
   }
 }

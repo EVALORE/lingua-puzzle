@@ -1,14 +1,14 @@
-export interface WordCollection {
+export interface Level {
   rounds: Round[];
   roundsCount: number;
 }
 
 export interface Round {
-  levelData: LevelData;
-  words: Word[];
+  levelData: Picture;
+  words: Sentence[];
 }
 
-export interface LevelData {
+export interface Picture {
   author: string;
   cutSrc: string;
   id: string;
@@ -17,7 +17,7 @@ export interface LevelData {
   year: string;
 }
 
-export interface Word {
+export interface Sentence {
   audioExample: string;
   id: number;
   textExample: string;

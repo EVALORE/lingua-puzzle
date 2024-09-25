@@ -2,89 +2,36 @@
 @let numberOfSentences = 10;
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 
-<div class="translation">
-  <button mat-icon-button (click)="sentenceAudio.play()">
-    <mat-icon>volume_up</mat-icon>
-  </button>
-  <button mat-icon-button (click)="showTranslation = !showTranslation">
-    <mat-icon>translate</mat-icon>
-  </button>
-  <span [class.show]="showTranslation">
-    {{ translatedSentence() }}
-  </span>
-</div>
+<app-hints />
 
 <mat-card [style]="{ height: resultHeight }">
   @for (sentence of completedSentences; track sentence) {
-    @let isFirstSentence = $index === 0;
-    @let isLastSentence = $index === numberOfSentences - 1;
-    <div class="result completed">
-      @for (card of sentence; track card) {
-        @let isFirstCard = $index === 0;
-        @let isLastCard = $index === sentence.length - 1;
-        <div
-          class="word"
-          [style]="{
-            width: card.width,
-            backgroundImage: 'url(' + image() + ')',
-            backgroundSize: '700px ' + resultHeight,
-            backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
-            backgroundRepeat: 'no-repeat',
-            borderRadius:
-              isFirstSentence && isFirstCard
-                ? '8px 0 0 0'
-                : isFirstSentence && isLastCard
-                  ? '0 8px 0 0'
-                  : isLastSentence && isLastCard
-                    ? '0 0 8px 0 '
-                    : isLastSentence && isFirstCard
-                      ? '0 0 0 8px'
-                      : '0',
-          }"
-        >
-          <span>
-            {{ card.word }}
-          </span>
-        </div>
-      }
-    </div>
+    <app-card-list
+      class="result completed"
+      [class.first-sentence]="$index === 0"
+      [class.last-sentence]="$index === numberOfSentences - 1"
+      [listType]="'completed'"
+      [cardList]="sentence"
+      [picture]="picture"
+    />
   }
-  <div
-    class="result"
+
+  <app-card-list
+    [listType]="'result'"
     cdkDropList
     #resultList="cdkDropList"
     cdkDropListOrientation="horizontal"
     [cdkDropListData]="result()"
     [cdkDropListConnectedTo]="[sourceList]"
     (cdkDropListDropped)="drop($event)"
-  >
-    @for (card of result(); track card) {
-      <mat-card
-        appWordCard
-        class="word"
-        [class.correct]="card.positionStatus === 'CORRECT'"
-        [class.wrong]="card.positionStatus === 'WRONG'"
-        [style]="{
-          width: card.width,
-          backgroundImage: 'url(' + image() + ')',
-          backgroundSize: '700px ' + resultHeight,
-          backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
-          backgroundRepeat: 'no-repeat',
-        }"
-        (click)="moveToSource($index)"
-        @filterAnimation
-        cdkDrag
-      >
-        <span>
-          {{ card.word }}
-        </span>
-      </mat-card>
-    }
-  </div>
+    [cardList]="result()"
+    [picture]="picture"
+    (onCardMove)="moveToSource($event)"
+  />
 </mat-card>
 
-<div
-  class="source"
+<app-card-list
+  [listType]="'source'"
   cdkDropList
   #sourceList="cdkDropList"
   cdkDropListOrientation="horizontal"
@@ -92,28 +39,10 @@
   [cdkDropListData]="source()"
   [cdkDropListConnectedTo]="[resultList]"
   (cdkDropListDropped)="drop($event)"
->
-  @for (card of source(); track card) {
-    <mat-card
-      appWordCard
-      class="word"
-      [style]="{
-        width: card.width,
-        backgroundImage: 'url(' + image() + ')',
-        backgroundSize: '700px ' + resultHeight,
-        backgroundPosition: '-' + card.xOffset + 'px ' + '-' + card.yOffset + 'px',
-        backgroundRepeat: 'no-repeat',
-      }"
-      (click)="moveToResult($index)"
-      @filterAnimation
-      cdkDrag
-    >
-      <span>
-        {{ card.word }}
-      </span>
-    </mat-card>
-  }
-</div>
+  [cardList]="source()"
+  [picture]="picture"
+  (onCardMove)="moveToResult($event)"
+/>
 
 @if (source().length === 0) {
   <button mat-raised-button (click)="startResultAutoComplete()">Auto Complete</button>
