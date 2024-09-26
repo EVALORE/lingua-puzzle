@@ -2,7 +2,6 @@ import { PositionStatus } from '../../shared/enums/position-status';
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { Round, Sentence } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
-import { HttpDataService } from '../../core/services/http-data.service';
 import { Card } from '../../shared/types/card.interface';
 import { CardService } from './card/card.service';
 import { RoundService } from './round/round.service';
@@ -12,14 +11,13 @@ import { RoundService } from './round/round.service';
 })
 export class GameService {
   private readonly cardService = inject(CardService);
-  private readonly httpData = inject(HttpDataService);
   private readonly roundService = inject(RoundService);
 
   public isWin = signal(false);
 
   public sentences: Sentence[] = [];
   private sentenceId = 0;
-  private currentRound = 0;
+
   private xOffsetSum = 0;
 
   public source = signal<Card[]>([]);
@@ -49,20 +47,8 @@ export class GameService {
   }
 
   public nextSentence(): void {
-    if (this.isLastSentence()) {
-      this.currentRound += 1;
-      this.httpData.getRounds().subscribe((rounds) => {
-        this.sentences = rounds[this.currentRound].words;
-        this.setSentence(this.sentences);
-      });
-      return;
-    }
     this.sentenceId = (this.sentenceId + 1) % this.sentences.length;
     this.setSentence(this.sentences);
-  }
-
-  private isLastSentence(): boolean {
-    return this.sentenceId === this.sentences.length - 1;
   }
 
   private createCardsFromSentence(sentence: string): Card[] {
