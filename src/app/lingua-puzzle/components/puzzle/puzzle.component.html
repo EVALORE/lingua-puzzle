@@ -10,7 +10,7 @@
       [class.last-sentence]="$index === numberOfSentences - 1"
       [listType]="'completed'"
       [cardList]="sentence"
-      [picture]="picture"
+      [picture]="picture()"
     />
   }
 
@@ -23,7 +23,7 @@
     [cdkDropListConnectedTo]="[sourceList]"
     (cdkDropListDropped)="drop($event)"
     [cardList]="result()"
-    [picture]="picture"
+    [picture]="picture()"
     (onCardMove)="moveToSource($event)"
   />
 </mat-card>
@@ -38,6 +38,6 @@
   [cdkDropListConnectedTo]="[resultList]"
   (cdkDropListDropped)="drop($event)"
   [cardList]="source()"
-  [picture]="picture"
+  [picture]="picture()"
   (onCardMove)="moveToResult($event)"
 />

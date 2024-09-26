@@ -1,17 +1,21 @@
 import { PositionStatus } from '../../shared/enums/position-status';
-import { inject, Injectable, signal } from '@angular/core';
-import { Picture, Round, Sentence } from '../../shared/types/http-data.interface';
+import { effect, inject, Injectable, signal } from '@angular/core';
+import { Round, Sentence } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { HttpDataService } from '../../core/services/http-data.service';
 import { Card } from '../../shared/types/card.interface';
+import { CardService } from './card/card.service';
+import { RoundService } from './round/round.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  public isWin = signal(false);
-  public dataLoaded = signal(false);
+  private readonly cardService = inject(CardService);
   private readonly httpData = inject(HttpDataService);
+  private readonly roundService = inject(RoundService);
+
+  public isWin = signal(false);
 
   public sentences: Sentence[] = [];
   private sentenceId = 0;
@@ -22,18 +26,17 @@ export class GameService {
   public result = signal<Card[]>([]);
 
   public round = signal({} as Round);
-  public sentence = signal({} as Sentence);
-  public picture = signal({} as Picture);
+  public sentence = this.roundService.sentence;
 
   constructor() {
-    this.httpData.getRounds().subscribe((rounds) => {
-      this.round.set(rounds[this.currentRound]);
-      this.sentences = this.round().words;
-      this.picture.set(this.round().levelData);
-
-      this.setSentence(this.sentences);
-      this.dataLoaded.set(true);
-    });
+    effect(
+      () => {
+        if (this.sentence().id) {
+          this.source.set(this.createCardsFromSentence(this.sentence().textExample));
+        }
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   public setSentence(sentences: Sentence[]): void {
