@@ -3,14 +3,12 @@ import { effect, inject, Injectable, signal } from '@angular/core';
 import { Round, Sentence } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { Card } from '../../shared/types/card.interface';
-import { CardService } from './card/card.service';
 import { RoundService } from './round/round.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  private readonly cardService = inject(CardService);
   private readonly roundService = inject(RoundService);
 
   public isWin = signal(false);
