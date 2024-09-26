@@ -1,28 +1,21 @@
 import { PositionStatus } from '../../shared/enums/position-status';
 import { effect, inject, Injectable, signal } from '@angular/core';
-import { Round, Sentence } from '../../shared/types/http-data.interface';
 import { shuffle } from '../../shared/utils/shuffle';
 import { Card } from '../../shared/types/card.interface';
-import { RoundService } from './round/round.service';
+import { SentenceService } from './sentence/sentence.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  private readonly roundService = inject(RoundService);
+  private readonly sentenceService = inject(SentenceService);
 
   public isWin = signal(false);
-
-  public sentences: Sentence[] = [];
-  private sentenceId = 0;
-
-  private xOffsetSum = 0;
-
   public source = signal<Card[]>([]);
   public result = signal<Card[]>([]);
+  public sentence = this.sentenceService.sentence;
 
-  public round = signal({} as Round);
-  public sentence = this.roundService.sentence;
+  private xOffsetSum = 0;
 
   constructor() {
     effect(
@@ -33,20 +26,6 @@ export class GameService {
       },
       { allowSignalWrites: true },
     );
-  }
-
-  public setSentence(sentences: Sentence[]): void {
-    this.result.set([]);
-    this.isWin.set(false);
-    this.xOffsetSum = 0;
-
-    this.sentence.set(sentences[this.sentenceId]);
-    this.source.set(this.createCardsFromSentence(this.sentence().textExample));
-  }
-
-  public nextSentence(): void {
-    this.sentenceId = (this.sentenceId + 1) % this.sentences.length;
-    this.setSentence(this.sentences);
   }
 
   private createCardsFromSentence(sentence: string): Card[] {
@@ -62,7 +41,7 @@ export class GameService {
       positionStatus: PositionStatus.PENDING,
       originalIndex: index,
       xOffset: this.xOffsetSum,
-      yOffset: this.sentenceId * 35,
+      yOffset: this.sentenceService.sentenceIndex * 35,
     };
   }
 

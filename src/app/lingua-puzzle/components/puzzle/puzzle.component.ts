@@ -40,13 +40,13 @@ export class PuzzleComponent {
   protected drop(event: CdkDragDrop<Card[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
+      return;
     }
+    transferArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex,
+    );
   }
 }

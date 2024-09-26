@@ -2,13 +2,12 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { GameService } from '../../services/game.service';
 import { MatButton } from '@angular/material/button';
 import { HintsComponent } from '../hints/hints.component';
-import { CardListComponent } from '../card-list/card-list.component';
 import { PuzzleComponent } from '../puzzle/puzzle.component';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [MatButton, HintsComponent, CardListComponent, PuzzleComponent],
+  imports: [MatButton, HintsComponent, PuzzleComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,15 +21,9 @@ export class GameComponent {
     this.gameService.sortCardsInCorrectOrder();
   }
 
-  protected nextSentence(): void {
-    this.gameService.nextSentence();
-  }
+  protected nextSentence(): void {}
 
   protected startCardsChecking(): void {
     this.gameService.checkCards();
   }
-
-  // private pushSentenceToCompleted(): void {
-  //   this.completedSentences.push(this.result());
-  // }
 }

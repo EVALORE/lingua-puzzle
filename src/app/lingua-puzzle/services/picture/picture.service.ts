@@ -1,17 +1,22 @@
-import { Injectable, signal } from '@angular/core';
-import { Picture } from '../../../shared/types/http-data.interface';
+import { Injectable, inject, signal } from '@angular/core';
+
+import { RoundService } from '../round/round.service';
+import { Picture, Level } from '../../../shared/types/http-data.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PictureService {
+  private readonly roundService = inject(RoundService);
   public readonly picture = signal({} as Picture);
 
-  public setPicture(picture: Picture): void {
-    this.picture.set(picture);
+  constructor() {
+    this.roundService.round.subscribe((round) => {
+      this.picture.set(round.levelData);
+    })
   }
 
   public get src(): string {
-    return `project-data/images/${this.picture().imageSrc}`;
+    return this.picture().imageSrc ? `project-data/images/${this.picture().imageSrc}` : '';
   }
 }
