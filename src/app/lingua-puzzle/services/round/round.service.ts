@@ -17,15 +17,17 @@ export class RoundService {
     this.httpData.getRounds().subscribe((rounds) => {
       this.rounds = rounds;
       this.roundIndex = 0;
-      this.round.next(rounds[this.roundIndex]);
+      this.setRound();
     });
   }
 
-  public setRound(): void {
+  private setRound(): void {
     this.round.next(this.rounds[this.roundIndex]);
   }
   public nextRound(): void {
-    this.roundIndex += 1;
-    this.setRound();
+    if (this.roundIndex < this.rounds.length - 1) {
+      this.roundIndex += 1;
+      this.setRound();
+    }
   }
 }

@@ -1,6 +1,7 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { RoundService } from '../round/round.service';
 import { Sentence } from '../../../shared/types/http-data.interface';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { Sentence } from '../../../shared/types/http-data.interface';
 export class SentenceService {
   private readonly roundService = inject(RoundService);
   private sentences: Sentence[] = [];
-  public sentence = signal({} as Sentence);
+  public sentence = new Subject<Sentence>();
   public sentenceIndex = 0;
 
   constructor() {
@@ -20,11 +21,13 @@ export class SentenceService {
   }
 
   public setSentence(): void {
-    this.sentence.set(this.sentences[this.sentenceIndex]);
+    this.sentence.next(this.sentences[this.sentenceIndex]);
   }
 
   public nextSentence(): void {
-    this.sentenceIndex = (this.sentenceIndex + 1) % this.sentences.length;
-    this.setSentence();
+    if (this.sentenceIndex < this.sentences.length - 1) {
+      this.sentenceIndex += 1;
+      this.setSentence();
+    }
   }
 }

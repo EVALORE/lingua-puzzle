@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CardListComponent } from '../card-list/card-list.component';
 import { MatCard } from '@angular/material/card';
 import { WordCardDirective } from '../../directives/word-card.directive';
@@ -9,9 +9,9 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { GameService } from '../../services/game.service';
 import { Card } from '../../../shared/types/card.interface';
 import { PictureService } from '../../services/picture/picture.service';
+import { PuzzleService } from '../../services/puzzle/puzzle.service';
 
 @Component({
   selector: 'app-puzzle',
@@ -22,19 +22,20 @@ import { PictureService } from '../../services/picture/picture.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PuzzleComponent {
-  private readonly gameService = inject(GameService);
+  private readonly puzzleService = inject(PuzzleService);
   private readonly pictureService = inject(PictureService);
-  protected source = this.gameService.source;
-  protected result = this.gameService.result;
-  protected completedSentences: Card[][] = [];
+
+  protected result = this.puzzleService.result;
+  protected source = this.puzzleService.source;
+  protected completedSentences = this.puzzleService.completedSentences;
   protected picture = computed(() => this.pictureService.src);
 
   protected moveToSource(wordIndex: number): void {
-    this.gameService.moveToSource(wordIndex);
+    this.puzzleService.moveToSource(wordIndex);
   }
 
   protected moveToResult(wordIndex: number): void {
-    this.gameService.moveToResult(wordIndex);
+    this.puzzleService.moveToResult(wordIndex);
   }
 
   protected drop(event: CdkDragDrop<Card[]>): void {

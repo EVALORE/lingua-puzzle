@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { GameService } from '../../services/game.service';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { HintsComponent } from '../hints/hints.component';
 import { PuzzleComponent } from '../puzzle/puzzle.component';
+import { PuzzleService } from '../../services/puzzle/puzzle.service';
 
 @Component({
   selector: 'app-game',
@@ -13,17 +13,19 @@ import { PuzzleComponent } from '../puzzle/puzzle.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameComponent {
-  private readonly gameService = inject(GameService);
-  protected isSourceEmpty = computed(() => this.gameService.source().length === 0);
-  protected isWin = this.gameService.isWin;
+  private readonly puzzleService = inject(PuzzleService);
+  protected isSourceEmpty = this.puzzleService.isSourceEmpty;
+  protected isWin = this.puzzleService.arePositionsCorrect;
 
   protected startResultAutoComplete(): void {
-    this.gameService.sortCardsInCorrectOrder();
+    this.puzzleService.sortCardsByOriginalIndex();
   }
 
-  protected nextSentence(): void {}
+  protected nextSentence(): void {
+    this.puzzleService.nextSentence()
+  }
 
-  protected startCardsChecking(): void {
-    this.gameService.checkCards();
+  protected checkResultCorrectness(): void {
+    this.puzzleService.updateCardsPositionStatus();
   }
 }
