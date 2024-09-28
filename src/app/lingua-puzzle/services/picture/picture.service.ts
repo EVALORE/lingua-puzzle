@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 
 import { RoundService } from '../round/round.service';
-import { Picture, Level } from '../../../shared/types/http-data.interface';
+import { Picture } from '../../../shared/types/http-data.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class PictureService {
   constructor() {
     this.roundService.round.subscribe((round) => {
       this.picture.set(round.levelData);
-    })
+    });
   }
 
   public get src(): string {
