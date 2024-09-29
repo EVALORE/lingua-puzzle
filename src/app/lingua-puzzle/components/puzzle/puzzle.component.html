@@ -1,0 +1,43 @@
+@let cardHeight = 35;
+@let numberOfSentences = 10;
+@let resultHeight = cardHeight * numberOfSentences + 'px';
+
+<mat-card [style]="{ height: resultHeight }">
+  @for (sentence of completedSentences; track sentence) {
+    <app-card-list
+      class="result completed"
+      [class.first-sentence]="$index === 0"
+      [class.last-sentence]="$index === numberOfSentences - 1"
+      [listType]="'completed'"
+      [cardList]="sentence"
+      [picture]="picture()"
+    />
+  }
+
+  <app-card-list
+    [listType]="'result'"
+    cdkDropList
+    #resultList="cdkDropList"
+    cdkDropListOrientation="horizontal"
+    [cdkDropListData]="result()"
+    [cdkDropListConnectedTo]="[sourceList]"
+    (cdkDropListDropped)="drop($event)"
+    [cardList]="result()"
+    [picture]="picture()"
+    (onCardMove)="moveToSource($event)"
+  />
+</mat-card>
+
+<app-card-list
+  [listType]="'source'"
+  cdkDropList
+  #sourceList="cdkDropList"
+  cdkDropListOrientation="horizontal"
+  cdkDropList
+  [cdkDropListData]="source()"
+  [cdkDropListConnectedTo]="[resultList]"
+  (cdkDropListDropped)="drop($event)"
+  [cardList]="source()"
+  [picture]="picture()"
+  (onCardMove)="moveToResult($event)"
+/>

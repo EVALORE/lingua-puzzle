@@ -43,7 +43,7 @@ export class CardListComponent {
 
   protected getCardStyles(card: Card, resultHeight: string): CardStyles {
     return {
-      width: card.width,
+      width: `${String(card.width)}px`,
       backgroundImage: `url(${this.picture()})`,
       backgroundSize: `700px ${resultHeight}`,
       backgroundPosition: `-${String(card.xOffset)}px -${String(card.yOffset)}px`,
