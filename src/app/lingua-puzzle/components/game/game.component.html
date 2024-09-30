@@ -1,5 +1,11 @@
-<app-hints />
-<app-puzzle />
+<div>
+  <mat-checkbox [(ngModel)]="enableTranslation">enable translation</mat-checkbox>
+  <mat-checkbox [(ngModel)]="enableAudio">enable audio</mat-checkbox>
+  <mat-checkbox [(ngModel)]="enablePicture">enable picture</mat-checkbox>
+</div>
+
+<app-hints [enableTranslation]="enableTranslation()" [enableAudio]="enableAudio()" />
+<app-puzzle [enablePicture]="enablePicture()" />
 
 @if (isSourceEmpty()) {
   <button mat-raised-button (click)="startResultAutoComplete()">Auto Complete</button>
