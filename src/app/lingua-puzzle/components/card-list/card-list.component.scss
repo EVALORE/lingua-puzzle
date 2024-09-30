@@ -1,5 +1,7 @@
 :host {
   display: flex;
+  flex-direction: row;
+  height: 35px;
 
   &.completed {
     &.first-sentence {
@@ -21,13 +23,6 @@
         border-bottom-right-radius: 8px;
       }
     }
-  }
-
-  &.source,
-  &.result {
-    display: flex;
-    flex-direction: row;
-    height: 35px;
   }
 }
 
