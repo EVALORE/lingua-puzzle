@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { SentenceService } from '../sentence/sentence.service';
 import { CardService } from '../card/card.service';
 import { Card } from '../../../shared/types/card.interface';
@@ -34,15 +34,22 @@ export class PuzzleService {
     this.sentenceService.nextSentence();
   }
 
-  public moveToSource(wordIndex: number): void {
+  public moveToSource(cardIndex: number): void {
     this.cardService.resetCardsPosition(this.result());
-    this.source.set([...this.source(), this.result()[wordIndex]]);
-    this.result.update((result) => result.filter((_, index) => index !== wordIndex));
+    this.swapCard(cardIndex, this.result, this.source);
   }
 
-  public moveToResult(wordIndex: number): void {
-    this.result.set([...this.result(), this.source()[wordIndex]]);
-    this.source.update((source) => source.filter((_, index) => index !== wordIndex));
+  public moveToResult(cardIndex: number): void {
+    this.swapCard(cardIndex, this.source, this.result);
+  }
+
+  private swapCard(
+    cardIndex: number,
+    source: WritableSignal<Card[]>,
+    target: WritableSignal<Card[]>,
+  ) {
+    target.update((cards) => [...cards, source()[cardIndex]]);
+    source.update((cards) => cards.filter((_, index) => index !== cardIndex));
   }
 
   public updateCardsPositionStatus(): void {
