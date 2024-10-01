@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { SentenceService } from '../../services/sentence/sentence.service';
@@ -12,10 +19,14 @@ import { SentenceService } from '../../services/sentence/sentence.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HintsComponent implements OnInit {
+  public readonly enableTranslation = input<boolean>(true);
+  public readonly enableAudio = input<boolean>(false);
+
   private readonly sentenceService = inject(SentenceService);
   protected showTranslation = false;
   protected sentenceTranslate = signal('');
   protected sentenceAudio = new Audio();
+
   public ngOnInit(): void {
     this.sentenceService.sentence.subscribe((sentence) => {
       this.sentenceAudio.src = `project-data/${sentence.audioExample}`;
