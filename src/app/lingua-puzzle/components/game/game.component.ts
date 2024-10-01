@@ -62,10 +62,7 @@ export class GameComponent implements OnInit {
       audio: true,
     };
 
-    return this.localStorage.getItem<hintsSettingStorage>(
-      'hintsSetting',
-      defaultSettings,
-    ) as hintsSettingStorage;
+    return this.localStorage.getItem('hintsSetting') || defaultSettings;
   }
 
   public ngOnInit(): void {
