@@ -28,6 +28,8 @@ export class SentenceService {
     if (this.sentenceIndex < this.sentences.length - 1) {
       this.sentenceIndex += 1;
       this.setSentence();
+      return;
     }
+    this.roundService.nextRound();
   }
 }

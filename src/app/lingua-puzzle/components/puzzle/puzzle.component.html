@@ -3,7 +3,7 @@
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 
 <mat-card [style]="{ height: resultHeight }">
-  @for (sentence of completedSentences; track sentence) {
+  @for (sentence of completedSentences(); track sentence) {
     <app-card-list
       class="result completed"
       [class.first-sentence]="$index === 0"

@@ -3,17 +3,19 @@ import { SentenceService } from '../sentence/sentence.service';
 import { CardService } from '../card/card.service';
 import { Card } from '../../../shared/types/card.interface';
 import { PositionStatus } from '../../../shared/enums/position-status';
+import { RoundService } from '../round/round.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PuzzleService {
   private readonly sentenceService = inject(SentenceService);
+  private readonly roundService = inject(RoundService);
   private readonly cardService = inject(CardService);
 
   public source = signal<Card[]>([]);
   public result = signal<Card[]>([]);
-  public completedSentences: Card[][] = [];
+  public completedSentences = signal<Card[][]>([]);
 
   public isSourceEmpty = computed(() => this.source().length === 0);
   public readonly arePositionsCorrect = computed(() =>
@@ -21,6 +23,10 @@ export class PuzzleService {
   );
 
   constructor() {
+    this.roundService.round.subscribe(() => {
+      this.completedSentences.set([]);
+    });
+
     this.sentenceService.sentence.subscribe((sentence) => {
       const { sentenceIndex } = this.sentenceService;
       const words = sentence.textExample.split(' ');
@@ -29,7 +35,7 @@ export class PuzzleService {
   }
 
   public nextSentence(): void {
-    this.completedSentences.push(this.result());
+    this.completedSentences.update((sentences) => [...sentences, this.result()]);
     this.result.set([]);
     this.sentenceService.nextSentence();
   }
