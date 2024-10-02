@@ -1,10 +1,22 @@
 import { Injectable, signal } from '@angular/core';
 
+enum CompletionStatus {
+  COMPLETED = 'completed',
+  PENDING = 'pending',
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class LevelService {
-  public levels = [1, 2, 3, 4, 5, 6];
+  public levels: { level: number; status: CompletionStatus }[] = [
+    { level: 1, status: CompletionStatus.PENDING },
+    { level: 2, status: CompletionStatus.PENDING },
+    { level: 3, status: CompletionStatus.PENDING },
+    { level: 4, status: CompletionStatus.PENDING },
+    { level: 5, status: CompletionStatus.PENDING },
+    { level: 6, status: CompletionStatus.PENDING },
+  ];
 
   public currentLevel = signal(1);
 

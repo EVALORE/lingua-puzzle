@@ -2,7 +2,13 @@
   <mat-label>Level</mat-label>
   <mat-select [(value)]="levelIndex" (valueChange)="changeLevel()">
     @for (level of levels; track $index) {
-      <mat-option [value]="level">{{ level }}</mat-option>
+      <mat-option
+        [value]="$index + 1"
+        [style.border-bottom]="'3px solid'"
+        [style.border-bottom-color]="level.status === 'completed' ? 'green' : 'gray'"
+      >
+        {{ $index + 1 }}
+      </mat-option>
     }
   </mat-select>
 </mat-form-field>
@@ -12,7 +18,13 @@
     <mat-label>Round</mat-label>
     <mat-select [(value)]="roundIndex" (valueChange)="changeRound()">
       @for (round of rounds; track $index) {
-        <mat-option [value]="$index">{{ $index + 1 }}</mat-option>
+        <mat-option
+          [value]="$index"
+          [style.border-bottom]="'3px solid'"
+          [style.border-bottom-color]="round.status === 'completed' ? 'green' : 'gray'"
+        >
+          {{ $index + 1 }}
+        </mat-option>
       }
     </mat-select>
   </mat-form-field>
