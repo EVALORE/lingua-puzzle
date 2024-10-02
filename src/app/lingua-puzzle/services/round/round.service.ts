@@ -16,18 +16,17 @@ export class RoundService {
   constructor() {
     this.httpData.getRounds().subscribe((rounds) => {
       this.rounds = rounds;
-      this.roundIndex = 0;
-      this.setRound();
+      this.setRound(0);
     });
   }
 
-  private setRound(): void {
-    this.round.next(this.rounds[this.roundIndex]);
+  public setRound(roundIndex: number): void {
+    this.roundIndex = roundIndex;
+    this.round.next(this.rounds[roundIndex]);
   }
   public nextRound(): void {
     if (this.roundIndex < this.rounds.length - 1) {
-      this.roundIndex += 1;
-      this.setRound();
+      this.setRound(this.roundIndex + 1);
     }
   }
 }

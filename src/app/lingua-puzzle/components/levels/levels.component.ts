@@ -36,4 +36,8 @@ export class LevelsComponent {
       this.cdr.detectChanges();
     });
   }
+
+  protected changeRound(): void {
+    this.roundService.setRound(this.roundIndex);
+  }
 }
