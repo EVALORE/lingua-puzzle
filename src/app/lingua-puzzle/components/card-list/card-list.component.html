@@ -3,7 +3,7 @@
 @let resultHeight = cardHeight * numberOfSentences + 'px';
 
 @if (listType() === 'result') {
-  @for (card of cardList(); track card) {
+  @for (card of cardList(); track card.originalIndex) {
     <mat-card
       appWordCard
       class="word"
@@ -22,7 +22,7 @@
 }
 
 @if (listType() === 'source') {
-  @for (card of cardList(); track card) {
+  @for (card of cardList(); track card.originalIndex) {
     <mat-card
       appWordCard
       class="word"
@@ -39,7 +39,7 @@
 }
 
 @if (listType() === 'completed') {
-  @for (card of cardList(); track card) {
+  @for (card of cardList(); track card.originalIndex) {
     <div
       class="word"
       [class.first-word]="$index === 0"
