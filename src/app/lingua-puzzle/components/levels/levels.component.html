@@ -1,8 +1,19 @@
 <mat-form-field>
   <mat-label>Level</mat-label>
-  <mat-select [(value)]="currentLevel">
+  <mat-select [(value)]="levelIndex">
     @for (level of levels; track $index) {
       <mat-option [value]="level">{{ level }}</mat-option>
     }
   </mat-select>
 </mat-form-field>
+
+@if (rounds.length > 1) {
+  <mat-form-field>
+    <mat-label>Round</mat-label>
+    <mat-select [(value)]="roundIndex">
+      @for (round of rounds; track $index) {
+        <mat-option [value]="$index">{{ $index + 1 }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+}
