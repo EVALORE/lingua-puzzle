@@ -1,22 +1,27 @@
-import { inject, Injectable } from '@angular/core';
+import { effect, inject, Injectable } from '@angular/core';
 import { Round } from '../../../shared/types/http-data.interface';
 import { HttpDataService } from '../../../core/services/http-data.service';
 import { Subject } from 'rxjs';
+import { LevelService } from '../level/level.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoundService {
   private readonly httpData = inject(HttpDataService);
+  private readonly levelService = inject(LevelService);
 
   public rounds: Round[] = [];
   public round = new Subject<Round>();
   public roundIndex = 0;
 
   constructor() {
-    this.httpData.getRounds().subscribe((rounds) => {
-      this.rounds = rounds;
-      this.setRound(0);
+    effect(() => {
+      this.levelService.currentLevel();
+      this.httpData.getRounds().subscribe((rounds) => {
+        this.rounds = rounds;
+        this.setRound(0);
+      });
     });
   }
 

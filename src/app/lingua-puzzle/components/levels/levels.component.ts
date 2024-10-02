@@ -37,6 +37,12 @@ export class LevelsComponent {
     });
   }
 
+  public changeLevel(): void {
+    this.levelService.setLevel(this.levelIndex());
+    this.roundIndex = 0;
+    this.changeRound();
+  }
+
   protected changeRound(): void {
     this.roundService.setRound(this.roundIndex);
   }

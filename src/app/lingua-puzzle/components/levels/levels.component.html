@@ -1,6 +1,6 @@
 <mat-form-field>
   <mat-label>Level</mat-label>
-  <mat-select [(value)]="levelIndex">
+  <mat-select [(value)]="levelIndex" (valueChange)="changeLevel()">
     @for (level of levels; track $index) {
       <mat-option [value]="level">{{ level }}</mat-option>
     }
