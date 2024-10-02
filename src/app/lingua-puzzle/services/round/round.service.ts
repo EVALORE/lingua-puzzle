@@ -38,6 +38,10 @@ export class RoundService {
     this.roundIndex = roundIndex;
     this.round.next(this.rounds[roundIndex].round);
 
+    this.checkIfAllRoundsCompleted();
+  }
+
+  private checkIfAllRoundsCompleted(): void {
     const isLevelCompleted = this.rounds.every(
       ({ status }) => status === CompletionStatus.COMPLETED,
     );
