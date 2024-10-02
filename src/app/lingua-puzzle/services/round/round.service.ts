@@ -36,7 +36,6 @@ export class RoundService {
 
   public setRound(roundIndex: number): void {
     this.roundIndex = roundIndex;
-    this.rounds[this.roundIndex].status = CompletionStatus.COMPLETED;
     this.round.next(this.rounds[roundIndex].round);
 
     const isLevelCompleted = this.rounds.every(
@@ -49,6 +48,7 @@ export class RoundService {
   }
 
   public nextRound(): void {
+    this.rounds[this.roundIndex].status = CompletionStatus.COMPLETED;
     if (this.roundIndex < this.rounds.length - 1) {
       this.setRound(this.roundIndex + 1);
     }
