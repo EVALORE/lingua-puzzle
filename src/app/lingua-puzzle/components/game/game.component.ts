@@ -6,6 +6,7 @@ import { PuzzleService } from '../../services/puzzle/puzzle.service';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { LocalStorageService } from '../../../core/storage/services/local-storage/local-storage.service';
+import { LevelsComponent } from '../levels/levels.component';
 
 interface hintsSettingStorage {
   translation: boolean;
@@ -16,7 +17,7 @@ interface hintsSettingStorage {
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [MatButton, HintsComponent, PuzzleComponent, MatCheckbox, FormsModule],
+  imports: [MatButton, HintsComponent, PuzzleComponent, MatCheckbox, FormsModule, LevelsComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
