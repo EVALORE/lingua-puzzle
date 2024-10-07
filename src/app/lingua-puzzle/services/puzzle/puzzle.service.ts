@@ -5,9 +5,7 @@ import { Card } from '../../../shared/types/card.interface';
 import { PositionStatus } from '../../../shared/enums/position-status';
 import { RoundService } from '../round/round.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class PuzzleService {
   private readonly sentenceService = inject(SentenceService);
   private readonly roundService = inject(RoundService);
