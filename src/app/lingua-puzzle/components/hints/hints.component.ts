@@ -29,7 +29,7 @@ export class HintsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.sentenceService.sentence.subscribe((sentence) => {
-      this.sentenceAudio.src = `project-data/${sentence.audioExample}`;
+      this.sentenceAudio.src = `https://evalore.github.io/rss-puzzle-data/${sentence.audioExample}`;
       this.sentenceTranslate.set(sentence.textExampleTranslate);
     });
   }

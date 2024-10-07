@@ -40,6 +40,6 @@ export class LevelService {
   }
 
   public get levelUrl(): string {
-    return `project-data/data/wordCollectionLevel${String(this.currentLevel())}.json`;
+    return `https://evalore.github.io/rss-puzzle-data/data/wordCollectionLevel${String(this.currentLevel())}.json`;
   }
 }

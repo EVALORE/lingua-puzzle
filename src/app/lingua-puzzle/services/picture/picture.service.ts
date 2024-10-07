@@ -17,6 +17,8 @@ export class PictureService {
   }
 
   public get src(): string {
-    return this.picture().imageSrc ? `project-data/images/${this.picture().imageSrc}` : '';
+    return this.picture().imageSrc
+      ? `https://evalore.github.io/rss-puzzle-data/images/${this.picture().imageSrc}`
+      : '';
   }
 }
