@@ -19,6 +19,7 @@ import { PuzzleService } from '../../services/puzzle/puzzle.service';
   imports: [MatCard, WordCardDirective, CdkDrag, CdkDropList, CardListComponent],
   templateUrl: './puzzle.component.html',
   styleUrl: './puzzle.component.scss',
+  providers: [PuzzleService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PuzzleComponent {
