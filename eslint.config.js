@@ -2,7 +2,8 @@
 import eslint from '@eslint/js';
 import tsEslint from 'typescript-eslint';
 import angular from 'angular-eslint';
-import { eslintRules } from './eslint-rules/eslint.rules.js';
+
+import esConfigs from './eslint-rules/javascript-rules';
 
 export default tsEslint.config(
   {
@@ -22,31 +23,8 @@ export default tsEslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    ...esConfigs,
     rules: {
-      ...eslintRules,
-      '@typescript-eslint/member-ordering': [
-        'error',
-        { default: ['field', 'constructor', 'method'] },
-      ],
-      // enable 'ignoreStatic' option to validate use of Validator api
-      '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
-      // enable 'allowsWithDecorator' option to validate empty classes with Angular decorators
-      '@typescript-eslint/no-extraneous-class': ['error', { allowWithDecorator: true }],
-      // modified to allow void as statement for not awaited promises
-      'no-void': ['error', { allowAsStatement: true }],
-      'prefer-destructuring': [
-        'error',
-        {
-          VariableDeclarator: {
-            array: true,
-            object: true,
-          },
-          AssignmentExpression: {
-            array: true,
-            object: true,
-          },
-        },
-      ],
       '@angular-eslint/prefer-standalone': ['error'],
       '@angular-eslint/prefer-on-push-component-change-detection': ['error'],
       '@angular-eslint/directive-selector': [

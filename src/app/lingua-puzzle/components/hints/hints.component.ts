@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { SentenceService } from '../../services/sentence/sentence.service';
@@ -29,7 +22,6 @@ export class HintsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.sentenceService.sentence.subscribe((sentence) => {
-      this.sentenceAudio.src = `https://evalore.github.io/rss-puzzle-data/${sentence.audioExample}`;
       this.sentenceTranslate.set(sentence.textExampleTranslate);
     });
   }

@@ -7,7 +7,6 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class SentenceService {
-  private readonly roundService = inject(RoundService);
   private sentences: Sentence[] = [];
   public sentence = new Subject<Sentence>();
   public sentenceIndex = 0;

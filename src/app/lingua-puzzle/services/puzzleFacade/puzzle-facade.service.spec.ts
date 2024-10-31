@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LocalStorageService } from './local-storage.service';
+import { PuzzleFacadeService } from './puzzle-facade.service';
 
-describe('LocalStorageService', () => {
-  let service: LocalStorageService;
+describe('PuzzleFacadeService', () => {
+  let service: PuzzleFacadeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LocalStorageService);
+    service = TestBed.inject(PuzzleFacadeService);
   });
 
   it('should be created', () => {

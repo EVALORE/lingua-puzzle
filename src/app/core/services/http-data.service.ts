@@ -1,11 +1,12 @@
-import { Level } from '../../shared/types/http-data.interface';
+import { LevelResponse } from '../../shared/types/http-data.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { apiPath } from '../../lingua-puzzle/api-path.const';
 
-const baseLevelUrl = 'https://evalore.github.io/rss-puzzle-data/data/wordCollectionLevel';
-const baseImageUrl = 'https://evalore.github.io/rss-puzzle-data/images';
-const baseAudioUrl = 'https://evalore.github.io/rss-puzzle-data';
+export interface ImagesQuality {
+  highQuality: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -13,27 +14,9 @@ const baseAudioUrl = 'https://evalore.github.io/rss-puzzle-data';
 export class HttpDataService {
   private readonly httpClient = inject(HttpClient);
 
-  public getLevel(levelNumber: number): Observable<Level> {
-    return this.httpClient.get<Level>(this.getLevelUrl(levelNumber));
-  }
-
-  public getImage(imagePath: string): string {
-    return this.getImageUrl(imagePath);
-  }
-
-  public getAudio(audioPath: string): string {
-    return this.getAudioUrl(audioPath);
-  }
-
-  private getLevelUrl(levelNumber: number): string {
-    return `${baseLevelUrl}/${String(levelNumber)}.json`;
-  }
-
-  private getImageUrl(imagePath: string): string {
-    return `${baseImageUrl}/${imagePath}`;
-  }
-
-  private getAudioUrl(audioPath: string): string {
-    return `${baseAudioUrl}/${audioPath}`;
+  public getLevelData(levelNumber: number): Observable<LevelResponse> {
+    return this.httpClient.get<LevelResponse>(
+      `${apiPath}/data/wordCollectionLevel${String(levelNumber)}.json`,
+    );
   }
 }

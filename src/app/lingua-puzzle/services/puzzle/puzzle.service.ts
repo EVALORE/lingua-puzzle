@@ -10,7 +10,6 @@ import { RoundService } from '../round/round.service';
 })
 export class PuzzleService {
   private readonly sentenceService = inject(SentenceService);
-  private readonly roundService = inject(RoundService);
   private readonly cardService = inject(CardService);
 
   public source = signal<Card[]>([]);
@@ -23,9 +22,6 @@ export class PuzzleService {
   );
 
   constructor() {
-    this.roundService.round.subscribe(() => {
-      this.completedSentences.set([]);
-    });
 
     this.sentenceService.sentence.subscribe((sentence) => {
       const { sentenceIndex } = this.sentenceService;

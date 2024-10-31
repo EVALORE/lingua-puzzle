@@ -1,14 +1,14 @@
-export interface Level {
+export interface LevelResponse {
   rounds: Round[];
   roundsCount: number;
 }
 
 export interface Round {
-  levelData: Picture;
+  levelData: LevelData;
   words: Sentence[];
 }
 
-export interface Picture {
+export interface LevelData {
   author: string;
   cutSrc: string;
   id: string;

@@ -1,49 +1,38 @@
-import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root',
-})
-export abstract class StorageService implements Storage {
-  protected constructor(
-    private readonly api: Storage,
-    private readonly prefix: string,
+export abstract class StorageService<T extends object> {
+  constructor(
+    private readonly storage: Storage,
+    private readonly prefix?: string,
   ) {}
 
   public get length(): number {
-    return this.api.length;
+    return this.storage.length;
   }
 
-  public key(index: number): string | null {
-    return this.api.key(index);
+  public getItem<K extends keyof T>(key: K): T[K] | null;
+  public getItem<K extends keyof T>(key: K, defaultValue: T[K]): T[K];
+  public getItem<K extends keyof T>(key: K, defaultValue?: T[K]): T[K] | null {
+    const savedValue = this.storage.getItem(this.createKey(key));
+    return savedValue === null ? (defaultValue ?? null) : (JSON.parse(savedValue) as T[K]);
+  }
+
+  public setItem<K extends keyof T>(key: K, item: T[K]): void {
+    this.storage.setItem(this.createKey(key), JSON.stringify(item));
+  }
+
+  public removeItem(key: keyof T): void {
+    this.storage.removeItem(key.toString());
   }
 
   public clear(): void {
-    this.api.clear();
+    this.storage.clear();
   }
 
-  public removeItem(key: string): void {
-    this.api.removeItem(this.prefixKey(key));
+  public key(index: number): string | null {
+    return this.storage.key(index);
   }
 
-  public setItem(key: string, value: unknown): void {
-    this.api.setItem(this.prefixKey(key), JSON.stringify(value));
-  }
-
-  public getItem<T>(key: string, otherwise?: T): T | null {
-    const item: string | null = this.api.getItem(this.prefixKey(key));
-
-    if (item !== null) {
-      return JSON.parse(item) as T;
-    }
-
-    if (otherwise) {
-      return otherwise;
-    }
-
-    return null;
-  }
-
-  private prefixKey(key: string): string {
-    return this.prefix ? `${this.prefix}.${key}` : key;
+  private createKey(key: keyof T): string {
+    const prefix = this.prefix ? `${this.prefix}-` : '';
+    return `${prefix}-${key.toString()}`;
   }
 }
