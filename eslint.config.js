@@ -55,10 +55,26 @@ const jsConfigChanges = {
   },
 };
 
+/** @type {import('typescript-eslint').ConfigWithExtends} */
+const tsConfigChanges = {
+  files: ['**/*.{js,ts}'],
+  languageOptions: {
+    parser: tseslint.parser,
+    parserOptions: {
+      project: true,
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+  rules: {
+    '@typescript-eslint/no-extraneous-class': ['error', { allowWithDecorator: true }],
+  },
+};
+
 export default tseslint.config(
   configs.js,
   jsConfigChanges,
   configs.ts,
+  tsConfigChanges,
   angularTsConfig,
   angularTemplateConfig,
 );
