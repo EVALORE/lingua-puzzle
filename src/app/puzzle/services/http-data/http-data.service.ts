@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { LevelResponse } from '../../shared/types/http-data';
+import { LevelResponse } from '../../types/http-data';
 import { Observable } from 'rxjs';
 
 function levelFilename(levelIndex: number): string {
