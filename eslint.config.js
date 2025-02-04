@@ -53,6 +53,7 @@ const jsConfigChanges = {
   rules: {
     'init-declarations': 'off',
     'class-methods-use-this': 'off',
+    'no-magic-numbers': ['error', { enforceConst: true, ignoreClassFieldInitialValues: true }],
   },
 };
 
@@ -65,6 +66,9 @@ const tsConfigChanges = {
       project: true,
       tsconfigRootDir: import.meta.dirname,
     },
+  },
+  plugins: {
+    '@typescript-eslint': tseslint.plugin,
   },
   rules: {
     '@typescript-eslint/no-extraneous-class': ['error', { allowWithDecorator: true }],

@@ -20,7 +20,7 @@ export class StorageService<T extends object> {
 
   public removeItem(key: string): void {
     this.storage.removeItem(key);
-  }
+  } 
 
   public clear(): void {
     this.storage.clear();

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
-const DEFAULT_LEVEL = 1;
-const TOTAL_LEVELS = 5;
+import { DEFAULT_LEVEL, TOTAL_LEVELS } from '../../consts/level-info.const';
 
 @Injectable()
 export class LevelService {
@@ -10,9 +8,12 @@ export class LevelService {
   public readonly levelNumber$ = this.levelNumber$$.asObservable();
 
   public setLevel(levelNumber = DEFAULT_LEVEL): void {
-    if (levelNumber < DEFAULT_LEVEL || levelNumber > TOTAL_LEVELS) {
-      return;
+    if (this.isValidLevelNumber(levelNumber)) {
+      this.levelNumber$$.next(levelNumber);
     }
-    this.levelNumber$$.next(levelNumber);
+  }
+
+  private isValidLevelNumber(levelNumber: number): boolean {
+    return levelNumber >= DEFAULT_LEVEL && levelNumber <= TOTAL_LEVELS;
   }
 }
