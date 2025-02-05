@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { cardHeight, puzzleWidth } from '../../consts/ui-layout.const';
@@ -26,8 +26,17 @@ interface BoardStyles {
 })
 export class GameComponent {
   private readonly gameService = inject(GameService);
+
+  public round = input.required<string>();
+
   protected readonly source$ = this.gameService.source$;
   protected readonly result$ = this.gameService.result$;
+
+  constructor() {
+    effect(() => {
+      this.gameService.setSource(this.round());
+    });
+  }
 
   protected getBoardStyles(): BoardStyles {
     return {
