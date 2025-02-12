@@ -1,0 +1,21 @@
+@if (list().type === 'completed') {
+  @for (card of list().cards; track card.originalIndex) {
+    <div
+      [style]="getCardStyles(card)"
+      [class]="getCardClassNames(card)"
+    >
+      {{ card.word }}
+    </div>
+  }
+}
+@if (list().type !== 'completed') {
+  @for (card of list().cards; track card.originalIndex) {
+    <mat-card
+      [style]="getCardStyles(card)"
+      [class]="getCardClassNames(card)"
+      (click)="cardClick.emit($index)"
+    >
+      {{ card.word }}
+    </mat-card>
+  }
+}
