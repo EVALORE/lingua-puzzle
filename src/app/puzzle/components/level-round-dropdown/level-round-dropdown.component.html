@@ -4,21 +4,21 @@
     [formControl]="level"
     (selectionChange)="onLevelChange()"
   >
-    @for (level of levels(); track $index) {
-      <mat-option [value]="$index + 1">{{ $index + 1 }}</mat-option>
+    @for (level of createOptions(levelsCount().count); track $index) {
+      <mat-option [value]="level + 1">{{ level + 1 }}</mat-option>
     }
   </mat-select>
 </mat-form-field>
 
-@if (rounds()) {
+@if (roundsCount()) {
   <mat-form-field>
-    <mat-label>Level</mat-label>
+    <mat-label>Round</mat-label>
     <mat-select
-      [formControl]="level"
+      [formControl]="round"
       (selectionChange)="onRoundChange()"
     >
-      @for (round of rounds(); track $index) {
-        <mat-option [value]="$index + 1"> {{ $index + 1 }}</mat-option>
+      @for (round of createOptions(roundsCount().count); track $index) {
+        <mat-option [value]="round"> {{ round + 1 }}</mat-option>
       }
     </mat-select>
   </mat-form-field>

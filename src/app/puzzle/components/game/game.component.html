@@ -1,31 +1,32 @@
+<app-hints [hintsToShow]="hintsToShow()" />
+
 <mat-card [style]="getBoardStyles()">
-  <div class="result">
-    @for (card of result$ | async; track card.originalIndex) {
-      <mat-card
-        class="card"
-        [style]="getCardStyles(card)"
-        [class.correct]="card.positionStatus === 'CORRECT'"
-        [class.wrong]="card.positionStatus === 'WRONG'"
-        (click)="moveToSource($index)"
-      >
-        <mat-card-content>
-          {{ card.word }}
-        </mat-card-content>
-      </mat-card>
-    }
-  </div>
+  @for (completed of completedSentences; track $index) {
+    <app-card-list
+      [list]="{ type: 'completed', cards: completed }"
+      (cardClick)="moveToSource($event)"
+    />
+  }
+  @if (result()) {
+    <app-card-list
+      [list]="{ type: 'result', cards: result() }"
+      (cardClick)="moveToSource($event)"
+    />
+  }
 </mat-card>
 
-<div class="source">
-  @for (card of source$ | async; track card.originalIndex) {
-    <mat-card
-      class="card"
-      (click)="moveToResult($index)"
-      [style]="getCardStyles(card)"
-    >
-      <mat-card-content>
-        {{ card.word }}
-      </mat-card-content>
-    </mat-card>
-  }
-</div>
+@if (source()) {
+  <app-card-list
+    [list]="{ type: 'source', cards: source() }"
+    (cardClick)="moveToResult($event)"
+  />
+}
+
+@if (isSourceEmpty()) {
+  <button
+    mat-raised-button
+    (click)="isResultCorrect() ? handleNextStep() : checkCards()"
+  >
+    {{ isResultCorrect() ? 'continue' : 'check' }}
+  </button>
+}
