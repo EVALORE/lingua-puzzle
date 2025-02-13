@@ -1,12 +1,16 @@
+@let l = levels();
+@let r = rounds();
+
 <app-level-round-dropdown
-  [levelsCount]="levels()"
-  [roundsCount]="rounds()"
-  (roundChange)="onRoundChange($event)"
-  (levelChange)="onLevelChange($event)"
+  [levels]="l.current"
+  [rounds]="r.current"
+  (levelsChange)="levelChange($event)"
+  (roundsChange)="roundChange($event)"
+  [levelsCount]="l.count"
+  [roundsCount]="r.count"
 />
 
-@let round = round$ | async;
-@if (round) {
+@if (round$ | async; as round) {
   <app-game
     [sentences]="round.words"
     (puzzleSolved)="nextRound()"
