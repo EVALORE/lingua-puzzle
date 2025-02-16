@@ -24,14 +24,14 @@ export class CardService {
     return cards.sort((a, b) => a.originalIndex - b.originalIndex);
   }
 
-  public resetCardsPositionStatus(cards: Card[]): Card[] {
-    return cards.map((card) => ({ ...card, positionStatus: PositionStatus.PENDING }));
-  }
-
   public updateCardsPositionStatus(cards: Card[]): Card[] {
     return cards.map((card, index) => ({
       ...card,
       positionStatus: index === card.originalIndex ? PositionStatus.CORRECT : PositionStatus.WRONG,
     }));
+  }
+
+  public resetCardsPositionStatus(cards: Card[]): Card[] {
+    return cards.map((card) => ({ ...card, positionStatus: PositionStatus.PENDING }));
   }
 }

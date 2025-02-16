@@ -43,18 +43,16 @@ export class CardListComponent {
 
   protected getCardClassNames(card: Card, index?: number): CardClassNames {
     const list = this.list();
-    if (list.type === 'completed') {
-      return {
-        card: true,
-        'first-word': !index,
-        'last-word': index === list.cards.length - 1,
-      };
-    }
-
-    return {
-      card: true,
-      wrong: card.positionStatus === PositionStatus.WRONG,
-      correct: card.positionStatus === PositionStatus.CORRECT,
-    };
+    return list.type === 'completed'
+      ? {
+          card: true,
+          'first-word': !index,
+          'last-word': index === list.cards.length - 1,
+        }
+      : {
+          card: true,
+          wrong: card.positionStatus === PositionStatus.WRONG,
+          correct: card.positionStatus === PositionStatus.CORRECT,
+        };
   }
 }

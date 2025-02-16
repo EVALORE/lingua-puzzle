@@ -7,22 +7,28 @@
       (cardClick)="moveToSource($event)"
     />
   }
-  @if (result()) {
+  @if (result(); as result) {
     <app-card-list
-      [list]="{ type: 'result', cards: result() }"
+      [list]="{ type: 'result', cards: result }"
       (cardClick)="moveToSource($event)"
     />
   }
 </mat-card>
 
-@if (source()) {
+@if (source(); as source) {
   <app-card-list
-    [list]="{ type: 'source', cards: source() }"
+    [list]="{ type: 'source', cards: source }"
     (cardClick)="moveToResult($event)"
   />
 }
 
 @if (isSourceEmpty()) {
+  <button
+    mat-raised-button
+    (click)="autoCompleteSentence()"
+  >
+    auto complete
+  </button>
   <button
     mat-raised-button
     (click)="isResultCorrect() ? handleNextStep() : checkCards()"

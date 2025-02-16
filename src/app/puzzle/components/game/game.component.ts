@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
   input,
   output,
@@ -19,6 +18,9 @@ import { CardListComponent } from '../card-list/card-list.component';
 import { PositionStatus } from '../../enums/position-status';
 import { HintsComponent } from '../hints/hints.component';
 import { HttpDataService } from '../../services/http-data/http-data.service';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
+import { shuffle } from '../../utils/shuffle';
 
 interface BoardStyles {
   width: string;
@@ -38,8 +40,9 @@ export class GameComponent {
   private readonly httpDataService = inject(HttpDataService);
 
   public sentences = input.required<Sentence[]>();
+  protected puzzleSolved = output();
 
-  public readonly sentence = computed(() => {
+  private readonly sentence = computed(() => {
     const sentenceIndex = this.gameService.sentenceIndex();
     const sentences = this.sentences();
 
@@ -59,22 +62,22 @@ export class GameComponent {
     () => this.gameService.sentenceIndex() === this.numberOfSentences() - 1,
   );
 
-  protected puzzleSolved = output();
+  private newPuzzle$ = toObservable(this.sentences).pipe(
+    takeUntilDestroyed(),
+    tap(() => {
+      this.setSource();
+      this.gameService.sentenceIndex.set(0);
+    }),
+  );
 
   constructor() {
-    effect(() => {
-      this.setSource();
-    });
-
-    effect(() => {
-      this.sentences();
-      this.gameService.sentenceIndex.set(0);
-    });
+    this.newPuzzle$.subscribe();
   }
 
   public setSource(): void {
     const { textExample } = this.sentence();
-    this.source.set(this.cardService.createCardsFromSentence(textExample));
+    const cards = this.cardService.createCardsFromSentence(textExample);
+    this.source.set(shuffle(cards));
   }
 
   protected hintsToShow(): { audio?: string; translation?: string } {
@@ -87,7 +90,7 @@ export class GameComponent {
   }
 
   protected checkCards(): void {
-    this.result.update(this.cardService.updateCardsPositionStatus.bind(this));
+    this.result.update((cards) => this.cardService.updateCardsPositionStatus(cards));
   }
 
   protected handleNextStep(): void {
@@ -104,11 +107,8 @@ export class GameComponent {
 
   private nextSentence(): void {
     const nextSentenceIndex = this.gameService.sentenceIndex() + 1;
-
-    if (nextSentenceIndex < this.sentences().length) {
-      this.gameService.setSentenceIndex(nextSentenceIndex);
-      this.setSource();
-    }
+    this.gameService.setSentenceIndex(nextSentenceIndex);
+    this.setSource();
   }
 
   protected finalizeResult(): void {
@@ -138,5 +138,10 @@ export class GameComponent {
       width: puzzleWidth.px,
       height: `${String(cardHeight.number * this.numberOfSentences())}px`,
     };
+  }
+
+  protected autoCompleteSentence(): void {
+    this.result.update(this.cardService.sortCardsByOriginalIndex.bind(this));
+    this.checkCards();
   }
 }

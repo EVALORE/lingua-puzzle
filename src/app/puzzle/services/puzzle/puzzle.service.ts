@@ -20,6 +20,7 @@ export class PuzzleService {
       this.httpDataService.getLevel(levelNumber).pipe(
         tap((level) => {
           this.roundsCount$.next(level.roundsCount);
+          this.roundIndex$.next(DEFAULT_ROUND_INDEX);
         }),
         map((level) => level.rounds),
       ),
