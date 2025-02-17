@@ -1,12 +1,13 @@
-<app-level-round-dropdown
-  [currentRound]="levelCurrent()"
-  [currentLevel]="roundCurrent()"
-  (currentRoundChange)="levelChange($event)"
-  (currentLevelChange)="roundChange($event)"
-  [totalLevels]="totalLevels"
-  [totalRounds]="totalRounds()"
-/>
-
+@if (levelRoundData$ | async; as data) {
+  <app-level-round-dropdown
+    [currentRound]="data.round"
+    [currentLevel]="data.level"
+    (currentRoundChange)="roundChange($event)"
+    (currentLevelChange)="levelChange($event)"
+    [totalLevels]="data.levelCount"
+    [totalRounds]="data.roundsCount"
+  />
+}
 @if (round$ | async; as round) {
   <app-game
     [sentences]="round.words"

@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 interface HintsToShow {
   audio?: string;
@@ -14,16 +15,29 @@ interface HintsToShow {
   styleUrl: './hints.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HintsComponent implements OnInit {
-  public hintsToShow = input.required<HintsToShow>();
-  protected showTranslation = false;
+export class HintsComponent {
+  public hints = input.required<HintsToShow>();
   public audio = new Audio();
+  protected showTranslation = false;
 
-  public setAudioSrc(src?: string): void {
-    this.audio.src = src ?? '';
+  constructor() {
+    toObservable(this.hints)
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        this.setAudioSrc(value.audio);
+      });
   }
 
-  public ngOnInit(): void {
-    this.setAudioSrc(this.hintsToShow().audio);
+  protected toggleTranslation(): void {
+    this.showTranslation = !this.showTranslation;
+  }
+
+  public setAudioSrc(src?: string): void {
+    if (!src) {
+      return;
+    }
+    this.audio.pause();
+    this.audio = new Audio(src);
+    this.audio.load();
   }
 }
