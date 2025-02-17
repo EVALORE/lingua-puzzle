@@ -54,6 +54,7 @@ const jsConfigChanges = {
     'init-declarations': 'off',
     'class-methods-use-this': 'off',
     'no-magic-numbers': ['off', { enforceConst: true, ignoreClassFieldInitialValues: true }],
+    'no-void': ['error', { allowAsStatement: true }],
   },
 };
 

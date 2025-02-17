@@ -3,7 +3,7 @@ import { CompletionStatus } from '../../puzzle/enums/completion-status';
 type LevelKey = `level${number}`;
 type Progress = Record<LevelKey, CompletionStatus[]>;
 
-export interface localStorageStore {
+export interface LocalStorageStore {
   game: {
     level: number;
     round: number;

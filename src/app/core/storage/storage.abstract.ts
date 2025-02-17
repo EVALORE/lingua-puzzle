@@ -14,13 +14,13 @@ export class StorageService<T extends object> {
     return item === null ? (defaultValue ?? null) : (JSON.parse(item) as T[K]);
   }
 
-  public setItem(key: string, value: string): void {
-    this.storage.setItem(key, JSON.stringify(value));
+  public setItem<K extends keyof T>(key: K, value: T[K]): void {
+    this.storage.setItem(this.createKey(key), JSON.stringify(value));
   }
 
   public removeItem(key: string): void {
     this.storage.removeItem(key);
-  } 
+  }
 
   public clear(): void {
     this.storage.clear();
