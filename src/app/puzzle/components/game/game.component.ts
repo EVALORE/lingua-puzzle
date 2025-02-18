@@ -107,6 +107,7 @@ export class GameComponent {
 
     if (nextSentenceIndex < this.sentences().length) {
       this.gameService.setSentenceIndex(nextSentenceIndex);
+      this.setSource();
     }
   }
 

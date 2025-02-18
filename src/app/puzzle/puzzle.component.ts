@@ -44,11 +44,11 @@ export class PuzzleComponent {
     this.puzzleService.nextRound();
   }
 
-  protected onLevelChange(level: number): void {
+  protected levelChange(level: number): void {
     this.puzzleService.setLevelNumber(level);
   }
 
-  protected onRoundChange(round: number): void {
+  protected roundChange(round: number): void {
     this.puzzleService.setRoundIndex(round);
   }
 }
