@@ -30,17 +30,12 @@ export class GameService {
 
   public clearAll(): void {
     this.clearCompletedSentences();
-    this.clearSource();
     this.clearResult();
     this.setSentenceIndex();
   }
 
   private clearCompletedSentences(): void {
     this.completedSentences.set([]);
-  }
-
-  private clearSource(): void {
-    this.source.set([]);
   }
 
   private clearResult(): void {

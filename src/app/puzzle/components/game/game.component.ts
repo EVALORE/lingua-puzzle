@@ -16,8 +16,6 @@ import { CardListComponent } from '../card-list/card-list.component';
 import { PositionStatus } from '../../enums/position-status';
 import { HintsComponent } from '../hints/hints.component';
 import { HttpDataService } from '../../services/http-data/http-data.service';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
 
 interface BoardStyles {
   width: string;
@@ -35,8 +33,8 @@ export class GameComponent {
   private readonly gameService = inject(GameService);
   private readonly httpDataService = inject(HttpDataService);
 
-  public sentences = input.required<Sentence[]>();
-  protected puzzleSolved = output();
+  public readonly sentences = input.required<Sentence[]>();
+  protected readonly puzzleSolved = output();
 
   private readonly sentence = computed(() => {
     const sentenceIndex = this.gameService.sentenceIndex();
@@ -60,19 +58,26 @@ export class GameComponent {
 
   protected hints = computed(() => this.getHints(this.sentence()));
 
-  private newGame$ = toObservable(this.sentences).pipe(
-    takeUntilDestroyed(),
-    tap(() => {
-      this.gameService.clearAll();
-    }),
-  );
-
   constructor() {
+    this.initializeGameEffects();
+  }
+
+  private initializeGameEffects(): void {
+    this.initializeSentencesEffect();
+    this.initializeSourceEffect();
+  }
+
+  private initializeSentencesEffect(): void {
+    effect(() => {
+      this.sentences();
+      this.gameService.clearAll();
+    });
+  }
+
+  private initializeSourceEffect(): void {
     effect(() => {
       this.setSource(this.sentence().textExample);
     });
-
-    this.newGame$.subscribe();
   }
 
   protected getHints(sentence: Sentence): { audio?: string; translation?: string } {
