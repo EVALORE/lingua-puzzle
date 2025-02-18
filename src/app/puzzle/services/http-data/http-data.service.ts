@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { LevelResponse } from '../../types/http-data';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 function levelFilename(levelIndex: number): string {
   return `wordCollectionLevel${String(levelIndex)}.json`;
@@ -17,7 +17,11 @@ export class HttpDataService {
   private readonly httpClient = inject(HttpClient);
 
   public getLevel(levelIndex: number): Observable<LevelResponse> {
-    return this.httpClient.get<LevelResponse>(`${dataFolderUrl}/${levelFilename(levelIndex)}`);
+    return this.httpClient.get<LevelResponse>(`${dataFolderUrl}/${levelFilename(levelIndex)}`).pipe(
+      tap(() => {
+        console.log('fef');
+      }),
+    );
   }
 
   public getAudio(audioName: string): Observable<Blob> {

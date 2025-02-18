@@ -1,9 +1,28 @@
-<app-level-round-dropdown
-  [levels]="levelsList"
-  [rounds]="levelsList"
-/>
-<app-game />
+<mat-form-field>
+  <mat-label>Level</mat-label>
+  <mat-select
+    [formControl]="levelsSelect"
+    (selectionChange)="changeCurrentLevel($event.value)"
+  >
+    @for (level of levels; track $index) {
+      <mat-option [value]="level">{{ level }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
 
-@if (isSourceEmpty$ | async) {
-  <button mat-raised-button>check</button>
+@let roundsList = rounds | async;
+@if (roundsList) {
+  <mat-form-field>
+    <mat-label>Round</mat-label>
+    <mat-select
+      [formControl]="roundsSelect"
+      (selectionChange)="changeCurrentRound($event.value)"
+    >
+      @for (round of roundsList; track $index) {
+        <mat-option [value]="round">{{ round + 1 }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 }
+
+<app-game [round]="'wefewfewe'" />

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { DEFAULT_LEVEL, TOTAL_LEVELS } from '../../consts/level-info.const';
+import { DEFAULT_LEVEL, TOTAL_LEVELS } from '../../consts/default_values.const';
 
 @Injectable()
 export class LevelService {

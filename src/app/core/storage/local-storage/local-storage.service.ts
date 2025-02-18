@@ -1,6 +1,6 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
 import { StorageService } from '../storage.abstract';
-import { localStorageStore } from '../storageStore';
+import { localStorageStore } from '../storage-store';
 
 export class LocalStorageService extends StorageService<localStorageStore> {
   constructor() {
