@@ -1,28 +1,14 @@
-<mat-form-field>
-  <mat-label>Level</mat-label>
-  <mat-select
-    [formControl]="levelsSelect"
-    (selectionChange)="changeCurrentLevel($event.value)"
-  >
-    @for (level of levels; track $index) {
-      <mat-option [value]="level">{{ level }}</mat-option>
-    }
-  </mat-select>
-</mat-form-field>
+<app-level-round-dropdown
+  [levelsCount]="levels()"
+  [roundsCount]="rounds()"
+  (roundChange)="onRoundChange($event)"
+  (levelChange)="onLevelChange($event)"
+/>
 
-@let roundsList = rounds | async;
-@if (roundsList) {
-  <mat-form-field>
-    <mat-label>Round</mat-label>
-    <mat-select
-      [formControl]="roundsSelect"
-      (selectionChange)="changeCurrentRound($event.value)"
-    >
-      @for (round of roundsList; track $index) {
-        <mat-option [value]="round">{{ round + 1 }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+@let round = round$ | async;
+@if (round) {
+  <app-game
+    [sentences]="round.words"
+    (puzzleSolved)="nextRound()"
+  />
 }
-
-<app-game [round]="'wefewfewe'" />

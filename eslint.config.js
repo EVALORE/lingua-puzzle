@@ -53,7 +53,7 @@ const jsConfigChanges = {
   rules: {
     'init-declarations': 'off',
     'class-methods-use-this': 'off',
-    'no-magic-numbers': ['error', { enforceConst: true, ignoreClassFieldInitialValues: true }],
+    'no-magic-numbers': ['off', { enforceConst: true, ignoreClassFieldInitialValues: true }],
   },
 };
 

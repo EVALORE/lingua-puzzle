@@ -7,7 +7,6 @@ import { PuzzleComponent } from './puzzle/puzzle.component';
   templateUrl: './app.component.html',
   providers: [],
   styleUrl: './app.component.scss',
-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {}

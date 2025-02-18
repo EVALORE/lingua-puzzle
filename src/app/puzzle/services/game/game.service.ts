@@ -1,36 +1,22 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Card } from '../../types/card';
-import { CardService } from '../card/card.service';
+
+const DEFAULT_SENTENCE_INDEX = 0;
 
 @Injectable()
 export class GameService {
-  private readonly cardService = inject(CardService);
-  public readonly source$ = new BehaviorSubject<Card[]>([]);
-  public readonly result$ = new BehaviorSubject<Card[]>([]);
+  public readonly sentenceIndex = signal<number>(9);
 
-  public setSource(sentence: string): void {
-    this.source$.next(this.cardService.createCardsFromSentence(sentence));
-  }
-
-  public moveToResult(wordIndex: number): void {
-    this.moveCard(wordIndex, this.source$, this.result$);
-  }
-
-  public moveToSource(wordIndex: number): void {
-    this.result$.next(this.cardService.resetCardsPositionStatus(this.result$.getValue()));
-    this.moveCard(wordIndex, this.result$, this.source$);
+  public setSentenceIndex(sentenceIndex = DEFAULT_SENTENCE_INDEX): void {
+    this.sentenceIndex.set(sentenceIndex);
   }
 
   public moveCard(
     cardIndex: number,
-    from$: BehaviorSubject<Card[]>,
-    to$: BehaviorSubject<Card[]>,
+    from: WritableSignal<Card[]>,
+    to: WritableSignal<Card[]>,
   ): void {
-    const from = from$.getValue();
-    const to = to$.getValue();
-
-    to$.next([...to, from[cardIndex]]);
-    from$.next([...from.filter((_, index) => index !== cardIndex)]);
+    to.update((cards) => [...cards, from()[cardIndex]]);
+    from.update((cards) => cards.filter((_, index) => index !== cardIndex));
   }
 }
