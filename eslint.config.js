@@ -52,6 +52,7 @@ const jsConfigChanges = {
   /** @type {import('eslint').Linter.RulesRecord} */
   rules: {
     'init-declarations': 'off',
+    'class-methods-use-this': 'off',
   },
 };
 

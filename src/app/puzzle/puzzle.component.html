@@ -1,0 +1,29 @@
+<mat-card [style]="puzzleStyles">
+  <div class="result">
+    @for (card of result$ | async; track $index) {
+      <mat-card
+        class="card"
+        [style]="{ height: cardHeight.px, width: card.width + 'px' }"
+        (click)="moveToSource($index)"
+      >
+        <mat-card-content>
+          {{ card.word }}
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</mat-card>
+
+<div class="source">
+  @for (card of source$ | async; track $index) {
+    <mat-card
+      class="card"
+      (click)="moveToResult($index)"
+      [style]="{ height: cardHeight.px, width: card.width + 'px' }"
+    >
+      <mat-card-content>
+        {{ card.word }}
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

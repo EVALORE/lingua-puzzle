@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HttpDataService } from './core/http-data/http-data.service';
+import { PuzzleComponent } from './puzzle/puzzle.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [PuzzleComponent],
   templateUrl: './app.component.html',
-  providers: [HttpDataService],
+  providers: [],
   styleUrl: './app.component.scss',
 
   changeDetection: ChangeDetectionStrategy.OnPush,
