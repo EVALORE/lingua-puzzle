@@ -5,7 +5,7 @@ const DEFAULT_SENTENCE_INDEX = 0;
 
 @Injectable()
 export class GameService {
-  public readonly sentenceIndex = signal<number>(9);
+  public readonly sentenceIndex = signal<number>(DEFAULT_SENTENCE_INDEX);
 
   public setSentenceIndex(sentenceIndex = DEFAULT_SENTENCE_INDEX): void {
     this.sentenceIndex.set(sentenceIndex);

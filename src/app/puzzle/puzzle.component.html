@@ -1,13 +1,10 @@
-@let l = levels();
-@let r = rounds();
-
 <app-level-round-dropdown
-  [levels]="l.current"
-  [rounds]="r.current"
-  (levelsChange)="levelChange($event)"
-  (roundsChange)="roundChange($event)"
-  [levelsCount]="l.count"
-  [roundsCount]="r.count"
+  [currentRound]="levelCurrent()"
+  [currentLevel]="roundCurrent()"
+  (currentRoundChange)="levelChange($event)"
+  (currentLevelChange)="roundChange($event)"
+  [totalLevels]="totalLevels"
+  [totalRounds]="totalRounds()"
 />
 
 @if (round$ | async; as round) {

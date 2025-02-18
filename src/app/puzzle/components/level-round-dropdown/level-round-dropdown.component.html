@@ -1,20 +1,20 @@
 <mat-form-field>
   <mat-label>Level</mat-label>
-  <mat-select [(value)]="levels">
+  <mat-select [(value)]="currentRound">
     <mat-option
-      *appTimes="levelsCount(); let level"
+      *appTimes="totalLevels(); let level"
       [value]="level + 1"
       >{{ level + 1 }}
     </mat-option>
   </mat-select>
 </mat-form-field>
 
-@if (roundsCount()) {
+@if (totalRounds()) {
   <mat-form-field>
     <mat-label>Round</mat-label>
-    <mat-select [(value)]="rounds">
+    <mat-select [(value)]="currentLevel">
       <mat-option
-        *appTimes="roundsCount(); let round"
+        *appTimes="totalRounds(); let round"
         [value]="round"
       >
         {{ round + 1 }}

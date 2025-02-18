@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GameService } from './services/game/game.service';
 import { RoundService } from './services/round/round.service';
 import { HttpDataService } from './services/http-data/http-data.service';
@@ -24,21 +24,14 @@ export class PuzzleComponent {
   private readonly puzzleService = inject(PuzzleService);
   protected round$ = this.puzzleService.round$;
 
-  private roundsCount = toSignal(this.puzzleService.roundsCount$, { initialValue: 0 });
-  private roundCurrent = toSignal(this.puzzleService.roundIndex$, {
+  protected readonly totalLevels = TOTAL_LEVELS;
+  protected totalRounds = toSignal(this.puzzleService.roundsCount$, { initialValue: 0 });
+  protected roundCurrent = toSignal(this.puzzleService.roundIndex$, {
     initialValue: DEFAULT_ROUND_INDEX,
   });
-  private levelCurrent = toSignal(this.puzzleService.levelNumber$, { initialValue: DEFAULT_LEVEL });
-
-  protected levels = computed(() => ({
-    count: TOTAL_LEVELS,
-    current: this.levelCurrent(),
-  }));
-
-  protected rounds = computed(() => ({
-    count: this.roundsCount(),
-    current: this.roundCurrent(),
-  }));
+  protected levelCurrent = toSignal(this.puzzleService.levelNumber$, {
+    initialValue: DEFAULT_LEVEL,
+  });
 
   protected nextRound(): void {
     this.puzzleService.nextRound();
