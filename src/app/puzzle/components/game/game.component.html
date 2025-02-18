@@ -2,10 +2,7 @@
 
 <mat-card [style]="getBoardStyles()">
   @for (completed of completedSentences(); track $index) {
-    <app-card-list
-      [list]="{ type: 'completed', cards: completed }"
-      (cardClick)="moveCardToSource($event)"
-    />
+    <app-card-list [list]="{ type: 'completed', cards: completed }" />
   }
   @if (result(); as result) {
     <app-card-list
