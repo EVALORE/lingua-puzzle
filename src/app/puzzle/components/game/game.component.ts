@@ -2,17 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   input,
   output,
-  signal,
 } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { cardHeight, puzzleWidth } from '../../consts/ui-layout.const';
 import { GameService } from '../../services/game/game.service';
-import { Card } from '../../types/card';
 import { Sentence } from '../../types/http-data';
-import { CardService } from '../../services/card/card.service';
 import { MatButton } from '@angular/material/button';
 import { CardListComponent } from '../card-list/card-list.component';
 import { PositionStatus } from '../../enums/position-status';
@@ -20,7 +18,6 @@ import { HintsComponent } from '../hints/hints.component';
 import { HttpDataService } from '../../services/http-data/http-data.service';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
-import { shuffle } from '../../utils/shuffle';
 
 interface BoardStyles {
   width: string;
@@ -36,7 +33,6 @@ interface BoardStyles {
 })
 export class GameComponent {
   private readonly gameService = inject(GameService);
-  private readonly cardService = inject(CardService);
   private readonly httpDataService = inject(HttpDataService);
 
   public sentences = input.required<Sentence[]>();
@@ -49,9 +45,9 @@ export class GameComponent {
     return sentences[sentenceIndex];
   });
 
-  protected readonly completedSentences: Card[][] = [];
-  protected readonly source = signal<Card[]>([]);
-  protected readonly result = signal<Card[]>([]);
+  protected readonly completedSentences = this.gameService.completedSentences;
+  protected readonly source = this.gameService.source;
+  protected readonly result = this.gameService.result;
 
   private numberOfSentences = computed(() => this.sentences().length);
   protected isSourceEmpty = computed(() => !this.source().length);
@@ -62,43 +58,35 @@ export class GameComponent {
     () => this.gameService.sentenceIndex() === this.numberOfSentences() - 1,
   );
 
-  private newPuzzle$ = toObservable(this.sentences).pipe(
+  protected hints = computed(() => this.getHints(this.sentence()));
+
+  private newGame$ = toObservable(this.sentences).pipe(
     takeUntilDestroyed(),
     tap(() => {
-      this.setSource();
-      this.gameService.sentenceIndex.set(0);
+      this.gameService.clearAll();
     }),
   );
 
   constructor() {
-    this.newPuzzle$.subscribe();
+    effect(() => {
+      this.setSource(this.sentence().textExample);
+    });
+
+    this.newGame$.subscribe();
   }
 
-  public setSource(): void {
-    const { textExample } = this.sentence();
-    const cards = this.cardService.createCardsFromSentence(textExample);
-    this.source.set(shuffle(cards));
-  }
-
-  protected hintsToShow(): { audio?: string; translation?: string } {
-    const sentence = this.sentence();
-
+  protected getHints(sentence: Sentence): { audio?: string; translation?: string } {
     return {
       audio: this.httpDataService.getAudioFullPath(sentence.audioExample),
       translation: sentence.textExampleTranslate,
     };
   }
 
-  protected checkCards(): void {
-    this.result.update((cards) => this.cardService.updateCardsPositionStatus(cards));
-  }
-
   protected handleNextStep(): void {
-    this.finalizeResult();
+    this.gameService.moveResultToCompleted();
 
     if (this.isSolved()) {
       this.puzzleSolved.emit();
-      this.clearCompletedSentences();
       return;
     }
 
@@ -106,31 +94,27 @@ export class GameComponent {
   }
 
   private nextSentence(): void {
-    const nextSentenceIndex = this.gameService.sentenceIndex() + 1;
-    this.gameService.setSentenceIndex(nextSentenceIndex);
-    this.setSource();
+    this.gameService.nextSentenceIndex();
   }
 
-  protected finalizeResult(): void {
-    this.completedSentences.push(this.result());
-    this.clearResult();
+  protected setSource(text: string): void {
+    this.gameService.setSource(text);
   }
 
-  private clearResult(): void {
-    this.result.set([]);
+  protected checkCards(): void {
+    this.gameService.updateResultPositionStatus();
   }
 
-  private clearCompletedSentences(): void {
-    this.completedSentences.length = 0;
+  protected autocompleteSentenceSolving(): void {
+    this.gameService.autocompleteResult();
   }
 
-  protected moveToResult(cardIndex: number): void {
-    this.gameService.moveCard(cardIndex, this.source, this.result);
+  protected moveCardToSource(index: number): void {
+    this.gameService.moveCardToSource(index);
   }
 
-  protected moveToSource(cardIndex: number): void {
-    this.result.update(this.cardService.resetCardsPositionStatus.bind(this));
-    this.gameService.moveCard(cardIndex, this.result, this.source);
+  protected moveCardToResult(index: number): void {
+    this.gameService.moveCardToResult(index);
   }
 
   protected getBoardStyles(): BoardStyles {
@@ -138,10 +122,5 @@ export class GameComponent {
       width: puzzleWidth.px,
       height: `${String(cardHeight.number * this.numberOfSentences())}px`,
     };
-  }
-
-  protected autoCompleteSentence(): void {
-    this.result.update(this.cardService.sortCardsByOriginalIndex.bind(this));
-    this.checkCards();
   }
 }

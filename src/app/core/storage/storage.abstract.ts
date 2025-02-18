@@ -8,7 +8,8 @@ export class StorageService<T extends object> {
     return this.storage.length;
   }
 
-  public getItem<K extends keyof T>(key: K): T[K];
+  public getItem<K extends keyof T>(key: K): T[K] | null;
+  public getItem<K extends keyof T>(key: K, defaultValue: T[K]): T[K];
   public getItem<K extends keyof T>(key: K, defaultValue?: T[K]): T[K] | null {
     const item = this.storage.getItem(this.createKey(key));
     return item === null ? (defaultValue ?? null) : (JSON.parse(item) as T[K]);

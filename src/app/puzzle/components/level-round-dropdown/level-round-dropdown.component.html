@@ -1,6 +1,6 @@
-<mat-form-field>
+<mat-form-field appearance="outline">
   <mat-label>Level</mat-label>
-  <mat-select [(value)]="currentRound">
+  <mat-select [(value)]="currentLevel">
     <mat-option
       *appTimes="totalLevels(); let level"
       [value]="level + 1"
@@ -10,9 +10,9 @@
 </mat-form-field>
 
 @if (totalRounds()) {
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Round</mat-label>
-    <mat-select [(value)]="currentLevel">
+    <mat-select [(value)]="currentRound">
       <mat-option
         *appTimes="totalRounds(); let round"
         [value]="round"

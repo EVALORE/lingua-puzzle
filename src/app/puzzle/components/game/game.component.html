@@ -1,16 +1,16 @@
-<app-hints [hintsToShow]="hintsToShow()" />
+<app-hints [hints]="hints()" />
 
 <mat-card [style]="getBoardStyles()">
-  @for (completed of completedSentences; track $index) {
+  @for (completed of completedSentences(); track $index) {
     <app-card-list
       [list]="{ type: 'completed', cards: completed }"
-      (cardClick)="moveToSource($event)"
+      (cardClick)="moveCardToSource($event)"
     />
   }
   @if (result(); as result) {
     <app-card-list
       [list]="{ type: 'result', cards: result }"
-      (cardClick)="moveToSource($event)"
+      (cardClick)="moveCardToSource($event)"
     />
   }
 </mat-card>
@@ -18,14 +18,14 @@
 @if (source(); as source) {
   <app-card-list
     [list]="{ type: 'source', cards: source }"
-    (cardClick)="moveToResult($event)"
+    (cardClick)="moveCardToResult($event)"
   />
 }
 
 @if (isSourceEmpty()) {
   <button
     mat-raised-button
-    (click)="autoCompleteSentence()"
+    (click)="autocompleteSentenceSolving()"
   >
     auto complete
   </button>
