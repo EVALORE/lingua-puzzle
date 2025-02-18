@@ -1,0 +1,19 @@
+@if (hintsToShow().audio) {
+  <button
+    mat-icon-button
+    (click)="audio.play()"
+  >
+    <mat-icon>volume_up</mat-icon>
+  </button>
+}
+@if (hintsToShow().translation) {
+  <button
+    mat-icon-button
+    (click)="showTranslation = !showTranslation"
+  >
+    <mat-icon>translate</mat-icon>
+  </button>
+  <span [class.show]="showTranslation">
+    {{ hintsToShow().translation }}
+  </span>
+}
