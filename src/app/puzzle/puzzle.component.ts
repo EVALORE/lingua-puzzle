@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GameService } from './services/game/game.service';
-import { RoundService } from './services/round/round.service';
 import { HttpDataService } from './services/http-data/http-data.service';
-import { LevelService } from './services/level/level.service';
 import { CardService } from './services/card/card.service';
 import { GameComponent } from './components/game/game.component';
 import { PuzzleService } from './services/puzzle/puzzle.service';
@@ -17,7 +15,7 @@ import { combineLatest, map, tap } from 'rxjs';
   selector: 'app-puzzle',
   imports: [GameComponent, ReactiveFormsModule, AsyncPipe, LevelRoundDropdownComponent],
   templateUrl: './puzzle.component.html',
-  providers: [GameService, LevelService, RoundService, HttpDataService, CardService, PuzzleService],
+  providers: [GameService, HttpDataService, CardService, PuzzleService],
   styleUrl: './puzzle.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
