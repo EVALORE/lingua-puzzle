@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
-import { isUserGuard } from './core/guards/isUser/is-user.guard';
+import { isUserGuard } from './core/guards/is-user/is-user.guard';
+import { skipAuthGuard } from './core/guards/skip-auth/skip-auth.guard';
 
 export const routes: Routes = [
   {
     path: 'auth',
     loadComponent: () => import('./auth/auth.component').then((c) => c.AuthComponent),
+    canMatch: [skipAuthGuard],
   },
   {
     path: '',
