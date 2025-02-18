@@ -2,8 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, switchMap } from 'rxjs';
 import { LevelService } from '../level/level.service';
 import { HttpDataService } from '../http-data/http-data.service';
-
-const DEFAULT_ROUND_INDEX = 0;
+import { DEFAULT_ROUND_INDEX } from '../../consts/level-info.const';
 
 @Injectable()
 export class RoundService {

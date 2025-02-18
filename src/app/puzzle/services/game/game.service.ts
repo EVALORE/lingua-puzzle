@@ -29,10 +29,11 @@ export class GameService {
   }
 
   public moveToSource(wordIndex: number): void {
+    this.result$.next(this.cardService.resetCardsPositionStatus(this.result$.getValue()));
     this.moveCard(wordIndex, this.result$, this.source$);
   }
 
-  private moveCard(
+  public moveCard(
     cardIndex: number,
     from$: BehaviorSubject<Card[]>,
     to$: BehaviorSubject<Card[]>,
