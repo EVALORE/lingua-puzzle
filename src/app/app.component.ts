@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PuzzleComponent } from './puzzle/puzzle.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [PuzzleComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   providers: [],
   styleUrl: './app.component.scss',

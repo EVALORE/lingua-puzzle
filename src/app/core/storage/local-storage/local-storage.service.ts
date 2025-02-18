@@ -1,8 +1,8 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
 import { StorageService } from '../storage.abstract';
-import { localStorageStore } from '../storage-store';
+import { LocalStorageStore } from '../storage-store';
 
-export class LocalStorageService extends StorageService<localStorageStore> {
+export class LocalStorageService extends StorageService<LocalStorageStore> {
   constructor() {
     const prefix = 'LP';
     super(localStorage, prefix);
