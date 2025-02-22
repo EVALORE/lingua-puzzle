@@ -9,10 +9,12 @@ const DEFAULT_SENTENCE_INDEX = 0;
 export class GameService {
   private readonly cardService = inject(CardService);
 
-  public readonly sentenceIndex = signal<number>(DEFAULT_SENTENCE_INDEX);
-  public readonly completedSentences = signal<Card[][]>([]);
+  public readonly wordIndex = signal<number>(DEFAULT_SENTENCE_INDEX);
+  public readonly assembledSentences = signal<Card[][]>([]);
   public readonly source = signal<Card[]>([]);
   public readonly result = signal<Card[]>([]);
+
+
 
   public setSource(sentenceValue: string): void {
     const cards = this.cardService.createCardsFromSentence(sentenceValue);
@@ -35,7 +37,7 @@ export class GameService {
   }
 
   private clearCompletedSentences(): void {
-    this.completedSentences.set([]);
+    this.assembledSentences.set([]);
   }
 
   private clearResult(): void {
@@ -43,15 +45,15 @@ export class GameService {
   }
 
   public nextSentenceIndex(): void {
-    this.setSentenceIndex(this.sentenceIndex() + 1);
+    this.setSentenceIndex(this.wordIndex() + 1);
   }
 
   public setSentenceIndex(sentenceIndex = DEFAULT_SENTENCE_INDEX): void {
-    this.sentenceIndex.set(sentenceIndex);
+    this.wordIndex.set(sentenceIndex);
   }
 
   public moveResultToCompleted(): void {
-    this.completedSentences.update((completed) => [...completed, this.result()]);
+    this.assembledSentences.update((completed) => [...completed, this.result()]);
     this.clearResult();
   }
 

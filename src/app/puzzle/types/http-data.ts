@@ -1,27 +1,55 @@
-export interface LevelData {
-  author: string;
-  cutSrc: string;
-  id: string;
-  imageSrc: string;
-  name: string;
-  year: string;
-}
+// export interface Word {
+//   audioExample: string;
+//   id: number;
+//   textExample: string;
+//   textExampleTranslate: string;
+//   value: string;
+//   valueTranslate: string;
+// }
+//
+// export interface RoundImageMeta {
+//   author: string;
+//   cutSrc: string;
+//   id: string;
+//   imageSrc: string;
+//   name: string;
+//   year: string;
+// }
+//
+// export interface Round {
+//   roundData: RoundImageMeta;
+//   words: Word[];
+// }
+//
+// export interface Level {
+//   rounds: Round[];
+//   roundsCount: number;
+// }
 
-export interface Sentence {
-  audioExample: string;
+export interface WordEntry {
   id: number;
-  textExample: string;
-  textExampleTranslate: string;
-  word: string;
-  wordTranslate: string;
+  term: string;
+  translation: string;
+  sentence: string;
+  sentenceTranslation: string;
+  sentenceAudio: string;
 }
 
-export interface Round {
-  levelData: LevelData;
-  words: Sentence[];
+export interface PuzzleArtwork {
+  id: string;
+  name: string;
+  author: string;
+  year: string;
+  fullImageSrc: string;
+  croppedImageSrc: string;
 }
 
-export interface LevelResponse {
-  rounds: Round[];
-  roundsCount: number;
+export interface Puzzle {
+  artwork: PuzzleArtwork;
+  words: WordEntry[];
+}
+
+export interface GameLevel {
+  puzzles: Puzzle[];
+  totalPuzzles: number;
 }

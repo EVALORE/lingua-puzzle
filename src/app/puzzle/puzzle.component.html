@@ -1,16 +1,16 @@
-@if (levelRoundData$ | async; as data) {
+@if (puzzleData | async; as data) {
   <app-level-round-dropdown
     [currentRound]="data.round"
     [currentLevel]="data.level"
     (currentRoundChange)="roundChange($event)"
     (currentLevelChange)="levelChange($event)"
-    [totalLevels]="data.levelCount"
+    [totalLevels]="data.levelsCount"
     [totalRounds]="data.roundsCount"
   />
 }
 @if (round$ | async; as round) {
   <app-game
-    [sentences]="round.words"
+    [words]="round.words"
     (puzzleSolved)="nextRound()"
   />
 }

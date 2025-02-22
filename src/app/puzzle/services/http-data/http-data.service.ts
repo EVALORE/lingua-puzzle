@@ -1,14 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { LevelResponse } from '../../types/http-data';
+import { GameLevel } from '../../types/http-data';
 import { Observable } from 'rxjs';
-
+import { config } from 'dotenv';
 function levelFilename(levelIndex: number): string {
   return `wordCollectionLevel${String(levelIndex)}.json`;
 }
 
-const baseUrl = 'https://evalore.github.io/rss-puzzle-data';
-const dataFolderUrl = `${baseUrl}/data`;
+config()
+
+
+const baseUrl = process.env['BASE_URL']
+const dataFolderUrl = process.env['DATA_FOLDER_URL'];
 const audioFolderUrl = baseUrl;
 const imagesFolderUrl = `${baseUrl}/images`;
 
@@ -16,8 +19,8 @@ const imagesFolderUrl = `${baseUrl}/images`;
 export class HttpDataService {
   private readonly httpClient = inject(HttpClient);
 
-  public getLevel(levelIndex: number): Observable<LevelResponse> {
-    return this.httpClient.get<LevelResponse>(`${dataFolderUrl}/${levelFilename(levelIndex)}`);
+  public getLevel(levelIndex: number): Observable<GameLevel> {
+    return this.httpClient.get<GameLevel>(`${dataFolderUrl}/${levelFilename(levelIndex)}`);
   }
 
   public getAudio(audioName: string): Observable<Blob> {

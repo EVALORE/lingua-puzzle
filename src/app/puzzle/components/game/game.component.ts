@@ -10,7 +10,7 @@ import {
 import { MatCard } from '@angular/material/card';
 import { cardHeight, puzzleWidth } from '../../consts/ui-layout.const';
 import { GameService } from '../../services/game/game.service';
-import { Sentence } from '../../types/http-data';
+import { WordEntry } from '../../types/http-data';
 import { MatButton } from '@angular/material/button';
 import { CardListComponent } from '../card-list/card-list.component';
 import { PositionStatus } from '../../enums/position-status';
@@ -33,30 +33,28 @@ export class GameComponent {
   private readonly gameService = inject(GameService);
   private readonly httpDataService = inject(HttpDataService);
 
-  public readonly sentences = input.required<Sentence[]>();
+  public readonly words = input.required<WordEntry[]>();
   protected readonly puzzleSolved = output();
 
-  private readonly sentence = computed(() => {
-    const sentenceIndex = this.gameService.sentenceIndex();
-    const sentences = this.sentences();
-
-    return sentences[sentenceIndex];
+  private readonly word = computed(() => {
+    const wordIndex = this.gameService.wordIndex();
+    return this.words()[wordIndex];
   });
 
-  protected readonly completedSentences = this.gameService.completedSentences;
+  protected readonly completedSentences = this.gameService.assembledSentences;
   protected readonly source = this.gameService.source;
   protected readonly result = this.gameService.result;
 
-  private numberOfSentences = computed(() => this.sentences().length);
+  private numberOfSentences = computed(() => this.words().length);
   protected isSourceEmpty = computed(() => !this.source().length);
   protected isResultCorrect = computed(() =>
     this.result().every((card) => card.positionStatus === PositionStatus.CORRECT),
   );
   protected isSolved = computed(
-    () => this.gameService.sentenceIndex() === this.numberOfSentences() - 1,
+    () => this.gameService.wordIndex() === this.numberOfSentences() - 1,
   );
 
-  protected hints = computed(() => this.getHints(this.sentence()));
+  protected hints = computed(() => this.getHints(this.word()));
 
   constructor() {
     this.initializeGameEffects();
@@ -69,21 +67,21 @@ export class GameComponent {
 
   private initializeSentencesEffect(): void {
     effect(() => {
-      this.sentences();
+      this.words();
       this.gameService.clearAll();
     });
   }
 
   private initializeSourceEffect(): void {
     effect(() => {
-      this.setSource(this.sentence().textExample);
+      this.setSource(this.word().sentence);
     });
   }
 
-  protected getHints(sentence: Sentence): { audio?: string; translation?: string } {
+  protected getHints(word: WordEntry): { audio?: string; translation?: string } {
     return {
-      audio: this.httpDataService.getAudioFullPath(sentence.audioExample),
-      translation: sentence.textExampleTranslate,
+      audio: this.httpDataService.getAudioFullPath(word.sentenceAudio),
+      translation: word.sentenceTranslation,
     };
   }
 
