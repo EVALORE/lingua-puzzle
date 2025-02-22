@@ -1,17 +1,18 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { GameLevel } from '../../types/http-data';
-import { Observable } from 'rxjs';
-import { config } from 'dotenv';
+import {HttpClient} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {GameLevel} from '../../types/http-data';
+import {Observable} from 'rxjs';
+import {environment} from '../../../../environments/environment';
+
 function levelFilename(levelIndex: number): string {
   return `wordCollectionLevel${String(levelIndex)}.json`;
 }
 
-config()
 
-
-const baseUrl = process.env['BASE_URL']
-const dataFolderUrl = process.env['DATA_FOLDER_URL'];
+const {baseUrl} = environment;
+console.log(baseUrl);
+console.log(import.meta.env.NG_DATA_FOLDER_URL);
+const dataFolderUrl = '';
 const audioFolderUrl = baseUrl;
 const imagesFolderUrl = `${baseUrl}/images`;
 
