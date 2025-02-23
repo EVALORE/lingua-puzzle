@@ -1,12 +1,11 @@
-import {ChangeDetectionStrategy, Component, effect, input} from '@angular/core';
-import {MatIconButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
-interface HintsToShow {
+interface Hints {
   audio?: string;
   translation?: string;
 }
-
 
 @Component({
   selector: 'app-hints',
@@ -16,25 +15,12 @@ interface HintsToShow {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HintsComponent {
-  public hints = input.required<HintsToShow>();
-  public audio = new Audio();
+  public hints = input.required<Hints>();
+  public audio = computed(() => new Audio(this.hints().audio));
+
   protected showTranslation = false;
-
-
-  private onNewHints = effect(() => {
-    this.setAudioSrc(this.hints().audio);
-  });
 
   protected toggleTranslation(): void {
     this.showTranslation = !this.showTranslation;
-  }
-
-  public setAudioSrc(src?: string): void {
-    if (!src) {
-      return;
-    }
-    this.audio.pause();
-    this.audio = new Audio(src);
-    this.audio.load();
   }
 }

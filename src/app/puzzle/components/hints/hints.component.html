@@ -1,21 +1,20 @@
-@if (hints(); as hints) {
-  @if (hints.audio) {
-    <button
-      mat-icon-button
-      (click)="this.audio.play()"
-    >
-      <mat-icon>volume_up</mat-icon>
-    </button>
-  }
-  @if (hints.translation) {
-    <button
-      mat-icon-button
-      (click)="toggleTranslation()"
-    >
-      <mat-icon>translate</mat-icon>
-    </button>
-    <span [class.show]="showTranslation">
-      {{ hints.translation }}
-    </span>
-  }
+@let hint = hints();
+@if (hint.audio) {
+  <button
+    mat-icon-button
+    (click)="this.audio().play()"
+  >
+    <mat-icon>volume_up</mat-icon>
+  </button>
+}
+@if (hint.translation) {
+  <button
+    mat-icon-button
+    (click)="toggleTranslation()"
+  >
+    <mat-icon>translate</mat-icon>
+  </button>
+  <span [class.show]="showTranslation">
+      {{ hint.translation }}
+  </span>
 }

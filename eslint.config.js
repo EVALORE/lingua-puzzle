@@ -55,6 +55,7 @@ const jsConfigChanges = {
     'class-methods-use-this': 'off',
     'no-magic-numbers': ['off', { enforceConst: true, ignoreClassFieldInitialValues: true }],
     'no-void': ['error', { allowAsStatement: true }],
+    'no-unused-private-class-members': 'off',
   },
 };
 
@@ -73,6 +74,18 @@ const tsConfigChanges = {
   },
   rules: {
     '@typescript-eslint/no-extraneous-class': ['error', { allowWithDecorator: true }],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        args: 'all',
+        argsIgnorePattern: '^_',
+        caughtErrors: 'all',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
+    ],
   },
 };
 
