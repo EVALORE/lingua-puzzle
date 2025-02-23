@@ -5,8 +5,8 @@ type Progress = Record<LevelKey, CompletionStatus[]>;
 
 export interface LocalStorageStore {
   game: {
-    level: number;
-    puzzle: number;
+    levelNumber: number;
+    puzzleIndex: number;
     sentenceIndex: number;
   };
   hintsSettings: {

@@ -23,7 +23,7 @@ export class PuzzleComponent {
   protected readonly puzzleData = this.puzzleService.puzzleData$;
 
   protected nextRound(): void {
-    this.puzzleService.nextRound();
+    this.puzzleService.nextPuzzle();
   }
 
   protected levelChange(level: number): void {
@@ -31,6 +31,6 @@ export class PuzzleComponent {
   }
 
   protected roundChange(round: number): void {
-    this.puzzleService.setRoundIndex(round);
+    this.puzzleService.setPuzzleIndex(round);
   }
 }

@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline">
   <mat-label>Level</mat-label>
-  <mat-select [(value)]="currentLevel">
+  <mat-select [(value)]="levelNumber">
     <mat-option
       *appTimes="totalLevels(); let level"
       [value]="level + 1"
@@ -11,7 +11,7 @@
 
 <mat-form-field appearance="outline">
   <mat-label>Puzzle</mat-label>
-  <mat-select [(value)]="currentPuzzle">
+  <mat-select [(value)]="puzzleIndex">
     <mat-option
       *appTimes="totalPuzzles(); let puzzle"
       [value]="puzzle"
