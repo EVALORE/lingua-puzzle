@@ -1,11 +1,11 @@
 @if (puzzleData | async; as data) {
   <app-level-round-dropdown
-    [currentRound]="data.round"
+    [currentPuzzle]="data.round"
     [currentLevel]="data.level"
-    (currentRoundChange)="roundChange($event)"
+    (currentPuzzleChange)="roundChange($event)"
     (currentLevelChange)="levelChange($event)"
-    [totalLevels]="data.levelsCount"
-    [totalRounds]="data.roundsCount"
+    [totalLevels]="data.totalLevels"
+    [totalPuzzles]="data.totalPuzzles"
   />
 }
 @if (round$ | async; as round) {

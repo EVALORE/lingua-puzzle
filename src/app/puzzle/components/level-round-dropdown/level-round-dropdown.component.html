@@ -4,21 +4,19 @@
     <mat-option
       *appTimes="totalLevels(); let level"
       [value]="level + 1"
-      >{{ level + 1 }}
+    >{{ level + 1 }}
     </mat-option>
   </mat-select>
 </mat-form-field>
 
-@if (totalRounds()) {
-  <mat-form-field appearance="outline">
-    <mat-label>Round</mat-label>
-    <mat-select [(value)]="currentRound">
-      <mat-option
-        *appTimes="totalRounds(); let round"
-        [value]="round"
-      >
-        {{ round + 1 }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-}
+<mat-form-field appearance="outline">
+  <mat-label>Puzzle</mat-label>
+  <mat-select [(value)]="currentPuzzle">
+    <mat-option
+      *appTimes="totalPuzzles(); let puzzle"
+      [value]="puzzle"
+    >
+      {{ puzzle + 1 }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

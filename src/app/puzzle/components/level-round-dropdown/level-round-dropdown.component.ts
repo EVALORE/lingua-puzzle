@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { TimesDirective } from '../../../shared/directives/times/times.directive';
+import {ChangeDetectionStrategy, Component, input, model} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {TimesDirective} from '../../../shared/directives/times/times.directive';
 
 @Component({
   selector: 'app-level-round-dropdown',
@@ -12,9 +12,9 @@ import { TimesDirective } from '../../../shared/directives/times/times.directive
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LevelRoundDropdownComponent {
-  public currentRound = model.required<number>();
+  public currentPuzzle = model.required<number>();
   public currentLevel = model.required<number>();
 
-  public totalRounds = input.required<number>();
+  public totalPuzzles = input.required<number>();
   public totalLevels = input.required<number>();
 }

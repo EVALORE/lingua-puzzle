@@ -1,31 +1,3 @@
-// export interface Word {
-//   audioExample: string;
-//   id: number;
-//   textExample: string;
-//   textExampleTranslate: string;
-//   value: string;
-//   valueTranslate: string;
-// }
-//
-// export interface RoundImageMeta {
-//   author: string;
-//   cutSrc: string;
-//   id: string;
-//   imageSrc: string;
-//   name: string;
-//   year: string;
-// }
-//
-// export interface Round {
-//   roundData: RoundImageMeta;
-//   words: Word[];
-// }
-//
-// export interface Level {
-//   rounds: Round[];
-//   roundsCount: number;
-// }
-
 export interface WordEntry {
   id: number;
   term: string;

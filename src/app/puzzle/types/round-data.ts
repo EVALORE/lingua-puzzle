@@ -1,7 +1,7 @@
-import { CompletionStatus } from '../enums/completion-status';
-import { Round } from './http-data';
+import {CompletionStatus} from '../enums/completion-status';
+import {Puzzle} from './http-data';
 
 export interface RoundData {
-  round: Round;
+  puzzle: Puzzle;
   completionStatus: CompletionStatus;
 }

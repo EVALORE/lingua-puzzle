@@ -1,10 +1,9 @@
 // Define the type of the environment variables.
 declare interface Env {
   readonly NODE_ENV: string;
-  readonly NG_BASE_URL: string;
   readonly NG_DATA_FOLDER_URL: string;
   readonly NG_AUDIO_FOLDER_URL: string;
-  readonly NG_IMAGE_FOLDER_URL: string;
+  readonly NG_IMAGES_FOLDER_URL: string;
 }
 
 // 1. Use import.meta.env.YOUR_ENV_VAR in your code. (conventional)
@@ -17,10 +16,5 @@ declare interface ImportMeta {
 // ngxEnv: {
 //  define: '_NGX_ENV_',
 // }
+// eslint-disable-next-line no-underscore-dangle
 declare const _NGX_ENV_: Env;
-
-// 3. Use process.env.YOUR_ENV_VAR in your code. (deprecated)
-declare namespace NodeJS {
-  export interface ProcessEnv extends Env {
-  }
-}

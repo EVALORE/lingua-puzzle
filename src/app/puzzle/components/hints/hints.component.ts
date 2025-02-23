@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import {ChangeDetectionStrategy, Component, effect, input} from '@angular/core';
+import {MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 interface HintsToShow {
   audio?: string;
   translation?: string;
 }
+
 
 @Component({
   selector: 'app-hints',
@@ -20,13 +20,10 @@ export class HintsComponent {
   public audio = new Audio();
   protected showTranslation = false;
 
-  constructor() {
-    toObservable(this.hints)
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => {
-        this.setAudioSrc(value.audio);
-      });
-  }
+
+  private onNewHints = effect(() => {
+    this.setAudioSrc(this.hints().audio);
+  });
 
   protected toggleTranslation(): void {
     this.showTranslation = !this.showTranslation;
