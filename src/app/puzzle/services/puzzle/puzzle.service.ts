@@ -1,70 +1,62 @@
-import {inject, Injectable} from '@angular/core';
-import {HttpDataService} from '../http-data/http-data.service';
-import {DEFAULT_LEVEL, DEFAULT_ROUND_INDEX, TOTAL_LEVELS,} from '../../consts/default_values.const';
-import {BehaviorSubject, combineLatest, map, switchMap, tap} from 'rxjs';
-import {LocalStorageService} from '../../../core/storage/local-storage/local-storage.service';
+import { inject, Injectable } from '@angular/core';
+import { HttpDataService } from '../http-data/http-data.service';
+import {
+  DEFAULT_LEVEL,
+  DEFAULT_ROUND_INDEX,
+  TOTAL_LEVELS,
+} from '../../consts/default_values.const';
+import { BehaviorSubject, combineLatest, map, switchMap, tap } from 'rxjs';
+import { LocalStorageService } from '../../../core/storage/local-storage/local-storage.service';
 
 @Injectable()
 export class PuzzleService {
   private readonly httpDataService = inject(HttpDataService);
   private readonly localStorage = inject(LocalStorageService);
 
-  public readonly levelNumber$ = new BehaviorSubject(DEFAULT_LEVEL);
-  public readonly roundIndex$ = new BehaviorSubject(DEFAULT_ROUND_INDEX);
-  public totalPuzzles = 0;
+  private readonly gameState = this.localStorage.getItem('game', {
+    puzzle: DEFAULT_ROUND_INDEX,
+    level: DEFAULT_LEVEL,
+    sentenceIndex: 0,
+  });
 
-  public readonly rounds$ = this.levelNumber$.pipe(
+  private readonly currentLevel$ = new BehaviorSubject(this.gameState.level);
+  private readonly currentPuzzle$ = new BehaviorSubject(this.gameState.puzzle);
+  private readonly totalPuzzles$ = new BehaviorSubject(0);
+
+  public readonly puzzles$ = this.currentLevel$.pipe(
     switchMap((levelNumber) =>
-      this.httpDataService.getLevel(levelNumber).pipe(
-        map((level) => level.puzzles),
-        tap((rounds) => {
-          this.totalPuzzles = rounds.length;
-        })
-      ),
+      this.httpDataService.getLevel(levelNumber).pipe(map((level) => level.puzzles)),
     ),
   );
 
-  public readonly round$ = combineLatest([this.rounds$, this.roundIndex$]).pipe(
-    map(([rounds, roundIndex]) => rounds[roundIndex]),
+  public readonly puzzle$ = combineLatest([this.puzzles$, this.currentPuzzle$]).pipe(
+    map(([puzzles, puzzleIndex]) => puzzles[puzzleIndex]),
   );
 
-  public readonly puzzleData = combineLatest({
-    rounds: this.rounds$,
-    round: this.roundIndex$,
-    level: this.levelNumber$,
+  public readonly puzzleData$ = combineLatest({
+    totalPuzzles: this.totalPuzzles$,
+    puzzle: this.currentPuzzle$,
+    level: this.currentLevel$,
   }).pipe(
     map((data) => ({
-      round: data.round,
-      level: data.level,
-      totalPuzzles: this.totalPuzzles,
+      ...data,
       totalLevels: TOTAL_LEVELS,
     })),
     tap((data) => {
-      this.updateGameStateInLocalStorage(data.round, data.level);
+      this.updateGameStateInLocalStorage(data.puzzle, data.level);
     }),
   );
 
   private updateGameStateInLocalStorage(round: number, level: number): void {
-    this.localStorage.setItem('game', {level, round, sentenceIndex: 0});
-  }
-
-  public updateCurrent(): void {
-    const defaultValue = {
-      round: DEFAULT_ROUND_INDEX,
-      level: DEFAULT_LEVEL,
-      sentenceIndex: 0,
-    };
-    const {level, round} = this.localStorage.getItem('game', defaultValue);
-    this.setRoundIndex(round);
-    this.setLevelNumber(level);
+    this.localStorage.setItem('game', { level, puzzle: round, sentenceIndex: 0 });
   }
 
   public setRoundIndex(roundIndex: number): void {
-    this.roundIndex$.next(roundIndex);
+    this.currentPuzzle$.next(roundIndex);
   }
 
   public setLevelNumber(levelNumber: number): void {
-    this.levelNumber$.next(levelNumber);
+    this.currentLevel$.next(levelNumber);
   }
 
   public nextRound(): void {
@@ -72,21 +64,22 @@ export class PuzzleService {
       this.nextLevel();
       return;
     }
-    this.setRoundIndex(this.roundIndex$.value + 1);
+    this.setRoundIndex(this.currentPuzzle$.value + 1);
   }
 
   public nextLevel(): void {
     if (this.isLastLevel()) {
       return;
     }
-    this.setLevelNumber(this.levelNumber$.value + 1);
-  }
-
-  private isLastRound(): boolean {
-    return this.roundIndex$.value === this.totalPuzzles - 1;
+    this.setRoundIndex(DEFAULT_ROUND_INDEX);
+    this.setLevelNumber(this.currentLevel$.value + 1);
   }
 
   private isLastLevel(): boolean {
-    return this.levelNumber$.value === TOTAL_LEVELS;
+    return this.currentLevel$.value === TOTAL_LEVELS;
+  }
+
+  private isLastRound(): boolean {
+    return this.currentPuzzle$.value === this.totalPuzzles$.value - 1;
   }
 }

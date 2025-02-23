@@ -19,12 +19,8 @@ import { LevelRoundDropdownComponent } from './components/level-round-dropdown/l
 export class PuzzleComponent {
   private readonly puzzleService = inject(PuzzleService);
 
-  protected round$ = this.puzzleService.round$;
-  protected readonly puzzleData = this.puzzleService.puzzleData
-
-  constructor() {
-    this.puzzleService.updateCurrent();
-  }
+  protected round$ = this.puzzleService.puzzle$;
+  protected readonly puzzleData = this.puzzleService.puzzleData$;
 
   protected nextRound(): void {
     this.puzzleService.nextRound();
