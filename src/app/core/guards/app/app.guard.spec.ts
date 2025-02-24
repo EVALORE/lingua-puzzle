@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { CanMatchFn } from '@angular/router';
 
-import { skipAuthGuard } from './skip-auth.guard';
+import { appGuard } from './app.guard';
 
-describe('skipAuthGuard', () => {
+describe('appGuard', () => {
   const executeGuard: CanMatchFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => skipAuthGuard(...guardParameters));
+      TestBed.runInInjectionContext(() => appGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

@@ -1,75 +1,142 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, effect, Injectable, signal, WritableSignal } from '@angular/core';
 import { Tile } from '../../types/tile';
-import { CardService } from '../card/card.service';
 import { shuffle } from '../../utils/shuffle';
-
-const DEFAULT_SENTENCE_INDEX = 0;
+import { PositionStatus } from '../../enums/position-status';
+import { WordEntry } from '../../types/http-data';
+import { puzzleWidth } from '../../consts/ui-layout.const';
+import { fullAudioPath } from '../../utils/fullAudioPath';
+import { DEFAULT_WORD_INDEX } from '../../consts/default-values.const';
 
 @Injectable()
 export class GameService {
-  private readonly cardService = inject(CardService);
+  public readonly puzzleWords = signal<WordEntry[]>([]);
+  public readonly word = computed(() => this.puzzleWords()[this.wordIndex()]);
+  public readonly wordIndex = signal<number>(DEFAULT_WORD_INDEX);
+  public readonly solvedTiles = signal<Tile[][]>([]);
+  public readonly availableTiles = signal<Tile[]>([]);
+  public readonly placedTiles = signal<Tile[]>([]);
+  public readonly hints = computed(() => {
+    const { translation, sentenceAudio } = this.word();
+    return {
+      translation,
+      audio: fullAudioPath(sentenceAudio),
+    };
+  });
 
-  public readonly wordIndex = signal<number>(DEFAULT_SENTENCE_INDEX);
-  public readonly assembledSentences = signal<Tile[][]>([]);
-  public readonly source = signal<Tile[]>([]);
-  public readonly result = signal<Tile[]>([]);
+  public hasNoAvailableTiles = computed(() => !this.availableTiles().length);
+  public areTilesPlacedCorrectly = computed(() =>
+    this.hasNoAvailableTiles()
+      ? this.placedTiles().every((card) => card.positionStatus === PositionStatus.CORRECT)
+      : false,
+  );
+  public isPuzzleSolved = computed(() => this.wordIndex() === this.puzzleWords.length - 1);
 
-  public setSource(sentenceValue: string): void {
-    const cards = this.cardService.createCardsFromSentence(sentenceValue);
-    this.source.set(shuffle(cards));
+  constructor() {
+    effect(() => {
+      const { sentence } = this.word();
+      const tiles = this.createTilesFromSentence(sentence);
+
+      this.clearPlacedTiles();
+      this.availableTiles.set(shuffle(tiles));
+    });
+  }
+
+  public newPuzzleWords(words: WordEntry[]): void {
+    this.puzzleWords.set(words);
+    this.clearAll();
+  }
+
+  public handleNextStep(): void {
+    this.movePlacedToSolved();
+
+    if (this.isPuzzleSolved()) {
+      return;
+    }
+
+    this.nextWordIndex();
   }
 
   public autocompleteResult(): void {
-    this.result.update(this.cardService.sortCardsByOriginalIndex.bind(this));
-    this.updateResultPositionStatus();
+    this.placedTiles.update(this.sortTilesByInitialIndex.bind(this));
+    this.validatePlacedStatus();
   }
 
-  public updateResultPositionStatus(): void {
-    this.result.update(this.cardService.updateCardsPositionStatus.bind(this));
+  public validatePlacedStatus(): void {
+    this.placedTiles.update(this.updateTilesPositionStatus.bind(this));
   }
 
   public clearAll(): void {
-    this.clearCompletedSentences();
-    this.clearResult();
-    this.setSentenceIndex();
+    this.clearSolvedTiles();
+    this.clearPlacedTiles();
+    this.setWordIndex();
   }
 
-  private clearCompletedSentences(): void {
-    this.assembledSentences.set([]);
+  private clearSolvedTiles(): void {
+    this.solvedTiles.set([]);
   }
 
-  private clearResult(): void {
-    this.result.set([]);
+  private clearPlacedTiles(): void {
+    this.placedTiles.set([]);
   }
 
-  public nextSentenceIndex(): void {
-    this.setSentenceIndex(this.wordIndex() + 1);
+  public nextWordIndex(): void {
+    this.setWordIndex(this.wordIndex() + 1);
   }
 
-  public setSentenceIndex(sentenceIndex = DEFAULT_SENTENCE_INDEX): void {
+  public setWordIndex(sentenceIndex = DEFAULT_WORD_INDEX): void {
     this.wordIndex.set(sentenceIndex);
   }
 
-  public moveResultToCompleted(): void {
-    this.assembledSentences.update((completed) => [...completed, this.result()]);
-    this.clearResult();
+  public movePlacedToSolved(): void {
+    this.solvedTiles.update((completed) => [...completed, this.placedTiles()]);
+    this.clearPlacedTiles();
   }
 
   public moveCardToResult(cardIndex: number): void {
-    this.moveCard(cardIndex, this.source, this.result);
+    this.moveCard(cardIndex, this.availableTiles, this.placedTiles);
   }
 
   public moveCardToSource(cardIndex: number): void {
-    this.result.update(this.cardService.resetCardsPositionStatus.bind(this));
-    this.moveCard(cardIndex, this.result, this.source);
+    this.placedTiles.update(this.resetTilesPositionStatus.bind(this));
+    this.moveCard(cardIndex, this.placedTiles, this.availableTiles);
   }
 
-  public moveCard(
+  private moveCard(
     cardIndex: number,
     from: WritableSignal<Tile[]>,
     to: WritableSignal<Tile[]>,
   ): void {
     to.update((cards) => [...cards, from()[cardIndex]]);
     from.update((cards) => cards.filter((_, index) => index !== cardIndex));
+  }
+
+  public createTilesFromSentence(sentence: string): Tile[] {
+    return sentence.split(' ').map(
+      (word, index): Tile => ({
+        word,
+        width: this.calculateTileWidth(word, sentence),
+        initialIndex: index,
+        positionStatus: PositionStatus.PENDING,
+      }),
+    );
+  }
+
+  private calculateTileWidth(word: string, sentence: string): number {
+    return (word.length / sentence.replace(/ /gu, '').length) * puzzleWidth.number;
+  }
+
+  private sortTilesByInitialIndex(tiles: Tile[]): Tile[] {
+    return tiles.sort((a, b) => a.initialIndex - b.initialIndex);
+  }
+
+  private updateTilesPositionStatus(tiles: Tile[]): Tile[] {
+    return tiles.map((tile, index) => ({
+      ...tile,
+      positionStatus: index === tile.initialIndex ? PositionStatus.CORRECT : PositionStatus.WRONG,
+    }));
+  }
+
+  private resetTilesPositionStatus(tiles: Tile[]): Tile[] {
+    return tiles.map((tile) => ({ ...tile, positionStatus: PositionStatus.PENDING }));
   }
 }

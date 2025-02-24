@@ -10,7 +10,7 @@
 }
 @if (round$ | async; as round) {
   <app-game
-    [words]="round.words"
+    [puzzleWords]="round.words"
     (puzzleSolved)="nextRound()"
   />
 }

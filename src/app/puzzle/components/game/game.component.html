@@ -1,25 +1,19 @@
 <app-hints [hints]="hints()"/>
 
-<mat-card [style]="getBoardStyles()">
+<mat-card [style]="boardStyles()">
   @for (tiles of solvedTiles(); track $index) {
     <app-tiles [tiles]="tiles" [solved]="true"/>
   }
-  <app-tiles [tiles]="result()" (cardClick)="moveCardToSource($event)"/>
+  <app-tiles [tiles]="placedTiles()" (cardClick)="moveCardToSource($event)"/>
 </mat-card>
 
-<app-tiles [tiles]="source()" (cardClick)="moveCardToResult($event)"/>
+<app-tiles [tiles]="availableTiles()" (cardClick)="moveCardToResult($event)"/>
 
-@if (isSourceEmpty()) {
-  <button
-    mat-raised-button
-    (click)="autocompleteSentenceSolving()"
-  >
+@if (hasNoAvailableTiles()) {
+  <button mat-raised-button (click)="autocompleteSentenceSolving()">
     auto complete
   </button>
-  <button
-    mat-raised-button
-    (click)="isResultCorrect() ? handleNextStep() : checkCards()"
-  >
-    {{ isResultCorrect() ? 'continue' : 'check' }}
+  <button mat-raised-button (click)="areTilesPlacedCorrectly() ? handleNextStep() : checkCards()">
+    {{ areTilesPlacedCorrectly() ? 'continue' : 'check' }}
   </button>
 }

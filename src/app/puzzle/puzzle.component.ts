@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GameService } from './services/game/game.service';
 import { HttpDataService } from './services/http-data/http-data.service';
-import { CardService } from './services/card/card.service';
 import { GameComponent } from './components/game/game.component';
 import { PuzzleService } from './services/puzzle/puzzle.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +11,7 @@ import { LevelRoundDropdownComponent } from './components/level-round-dropdown/l
   selector: 'app-puzzle',
   imports: [GameComponent, ReactiveFormsModule, AsyncPipe, LevelRoundDropdownComponent],
   templateUrl: './puzzle.component.html',
-  providers: [GameService, HttpDataService, CardService, PuzzleService],
+  providers: [GameService, HttpDataService, PuzzleService],
   styleUrl: './puzzle.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
