@@ -12,19 +12,20 @@ import { cardHeight, puzzleWidth } from '../../consts/ui-layout.const';
 import { GameService } from '../../services/game/game.service';
 import { WordEntry } from '../../types/http-data';
 import { MatButton } from '@angular/material/button';
-import { CardListComponent } from '../card-list/card-list.component';
 import { PositionStatus } from '../../enums/position-status';
 import { HintsComponent } from '../hints/hints.component';
 import { HttpDataService } from '../../services/http-data/http-data.service';
+import { TilesComponent } from '../tiles/tiles.component';
 
 interface BoardStyles {
   width: string;
   height: string;
+  overflow: string;
 }
 
 @Component({
   selector: 'app-game',
-  imports: [MatCard, MatButton, CardListComponent, HintsComponent],
+  imports: [MatCard, MatButton, HintsComponent, TilesComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +42,7 @@ export class GameComponent {
     return this.words()[wordIndex];
   });
 
-  protected readonly completedSentences = this.gameService.assembledSentences;
+  protected readonly solvedTiles = this.gameService.assembledSentences;
   protected readonly source = this.gameService.source;
   protected readonly result = this.gameService.result;
 
@@ -124,6 +125,7 @@ export class GameComponent {
     return {
       width: puzzleWidth.px,
       height: `${String(cardHeight.number * this.numberOfSentences())}px`,
+      overflow: 'hidden',
     };
   }
 }

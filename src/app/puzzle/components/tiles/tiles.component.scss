@@ -2,7 +2,7 @@
   display: flex;
 }
 
-.card {
+.tile {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,4 +17,9 @@
   &.wrong {
     border: 1px solid red;
   }
+
+  &.solved {
+    border-radius: 0;
+  }
 }
+

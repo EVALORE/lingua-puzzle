@@ -1,9 +1,9 @@
 import { PositionStatus } from '../enums/position-status';
 
-export interface Card {
+export interface Tile {
   word: string;
   width: number;
-  originalIndex: number;
+  initialIndex: number;
   positionStatus: PositionStatus;
   xOffset?: number;
   yOffset?: number;

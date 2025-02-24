@@ -1,5 +1,5 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { Card } from '../../types/card';
+import { Tile } from '../../types/tile';
 import { CardService } from '../card/card.service';
 import { shuffle } from '../../utils/shuffle';
 
@@ -10,11 +10,9 @@ export class GameService {
   private readonly cardService = inject(CardService);
 
   public readonly wordIndex = signal<number>(DEFAULT_SENTENCE_INDEX);
-  public readonly assembledSentences = signal<Card[][]>([]);
-  public readonly source = signal<Card[]>([]);
-  public readonly result = signal<Card[]>([]);
-
-
+  public readonly assembledSentences = signal<Tile[][]>([]);
+  public readonly source = signal<Tile[]>([]);
+  public readonly result = signal<Tile[]>([]);
 
   public setSource(sentenceValue: string): void {
     const cards = this.cardService.createCardsFromSentence(sentenceValue);
@@ -68,8 +66,8 @@ export class GameService {
 
   public moveCard(
     cardIndex: number,
-    from: WritableSignal<Card[]>,
-    to: WritableSignal<Card[]>,
+    from: WritableSignal<Tile[]>,
+    to: WritableSignal<Tile[]>,
   ): void {
     to.update((cards) => [...cards, from()[cardIndex]]);
     from.update((cards) => cards.filter((_, index) => index !== cardIndex));

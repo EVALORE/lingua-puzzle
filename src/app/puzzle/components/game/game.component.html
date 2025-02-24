@@ -1,23 +1,13 @@
-<app-hints [hints]="hints()" />
+<app-hints [hints]="hints()"/>
 
 <mat-card [style]="getBoardStyles()">
-  @for (completed of completedSentences(); track $index) {
-    <app-card-list [list]="{ type: 'completed', cards: completed }" />
+  @for (tiles of solvedTiles(); track $index) {
+    <app-tiles [tiles]="tiles" [solved]="true"/>
   }
-  @if (result(); as result) {
-    <app-card-list
-      [list]="{ type: 'result', cards: result }"
-      (cardClick)="moveCardToSource($event)"
-    />
-  }
+  <app-tiles [tiles]="result()" (cardClick)="moveCardToSource($event)"/>
 </mat-card>
 
-@if (source(); as source) {
-  <app-card-list
-    [list]="{ type: 'source', cards: source }"
-    (cardClick)="moveCardToResult($event)"
-  />
-}
+<app-tiles [tiles]="source()" (cardClick)="moveCardToResult($event)"/>
 
 @if (isSourceEmpty()) {
   <button

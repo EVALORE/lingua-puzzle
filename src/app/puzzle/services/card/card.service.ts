@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Card } from '../../types/card';
+import { Tile } from '../../types/tile';
 import { PositionStatus } from '../../enums/position-status';
 import { puzzleWidth } from '../../consts/ui-layout.const';
 
 @Injectable()
 export class CardService {
-  public createCardsFromSentence(sentence: string): Card[] {
+  public createCardsFromSentence(sentence: string): Tile[] {
     return sentence.split(' ').map(
-      (word, index): Card => ({
+      (word, index): Tile => ({
         word,
         width: this.calculateCardWidth(word, sentence),
-        originalIndex: index,
+        initialIndex: index,
         positionStatus: PositionStatus.PENDING,
       }),
     );
@@ -20,18 +20,18 @@ export class CardService {
     return (word.length / sentence.replace(/ /gu, '').length) * puzzleWidth.number;
   }
 
-  public sortCardsByOriginalIndex(cards: Card[]): Card[] {
-    return cards.sort((a, b) => a.originalIndex - b.originalIndex);
+  public sortCardsByOriginalIndex(cards: Tile[]): Tile[] {
+    return cards.sort((a, b) => a.initialIndex - b.initialIndex);
   }
 
-  public updateCardsPositionStatus(cards: Card[]): Card[] {
+  public updateCardsPositionStatus(cards: Tile[]): Tile[] {
     return cards.map((card, index) => ({
       ...card,
-      positionStatus: index === card.originalIndex ? PositionStatus.CORRECT : PositionStatus.WRONG,
+      positionStatus: index === card.initialIndex ? PositionStatus.CORRECT : PositionStatus.WRONG,
     }));
   }
 
-  public resetCardsPositionStatus(cards: Card[]): Card[] {
+  public resetCardsPositionStatus(cards: Tile[]): Tile[] {
     return cards.map((card) => ({ ...card, positionStatus: PositionStatus.PENDING }));
   }
 }
