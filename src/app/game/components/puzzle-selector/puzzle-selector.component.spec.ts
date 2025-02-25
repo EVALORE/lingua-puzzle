@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LevelRoundDropdownComponent } from './level-round-dropdown.component';
+import { PuzzleSelectorComponent } from './puzzle-selector.component';
 
 describe('LevelRoundDropdownComponent', () => {
-  let component: LevelRoundDropdownComponent;
-  let fixture: ComponentFixture<LevelRoundDropdownComponent>;
+  let component: PuzzleSelectorComponent;
+  let fixture: ComponentFixture<PuzzleSelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LevelRoundDropdownComponent]
-    })
-    .compileComponents();
+      imports: [PuzzleSelectorComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(LevelRoundDropdownComponent);
+    fixture = TestBed.createComponent(PuzzleSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

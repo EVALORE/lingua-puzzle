@@ -8,7 +8,7 @@ import { fullAudioPath } from '../../utils/fullAudioPath';
 import { DEFAULT_WORD_INDEX } from '../../consts/default-values.const';
 
 @Injectable()
-export class GameService {
+export class PuzzleService {
   public readonly puzzleWords = signal<WordEntry[]>([]);
   public readonly word = computed(() => this.puzzleWords()[this.wordIndex()]);
   public readonly wordIndex = signal<number>(DEFAULT_WORD_INDEX);

@@ -25,7 +25,7 @@ interface GameState {
 }
 
 @Injectable()
-export class PuzzleService {
+export class GameService {
   private readonly httpDataService = inject(HttpDataService);
   private readonly localStorage = inject(LocalStorageService);
 

@@ -10,21 +10,21 @@ import {
 } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { cardHeight, puzzleWidth } from '../../consts/ui-layout.const';
-import { GameService } from '../../services/game/game.service';
+import { PuzzleService } from '../../services/puzzle/puzzle.service';
 import { WordEntry } from '../../types/http-data';
 import { MatButton } from '@angular/material/button';
 import { HintsComponent } from '../hints/hints.component';
 import { TilesComponent } from '../tiles/tiles.component';
 
 @Component({
-  selector: 'app-game',
+  selector: 'app-puzzle',
   imports: [MatCard, MatButton, HintsComponent, TilesComponent],
-  templateUrl: './game.component.html',
-  styleUrl: './game.component.scss',
+  templateUrl: './puzzle.component.html',
+  styleUrl: './puzzle.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameComponent {
-  private readonly gameService = inject(GameService);
+export class PuzzleComponent {
+  private readonly gameService = inject(PuzzleService);
 
   public readonly puzzleWords = input.required<WordEntry[]>();
   protected readonly puzzleSolved = output();

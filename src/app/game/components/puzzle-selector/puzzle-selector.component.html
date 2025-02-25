@@ -1,0 +1,21 @@
+<mat-form-field appearance="outline">
+  <mat-label>Level</mat-label>
+  <mat-select [(value)]="levelNumber">
+    @for (level of totalLevels() | times; track level) {
+      <mat-option [value]="level + 1">
+        {{ level + 1 }}
+      </mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label>Puzzle</mat-label>
+  <mat-select [(value)]="puzzleIndex">
+    @for (puzzle of totalPuzzles() | times; track puzzle) {
+      <mat-option [value]="puzzle">
+        {{ puzzle + 1 }}
+      </mat-option>
+    }
+  </mat-select>
+</mat-form-field>

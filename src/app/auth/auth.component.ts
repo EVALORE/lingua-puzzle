@@ -5,7 +5,7 @@ import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../core/storage/local-storage/local-storage.service';
-import { LocalStorageStore } from '../core/storage/storage-store';
+import { User } from '../core/storage/types/user';
 
 const namingReallityValidators = [
   Validators.required,
@@ -34,11 +34,10 @@ export class AuthComponent {
     this.login(this.loginForm.getRawValue());
   }
 
-  private login(data: Omit<LocalStorageStore['user'], 'progress'>): void {
+  private login(data: User): void {
     this.localStorage.setItem('user', {
       name: data.name,
       surname: data.surname,
-      progress: {},
     });
     void this.router.navigate(['']);
   }

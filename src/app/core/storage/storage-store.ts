@@ -1,22 +1,9 @@
-import { CompletionStatus } from '../../puzzle/enums/completion-status';
-
-type LevelKey = `level${number}`;
-type Progress = Record<LevelKey, CompletionStatus[]>;
+import { User } from './types/user';
+import { HintsSettings } from './types/hints-settings';
+import { Game } from './types/game';
 
 export interface LocalStorageStore {
-  game: {
-    levelNumber: number;
-    puzzleIndex: number;
-    sentenceIndex: number;
-  };
-  hintsSettings: {
-    translation: boolean;
-    audio: boolean;
-    picture: boolean;
-  };
-  user: {
-    name: string;
-    surname: string;
-    progress: Progress;
-  };
+  game: Game;
+  hintsSettings: HintsSettings;
+  user: User;
 }

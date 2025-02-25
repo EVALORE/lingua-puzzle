@@ -1,5 +1,5 @@
 @if (gameState$ | async; as state) {
-  <app-level-round-dropdown
+  <app-puzzle-selector
     [puzzleIndex]="state.puzzleIndex"
     [levelNumber]="state.levelNumber"
     (puzzleIndexChange)="roundChange($event)"
@@ -8,9 +8,12 @@
     [totalPuzzles]="state.totalPuzzles"
   />
 }
+
 @if (round$ | async; as round) {
-  <app-game
+  <app-puzzle
     [puzzleWords]="round.words"
     (puzzleSolved)="nextRound()"
   />
 }
+
+

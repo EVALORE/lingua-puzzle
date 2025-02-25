@@ -11,7 +11,7 @@ export const routes: Routes = [
   {
     path: '',
     canMatch: [appGuard],
-    loadComponent: () => import('./puzzle/puzzle.component').then((c) => c.PuzzleComponent),
+    loadComponent: () => import('./game/game.component').then((c) => c.GameComponent),
   },
   {
     path: '**',
