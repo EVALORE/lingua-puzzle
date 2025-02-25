@@ -24,18 +24,18 @@ import { TilesComponent } from '../tiles/tiles.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PuzzleComponent {
-  private readonly gameService = inject(PuzzleService);
+  private readonly puzzleService = inject(PuzzleService);
 
   public readonly puzzleWords = input.required<WordEntry[]>();
   protected readonly puzzleSolved = output();
 
-  protected readonly solvedTiles = this.gameService.solvedTiles;
-  protected readonly availableTiles = this.gameService.availableTiles;
-  protected readonly placedTiles = this.gameService.placedTiles;
-  protected readonly hints = this.gameService.hints;
-  protected readonly hasNoAvailableTiles = this.gameService.hasNoAvailableTiles;
-  protected readonly areTilesPlacedCorrectly = this.gameService.areTilesPlacedCorrectly;
-  private isPuzzleSolved = this.gameService.isPuzzleSolved;
+  protected readonly solvedTiles = this.puzzleService.solvedTiles;
+  protected readonly availableTiles = this.puzzleService.availableTiles;
+  protected readonly placedTiles = this.puzzleService.placedTiles;
+  protected readonly hints = this.puzzleService.hints;
+  protected readonly hasNoAvailableTiles = this.puzzleService.hasNoAvailableTiles;
+  protected readonly areTilesPlacedCorrectly = this.puzzleService.areTilesPlacedCorrectly;
+  private isPuzzleSolved = this.puzzleService.isPuzzleSolved;
 
   protected readonly boardStyles = computed(() => ({
     width: puzzleWidth.px,
@@ -45,7 +45,7 @@ export class PuzzleComponent {
 
   constructor() {
     effect(() => {
-      this.gameService.newPuzzleWords(this.puzzleWords());
+      this.puzzleService.newPuzzleWords(this.puzzleWords());
     });
 
     afterRenderEffect(() => {
@@ -56,22 +56,22 @@ export class PuzzleComponent {
   }
 
   protected handleNextStep(): void {
-    this.gameService.handleNextStep();
+    this.puzzleService.handleNextStep();
   }
 
   protected checkCards(): void {
-    this.gameService.validatePlacedStatus();
+    this.puzzleService.validatePlacedStatus();
   }
 
   protected autocompleteSentenceSolving(): void {
-    this.gameService.autocompleteResult();
+    this.puzzleService.autocompleteResult();
   }
 
   protected moveCardToSource(index: number): void {
-    this.gameService.moveCardToSource(index);
+    this.puzzleService.moveCardToSource(index);
   }
 
   protected moveCardToResult(index: number): void {
-    this.gameService.moveCardToResult(index);
+    this.puzzleService.moveCardToResult(index);
   }
 }

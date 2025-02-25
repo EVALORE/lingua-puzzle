@@ -16,9 +16,9 @@ export class PuzzleService {
   public readonly availableTiles = signal<Tile[]>([]);
   public readonly placedTiles = signal<Tile[]>([]);
   public readonly hints = computed(() => {
-    const { translation, sentenceAudio } = this.word();
+    const { sentenceTranslation, sentenceAudio } = this.word();
     return {
-      translation,
+      translation: sentenceTranslation,
       audio: fullAudioPath(sentenceAudio),
     };
   });
