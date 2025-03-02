@@ -1,0 +1,6 @@
+@if (config(); as config) {
+  <ng-container
+    [ngComponentOutlet]="config.component"
+    [ngComponentOutletInputs]="config.inputs"
+  />
+}

@@ -1,5 +1,4 @@
 import {
-  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -48,7 +47,7 @@ export class PuzzleComponent {
       this.puzzleService.newPuzzleWords(this.puzzleWords());
     });
 
-    afterRenderEffect(() => {
+    effect(() => {
       if (this.isPuzzleSolved()) {
         this.puzzleSolved.emit();
       }

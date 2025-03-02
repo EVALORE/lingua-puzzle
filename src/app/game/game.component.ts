@@ -6,6 +6,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { PuzzleSelectorComponent } from './components/puzzle-selector/puzzle-selector.component';
 import { PuzzleComponent } from './components/puzzle/puzzle.component';
+import { ModalService } from '../core/services/modal/modal.service';
+import { ResultComponent } from './components/result/result.component';
+import { Puzzle } from './types/http-data';
 
 @Component({
   selector: 'app-game',
@@ -17,9 +20,17 @@ import { PuzzleComponent } from './components/puzzle/puzzle.component';
 })
 export class GameComponent {
   private readonly gameService = inject(GameService);
+  private readonly modalService = inject(ModalService);
 
-  protected readonly gameState$ = this.gameService.gameState$;
-  protected round$ = this.gameService.puzzle$;
+  protected puzzle$ = this.gameService.puzzle$;
+  protected gameState$ = this.gameService.gameState$;
+
+  protected openModal(puzzle: Puzzle): void {
+    this.modalService.openModal({
+      component: ResultComponent,
+      inputs: { puzzle },
+    });
+  }
 
   protected nextRound(): void {
     this.gameService.nextPuzzle();

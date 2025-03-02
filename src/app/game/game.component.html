@@ -9,11 +9,9 @@
   />
 }
 
-@if (round$ | async; as round) {
+@if (puzzle$ | async; as puzzle) {
   <app-puzzle
-    [puzzleWords]="round.words"
-    (puzzleSolved)="nextRound()"
+    [puzzleWords]="puzzle.words"
+    (puzzleSolved)="openModal(puzzle)"
   />
 }
-
-

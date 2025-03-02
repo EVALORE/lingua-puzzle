@@ -29,7 +29,7 @@ export class PuzzleService {
       ? this.placedTiles().every((card) => card.positionStatus === PositionStatus.CORRECT)
       : false,
   );
-  public isPuzzleSolved = computed(() => this.wordIndex() === this.puzzleWords.length - 1);
+  public isPuzzleSolved = computed(() => this.solvedTiles().length === this.puzzleWords().length);
 
   constructor() {
     effect(() => {
