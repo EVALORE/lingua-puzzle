@@ -1,20 +1,19 @@
-@let hint = hints();
-@if (hint.audio) {
+@if (hints().audio; as src) {
   <button
     mat-icon-button
-    (click)="this.audio().play()"
+    [appAudio]="src"
   >
     <mat-icon>volume_up</mat-icon>
   </button>
 }
-@if (hint.translation) {
+@if (hints().translation; as translation) {
   <button
     mat-icon-button
     (click)="toggleTranslation()"
   >
     <mat-icon>translate</mat-icon>
   </button>
-  <span [class.show]="showTranslation">
-      {{ hint.translation }}
+  <span [class.show]="showTranslation()">
+    {{ translation }}
   </span>
 }

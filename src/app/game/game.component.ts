@@ -28,7 +28,14 @@ export class GameComponent {
   protected openModal(puzzle: Puzzle): void {
     this.modalService.openModal({
       component: ResultComponent,
+      title: 'statistics',
       inputs: { puzzle },
+      actions: {
+        continue: () => {
+          this.nextRound();
+          this.modalService.closeModal();
+        },
+      },
     });
   }
 

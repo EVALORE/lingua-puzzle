@@ -1,11 +1,19 @@
-<h3>Puzzle</h3>
-<img
-  ngSrc="{{ image() }}"
-  alt=""
-  width="400"
-  height="235"
-  priority
-/>
-<div>
+<div class="image-container">
+  <img
+    ngSrc="{{ image() }}"
+    alt=""
+    fill
+    priority
+  />
+</div>
+
+<div class="description">
   {{ imageDescription() }}
+</div>
+
+<div class="statistic">
+  @for (stat of learned(); track $index) {
+    <audio [src]="stat[0]">audio</audio>
+    <div>{{ stat[1] }}</div>
+  }
 </div>

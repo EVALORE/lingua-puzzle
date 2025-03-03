@@ -4,7 +4,6 @@ import { shuffle } from '../../utils/shuffle';
 import { PositionStatus } from '../../enums/position-status';
 import { WordEntry } from '../../types/http-data';
 import { puzzleWidth } from '../../consts/ui-layout.const';
-import { fullAudioPath } from '../../utils/fullAudioPath';
 import { DEFAULT_WORD_INDEX } from '../../consts/default-values.const';
 
 @Injectable()
@@ -19,7 +18,7 @@ export class PuzzleService {
     const { sentenceTranslation, sentenceAudio } = this.word();
     return {
       translation: sentenceTranslation,
-      audio: fullAudioPath(sentenceAudio),
+      audio: sentenceAudio,
     };
   });
 

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { Puzzle, PuzzleArtwork } from '../../types/http-data';
 import { environment } from '../../../../environments/environment';
 import { NgOptimizedImage } from '@angular/common';
+import { fullAudioPath } from '../../utils/fullAudioPath';
 
 @Component({
   selector: 'app-result',
@@ -18,7 +19,7 @@ export class ResultComponent {
     this.createArtworkDescription(this.puzzle().artwork),
   );
   protected readonly learned = computed(() =>
-    this.puzzle().words.map((word) => [word.sentenceAudio, word.sentenceTranslation]),
+    this.puzzle().words.map((word) => [fullAudioPath(word.sentenceAudio), word.sentence]),
   );
 
   private fullImagePath(path: string): string {
