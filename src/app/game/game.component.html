@@ -10,8 +10,12 @@
 }
 
 @if (puzzle$ | async; as puzzle) {
-  <app-puzzle
-    [puzzleWords]="puzzle.words"
-    (puzzleSolved)="openModal(puzzle)"
-  />
+  <app-puzzle [puzzleWords]="puzzle.words" (puzzleSolved)="puzzleSolved()" />
+
+  @if (isPuzzleSolved()) {
+    <div>
+      <button mat-raised-button (click)="nextRound()">next button</button>
+      <button mat-raised-button (click)="showStatisticsModal(puzzle)">statistics</button>
+    </div>
+  }
 }

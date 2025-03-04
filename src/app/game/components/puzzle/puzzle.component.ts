@@ -36,6 +36,10 @@ export class PuzzleComponent {
   protected readonly areTilesPlacedCorrectly = this.puzzleService.areTilesPlacedCorrectly;
   private isPuzzleSolved = this.puzzleService.isPuzzleSolved;
 
+  protected readonly showButtons = computed(
+    () => this.hasNoAvailableTiles() && !this.isPuzzleSolved(),
+  );
+
   protected readonly boardStyles = computed(() => ({
     width: puzzleWidth.px,
     height: `${String(cardHeight.number * this.puzzleWords().length)}px`,
@@ -54,7 +58,7 @@ export class PuzzleComponent {
     });
   }
 
-  protected handleNextStep(): void {
+  protected continue(): void {
     this.puzzleService.handleNextStep();
   }
 
