@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { PuzzleSelectorComponent } from './components/puzzle-selector/puzzle-selector.component';
 import { PuzzleComponent } from './components/puzzle/puzzle.component';
-import { ModalService } from '../core/services/modal/modal.service';
+import { ModalService } from '@core/services/modal/modal.service';
 import { ResultComponent } from './components/result/result.component';
 import { Puzzle } from './types/http-data';
 import { MatButton } from '@angular/material/button';

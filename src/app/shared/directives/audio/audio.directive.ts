@@ -1,5 +1,5 @@
 import { computed, Directive, input } from '@angular/core';
-import { fullAudioPath } from '../../../game/utils/fullAudioPath';
+import { fullAudioPath } from '@shared/utils/fullAudioPath';
 
 @Directive({
   selector: '[appAudio]',

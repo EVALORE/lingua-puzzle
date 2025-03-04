@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { AudioDirective } from '../../../shared/directives/audio/audio.directive';
+import { AudioDirective } from '@shared/directives/audio/audio.directive';
 
 interface Hints {
   audio?: string;

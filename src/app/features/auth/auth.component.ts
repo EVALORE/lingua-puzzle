@@ -4,10 +4,10 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '../core/storage/local-storage/local-storage.service';
-import { User } from '../core/storage/types/user';
+import { LocalStorageService } from '@core/storage/local-storage/local-storage.service';
+import { User } from '@core/storage/types/user';
 
-const namingReallityValidators = [
+const namingRealityValidators = [
   Validators.required,
   Validators.minLength(3),
   Validators.pattern(/^[A-Z][a-zA-Z-]*$/u),
@@ -26,8 +26,8 @@ export class AuthComponent {
   private readonly localStorage = inject(LocalStorageService);
 
   protected readonly loginForm = this.fb.group({
-    name: ['', namingReallityValidators],
-    surname: ['', namingReallityValidators],
+    name: ['', namingRealityValidators],
+    surname: ['', namingRealityValidators],
   });
 
   protected submit(): void {

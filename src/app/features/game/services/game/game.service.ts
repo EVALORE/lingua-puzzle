@@ -14,7 +14,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { LocalStorageService } from '../../../core/storage/local-storage/local-storage.service';
+import { LocalStorageService } from '@core/storage/local-storage/local-storage.service';
 
 interface GameState {
   puzzleIndex: number;

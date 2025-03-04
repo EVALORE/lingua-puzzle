@@ -13,7 +13,7 @@
   <app-puzzle [puzzleWords]="puzzle.words" (puzzleSolved)="puzzleSolved()" />
 
   @if (isPuzzleSolved()) {
-    <div>
+    <div class="game-actions">
       <button mat-raised-button (click)="nextRound()">next button</button>
       <button mat-raised-button (click)="showStatisticsModal(puzzle)">statistics</button>
     </div>

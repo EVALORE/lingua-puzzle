@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { Puzzle, PuzzleArtwork } from '../../types/http-data';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { NgOptimizedImage } from '@angular/common';
-import { fullAudioPath } from '../../utils/fullAudioPath';
+import { fullAudioPath } from '@shared/utils/fullAudioPath';
 
 @Component({
   selector: 'app-result',

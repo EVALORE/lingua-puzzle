@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ModalService } from '../../../core/services/modal/modal.service';
+import { ModalService } from '@core/services/modal/modal.service';
 import { KeyValuePipe, NgComponentOutlet, TitleCasePipe } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import {
