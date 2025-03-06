@@ -19,7 +19,7 @@ import { LocalStorageService } from '@core/storage/local-storage/local-storage.s
 interface GameState {
   puzzleIndex: number;
   levelNumber: number;
-  sentenceIndex: number;
+  wordIndex: number;
   totalPuzzles: number;
   totalLevels: number;
 }
@@ -33,7 +33,7 @@ export class GameService {
     ...this.localStorage.getItem('game', {
       puzzleIndex: DEFAULT_PUZZLE_INDEX,
       levelNumber: DEFAULT_LEVEL,
-      sentenceIndex: 0,
+      wordIndex: 0,
     }),
     totalPuzzles: 0,
     totalLevels: TOTAL_LEVELS,
@@ -65,7 +65,7 @@ export class GameService {
     this.localStorage.setItem('game', {
       puzzleIndex: newState.puzzleIndex,
       levelNumber: newState.levelNumber,
-      sentenceIndex: newState.sentenceIndex,
+      wordIndex: newState.wordIndex,
     });
   }
 
