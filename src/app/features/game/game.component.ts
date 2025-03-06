@@ -10,12 +10,13 @@ import { ModalService } from '@core/services/modal/modal.service';
 import { ResultComponent } from './components/result/result.component';
 import { Puzzle } from './types/http-data';
 import { MatButton } from '@angular/material/button';
+import { GameStateService } from '@features/game/store/game-state/game-state.service';
 
 @Component({
   selector: 'app-game',
   imports: [ReactiveFormsModule, AsyncPipe, PuzzleSelectorComponent, PuzzleComponent, MatButton],
   templateUrl: './game.component.html',
-  providers: [PuzzleService, HttpDataService, GameService],
+  providers: [PuzzleService, HttpDataService, GameService, GameStateService],
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -26,10 +27,9 @@ export class GameComponent {
   private readonly gameService = inject(GameService);
   private readonly modalService = inject(ModalService);
 
-  protected readonly isPuzzleSolved = signal(false);
-
   protected readonly puzzle$ = this.gameService.puzzle$;
-  protected readonly gameState$ = this.gameService.gameState$;
+  protected readonly gameState$ = this.gameService.state$;
+  protected readonly isPuzzleSolved = signal(false);
 
   protected showStatisticsModal(puzzle: Puzzle): void {
     this.modalService.openModal({
