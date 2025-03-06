@@ -19,8 +19,8 @@ export class StorageService<T extends object> {
     this.storage.setItem(this.createKey(key), JSON.stringify(value));
   }
 
-  public removeItem(key: string): void {
-    this.storage.removeItem(key);
+  public removeItem(key: keyof T): void {
+    this.storage.removeItem(this.createKey(key));
   }
 
   public clear(): void {
