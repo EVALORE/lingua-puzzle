@@ -1,17 +1,21 @@
-<app-hints [hints]="hints()" />
+<app-hints [word]="word()" />
 
 <mat-card class="board" [style]="boardStyles()">
   @for (tiles of solvedTiles(); track $index) {
-    <app-tiles [tiles]="tiles" [solved]="true" />
+    <app-tiles [tiles]="tiles" [backgroundImage]="tileBackground()" [solved]="true" />
   }
-  <app-tiles [tiles]="placedTiles()" (cardClick)="moveCardToSource($event)" />
+  <app-tiles
+    [tiles]="placedTiles()"
+    [backgroundImage]="tileBackground()"
+    (cardClick)="moveCardToSource($event)"
+  />
 </mat-card>
 
 @if (!hasNoAvailableTiles()) {
   <app-tiles
     class="available"
-    [style.width]="'800px'"
     [tiles]="availableTiles()"
+    [backgroundImage]="tileBackground()"
     (cardClick)="moveCardToResult($event)"
   />
 }

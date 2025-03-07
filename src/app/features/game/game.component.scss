@@ -1,13 +1,23 @@
-:host {
+.container {
   display: flex;
   flex-direction: column;
-  width: 1000px;
+  align-items: center;
   gap: 10px;
-  margin: 0 auto;
 }
 
 .game-actions {
   display: flex;
   gap: 20px;
   justify-content: center;
+}
+
+
+header {
+  display: flex;
+  justify-content: right;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid black;
 }

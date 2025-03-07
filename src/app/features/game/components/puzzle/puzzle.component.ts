@@ -8,9 +8,9 @@ import {
   output,
 } from '@angular/core';
 import { MatCard } from '@angular/material/card';
-import { cardHeight, puzzleWidth } from '../../consts/ui-layout.const';
+import { boardWidth, tileHeight } from '../../consts/ui-layout.const';
 import { PuzzleService } from '../../services/puzzle/puzzle.service';
-import { WordEntry } from '../../types/http-data';
+import { Puzzle } from '../../types/http-data';
 import { MatButton } from '@angular/material/button';
 import { HintsComponent } from '../hints/hints.component';
 import { TilesComponent } from '../tiles/tiles.component';
@@ -25,13 +25,13 @@ import { TilesComponent } from '../tiles/tiles.component';
 export class PuzzleComponent {
   private readonly puzzleService = inject(PuzzleService);
 
-  public readonly puzzleWords = input.required<WordEntry[]>();
+  public readonly puzzle = input.required<Puzzle>();
   protected readonly puzzleSolved = output();
 
+  protected readonly word = this.puzzleService.word;
   protected readonly solvedTiles = this.puzzleService.solvedTiles;
   protected readonly availableTiles = this.puzzleService.availableTiles;
   protected readonly placedTiles = this.puzzleService.placedTiles;
-  protected readonly hints = this.puzzleService.hints;
   protected readonly hasNoAvailableTiles = this.puzzleService.hasNoAvailableTiles;
   protected readonly areTilesPlacedCorrectly = this.puzzleService.areTilesPlacedCorrectly;
   private isPuzzleSolved = this.puzzleService.isPuzzleSolved;
@@ -41,14 +41,22 @@ export class PuzzleComponent {
   );
 
   protected readonly boardStyles = computed(() => ({
-    width: puzzleWidth.px,
-    height: `${String(cardHeight.number * this.puzzleWords().length)}px`,
+    width: boardWidth.px,
+    height: `${String(tileHeight.number * this.puzzle().words.length)}px`,
     overflow: 'hidden',
   }));
 
+  protected readonly tileBackground = computed(() => {
+    const { fullImageSrc } = this.puzzle().artwork;
+    return {
+      url: fullImageSrc,
+      size: `${this.boardStyles().width} ${this.boardStyles().height}`,
+    };
+  });
+
   constructor() {
     effect(() => {
-      this.puzzleService.newPuzzleWords(this.puzzleWords());
+      this.puzzleService.newPuzzleWords(this.puzzle().words);
     });
 
     effect(() => {

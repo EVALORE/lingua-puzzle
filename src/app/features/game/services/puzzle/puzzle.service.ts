@@ -3,7 +3,7 @@ import { Tile } from '../../types/tile';
 import { shuffle } from '../../utils/shuffle';
 import { PositionStatus } from '../../enums/position-status';
 import { WordEntry } from '../../types/http-data';
-import { puzzleWidth } from '../../consts/ui-layout.const';
+import { boardWidth, tileHeight } from '../../consts/ui-layout.const';
 import { DEFAULT_WORD_INDEX } from '../../consts/default-values.const';
 
 @Injectable()
@@ -14,13 +14,6 @@ export class PuzzleService {
   public readonly solvedTiles = signal<Tile[][]>([]);
   public readonly availableTiles = signal<Tile[]>([]);
   public readonly placedTiles = signal<Tile[]>([]);
-  public readonly hints = computed(() => {
-    const { sentenceTranslation, sentenceAudio } = this.word();
-    return {
-      translation: sentenceTranslation,
-      audio: sentenceAudio,
-    };
-  });
 
   public hasNoAvailableTiles = computed(() => !this.availableTiles().length);
   public areTilesPlacedCorrectly = computed(() =>
@@ -33,7 +26,13 @@ export class PuzzleService {
   constructor() {
     effect(() => {
       const { sentence } = this.word();
-      const tiles = this.createTilesFromSentence(sentence);
+      const tiles = this.createTilesFromSentence(sentence, this.wordIndex());
+      this.placedTiles.set(
+        tiles.map((tile) => ({
+          ...tile,
+          positionStatus: PositionStatus.PENDING,
+        })),
+      );
 
       this.clearPlacedTiles();
       this.availableTiles.set(shuffle(tiles));
@@ -109,19 +108,26 @@ export class PuzzleService {
     from.update((cards) => cards.filter((_, index) => index !== cardIndex));
   }
 
-  public createTilesFromSentence(sentence: string): Tile[] {
-    return sentence.split(' ').map(
-      (word, index): Tile => ({
+  public createTilesFromSentence(sentence: string, wordIndex: number): Tile[] {
+    let xOffsetSum = 0;
+    return sentence.split(' ').map((word, index): Tile => {
+      const tile = {
         word,
         width: this.calculateTileWidth(word, sentence),
         initialIndex: index,
         positionStatus: PositionStatus.PENDING,
-      }),
-    );
+        xOffset: xOffsetSum,
+        yOffset: tileHeight.number * wordIndex,
+      };
+
+      xOffsetSum += tile.width;
+
+      return tile;
+    });
   }
 
   private calculateTileWidth(word: string, sentence: string): number {
-    return (word.length / sentence.replace(/ /gu, '').length) * puzzleWidth.number;
+    return (word.length / sentence.replace(/ /gu, '').length) * boardWidth.number;
   }
 
   private sortTilesByInitialIndex(tiles: Tile[]): Tile[] {

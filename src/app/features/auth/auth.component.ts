@@ -3,9 +3,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import { Router } from '@angular/router';
-import { LocalStorageService } from '@core/storage/local-storage/local-storage.service';
-import { User } from '@core/storage/types/user';
+import { UserStateService } from '@core/stores/user-state/user-state.service';
 
 const namingRealityValidators = [
   Validators.required,
@@ -21,9 +19,8 @@ const namingRealityValidators = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {
-  private readonly router = inject(Router);
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly localStorage = inject(LocalStorageService);
+  private readonly user = inject(UserStateService);
 
   protected readonly loginForm = this.fb.group({
     name: ['', namingRealityValidators],
@@ -31,14 +28,6 @@ export class AuthComponent {
   });
 
   protected submit(): void {
-    this.login(this.loginForm.getRawValue());
-  }
-
-  private login(data: User): void {
-    this.localStorage.setItem('user', {
-      name: data.name,
-      surname: data.surname,
-    });
-    void this.router.navigate(['']);
+    this.user.login(this.loginForm.getRawValue());
   }
 }

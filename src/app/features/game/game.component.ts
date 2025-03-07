@@ -11,6 +11,7 @@ import { ResultComponent } from './components/result/result.component';
 import { Puzzle } from './types/http-data';
 import { MatButton } from '@angular/material/button';
 import { GameStateService } from '@features/game/store/game-state/game-state.service';
+import { UserStateService } from '@core/stores/user-state/user-state.service';
 
 @Component({
   selector: 'app-game',
@@ -19,13 +20,14 @@ import { GameStateService } from '@features/game/store/game-state/game-state.ser
   providers: [PuzzleService, HttpDataService, GameService, GameStateService],
   styleUrl: './game.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    style: 'width: 800px',
-  },
 })
 export class GameComponent {
   private readonly gameService = inject(GameService);
   private readonly modalService = inject(ModalService);
+
+  private readonly user = inject(UserStateService);
+  protected isLoggedIn = this.user.isLoggedIn;
+  protected userFullName = this.user.fullName;
 
   protected readonly puzzle$ = this.gameService.puzzle$;
   protected readonly gameState$ = this.gameService.state$;
@@ -65,5 +67,9 @@ export class GameComponent {
   protected roundChange(round: number): void {
     this.isPuzzleSolved.set(false);
     this.gameService.setPuzzleIndex(round);
+  }
+
+  protected logout(): void {
+    this.user.logout();
   }
 }

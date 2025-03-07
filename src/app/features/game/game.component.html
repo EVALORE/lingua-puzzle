@@ -1,21 +1,35 @@
-@if (gameState$ | async; as state) {
-  <app-puzzle-selector
-    [puzzleIndex]="state.puzzleIndex"
-    [levelNumber]="state.levelNumber"
-    (puzzleIndexChange)="roundChange($event)"
-    (levelNumberChange)="levelChange($event)"
-    [totalLevels]="state.totalLevels"
-    [totalPuzzles]="state.totalPuzzles"
-  />
-}
-
-@if (puzzle$ | async; as puzzle) {
-  <app-puzzle [puzzleWords]="puzzle.words" (puzzleSolved)="puzzleSolved()" />
-
-  @if (isPuzzleSolved()) {
-    <div class="game-actions">
-      <button mat-raised-button (click)="nextRound()">next button</button>
-      <button mat-raised-button (click)="showStatisticsModal(puzzle)">statistics</button>
+@if (isLoggedIn()) {
+  <header>
+    <div class="user">
+      {{ userFullName() }}
     </div>
-  }
+
+    <div class="button-container">
+      <button mat-raised-button (click)="logout()">leave</button>
+    </div>
+  </header>
 }
+
+<div class="container">
+  @if (gameState$ | async; as state) {
+    <app-puzzle-selector
+      [puzzleIndex]="state.puzzleIndex"
+      [levelNumber]="state.levelNumber"
+      (puzzleIndexChange)="roundChange($event)"
+      (levelNumberChange)="levelChange($event)"
+      [totalLevels]="state.totalLevels"
+      [totalPuzzles]="state.totalPuzzles"
+    />
+  }
+
+  @if (puzzle$ | async; as puzzle) {
+    <app-puzzle [puzzle]="puzzle" (puzzleSolved)="puzzleSolved()" />
+
+    @if (isPuzzleSolved()) {
+      <div class="game-actions">
+        <button mat-raised-button (click)="nextRound()">next button</button>
+        <button mat-raised-button (click)="showStatisticsModal(puzzle)">statistics</button>
+      </div>
+    }
+  }
+</div>
