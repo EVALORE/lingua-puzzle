@@ -1,0 +1,20 @@
+// Define the type of the environment variables.
+declare interface Env {
+  readonly NODE_ENV: string;
+  readonly NG_DATA_FOLDER_URL: string;
+  readonly NG_AUDIO_FOLDER_URL: string;
+  readonly NG_IMAGES_FOLDER_URL: string;
+}
+
+// 1. Use import.meta.env.YOUR_ENV_VAR in your code. (conventional)
+declare interface ImportMeta {
+  readonly env: Env;
+}
+
+// 2. Use _NGX_ENV_.YOUR_ENV_VAR in your code. (customizable)
+// You can modify the name of the variable in angular.json.
+// ngxEnv: {
+//  define: '_NGX_ENV_',
+// }
+// eslint-disable-next-line no-underscore-dangle
+declare const _NGX_ENV_: Env;

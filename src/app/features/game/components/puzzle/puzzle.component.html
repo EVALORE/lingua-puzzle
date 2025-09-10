@@ -1,0 +1,32 @@
+<app-hints [word]="word()" />
+
+<mat-card class="board" [style]="boardStyles()">
+  @for (tiles of solvedTiles(); track $index) {
+    <app-tiles [tiles]="tiles" [backgroundImage]="tileBackground()" [solved]="true" />
+  }
+  <app-tiles
+    [tiles]="placedTiles()"
+    [backgroundImage]="tileBackground()"
+    (cardClick)="moveCardToSource($event)"
+  />
+</mat-card>
+
+@if (!hasNoAvailableTiles()) {
+  <app-tiles
+    class="available"
+    [tiles]="availableTiles()"
+    [backgroundImage]="tileBackground()"
+    (cardClick)="moveCardToResult($event)"
+  />
+}
+
+@if (showButtons()) {
+  <div class="puzzle-actions">
+    @if (areTilesPlacedCorrectly()) {
+      <button mat-raised-button (click)="continue()">continue</button>
+    } @else {
+      <button mat-raised-button (click)="autocompleteSentenceSolving()">auto complete</button>
+      <button mat-raised-button (click)="checkCards()">check</button>
+    }
+  </div>
+}

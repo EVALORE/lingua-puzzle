@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+}
+
+.tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+
+
+  &.correct {
+    border: 1px solid green;
+  }
+
+  &.wrong {
+    border: 1px solid red;
+  }
+
+  &.solved {
+    border-radius: 0;
+  }
+}
+

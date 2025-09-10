@@ -1,0 +1,32 @@
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="submit()"
+>
+  <mat-form-field appearance="outline">
+    <mat-label>name</mat-label>
+    <input
+      formControlName="name"
+      matInput
+      placeholder="Ex: John"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>surname</mat-label>
+    <input
+      formControlName="surname"
+      matInput
+      placeholder="Ex: Deer"
+    />
+  </mat-form-field>
+
+  <button
+    [disabled]="loginForm.invalid"
+    color="primary"
+    disabledInteractive
+    mat-flat-button
+    type="submit"
+  >
+    Login
+  </button>
+</form>

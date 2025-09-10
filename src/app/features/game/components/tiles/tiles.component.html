@@ -1,0 +1,10 @@
+@for (tile of tiles(); track tile.initialIndex) {
+  <mat-card
+    [style]="getTileStyles(tile)"
+    [class]="getTileClassNames(tile)"
+    [class.tile]="true"
+    (click)="cardClick.emit($index)"
+  >
+    {{ tile.word }}
+  </mat-card>
+}

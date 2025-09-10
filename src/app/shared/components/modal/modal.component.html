@@ -1,0 +1,27 @@
+@if (config(); as config) {
+  <mat-card>
+    <mat-card-header>
+      @if (config.title) {
+        <mat-card-title>{{ config.title | titlecase }}</mat-card-title>
+      }
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngComponentOutlet="config.component; inputs: config.inputs" />
+    </mat-card-content>
+    <mat-card-footer>
+      <mat-card-actions>
+        @if (config.actions; as actions) {
+          @for (action of actions | keyvalue; track $index) {
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="action.value()"
+            >
+              {{ action.key }}
+            </button>
+          }
+        }
+      </mat-card-actions>
+    </mat-card-footer>
+  </mat-card>
+}
